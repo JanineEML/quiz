@@ -8,7 +8,6 @@ use App\Controllers\AuthController;
 
 /**
  * Define routes, see pattern below. Will be passed through Router->add()
- * returns a function call of a Router object, either get() or post()
  */
 return function (Router $router): void {
     /* $router->add(

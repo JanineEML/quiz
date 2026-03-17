@@ -12,7 +12,7 @@ class Router {
     *   ]
     * ]
     */
-    private array $routes = [];
+    private array $route = [];
 
     /**
      * For a non-static implementation Router must not know all the routes.
@@ -23,7 +23,9 @@ class Router {
      * 
      */
     public function add(string $httpMethod, string $path, string $ctrl, string $ctrlMethod): void {
-        $this->routes[$httpMethod][$path] = [
+        $this->route = [
+            'http_method' => $httpMethod,
+            'path' => $path,
             'controller' => $ctrl,
             'method' => $ctrlMethod
         ];
@@ -41,11 +43,11 @@ class Router {
         // this probably will be better implemented with an Response-Object
         if (!isset($this->routes[$httpMethod])) {
             http_response_code(404);
-            echo '404 Wrong Method';
+            echo '404 Wrong HTTP Method';
             return;
         }
 
-        if (!isset($this->routes[$httpMethod][$path])) {
+        if (!isset($this->routes[$path])) {
             http_response_code(404);
             echo '404 Unknown Path';
             return;
@@ -53,8 +55,8 @@ class Router {
 
         // unzip the values in [$method][$path], which contains two elements in 'ctrl' and 'ctrlMethod',
         // and assign them to the variables $ctrl and $ctrlMethod
-        $controller = $this->routes[$httpMethod][$path]['controller'];
-        $method = $this->routes[$httpMethod][$path]['method'];
+        $controller = $this->route['controller'];
+        $method = $this->route['method'];
 
         // create new controller and call it's method
         (new $controller())->$method();
