@@ -26,6 +26,8 @@ services:
       MYSQL_USER: quizuser
       MYSQL_PASSWORD: 1234
     volumes:
-      - ./mysql/data:/var/lib/mysql
+      - type: bind
+        source: ./mysql/data
+        target: /var/lib/mysql
     ports:
       - "3366:3306"
