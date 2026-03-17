@@ -4,13 +4,7 @@ namespace App;
 
 class Router {
     /* 
-    * Will store as such (example):
-    * 'GET' => [
-    *   '/' => [
-    *       'controller' => 'App\HomeController',
-    *       'method' => 'home'
-    *   ]
-    * ]
+    * 
     */
     private array $route = [];
 
@@ -38,23 +32,22 @@ class Router {
         // PHP_URL_PATH is a constant which can be set to control how the url will be parsed
         // in this case: only return the path (remove protocol and domain)
         $path = parse_url($uri, PHP_URL_PATH);
+        var_dump($this->route);
 
         // if the route is NOT set, return and provide a status code
         // this probably will be better implemented with an Response-Object
-        if (!isset($this->routes[$httpMethod])) {
-            http_response_code(404);
+        if (!isset($this->route[$httpMethod])) {
+            //http_response_code(404);
             echo '404 Wrong HTTP Method';
             return;
         }
 
-        if (!isset($this->routes[$path])) {
-            http_response_code(404);
+        if (!isset($this->route[$path])) {
+            //http_response_code(404);
             echo '404 Unknown Path';
             return;
         }
 
-        // unzip the values in [$method][$path], which contains two elements in 'ctrl' and 'ctrlMethod',
-        // and assign them to the variables $ctrl and $ctrlMethod
         $controller = $this->route['controller'];
         $method = $this->route['method'];
 

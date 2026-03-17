@@ -33,9 +33,6 @@ services:
     container_name: quiz-mysql
     environment:
       MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: quiz
-      MYSQL_USER: jeml
-      MYSQL_PASSWORD: pass
     volumes:
       - type: bind
         source: ./mysql/data

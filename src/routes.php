@@ -19,6 +19,6 @@ return function (Router $router): void {
     */
 
     $router->add('GET', '/', HomeController::class, 'home');
-    $router->add('POST', '/login', AuthController::class, 'login');
-    $router->add('POST', '/register', AuthController::class, 'register');
+    $router->add('GET', '/login', AuthController::class, 'login');
+    $router->add('GET', '/register', AuthController::class, 'register');
 };
