@@ -1,10 +1,12 @@
 USE quiz;
 
-INSERT INTO difficulty (difficulty_label) VALUES
+INSERT INTO difficulty (difficulty_label)
+VALUES
     ('Leicht'),
     ('Mittel'),
     ('Schwer');
 
-INSERT INTO category () VALUES
+INSERT INTO category (category_label)
+VALUES
     ('Hauptstadt'),
     ('Geographie');
