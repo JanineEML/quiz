@@ -3,7 +3,6 @@
 -- ---------------------------------------------------------
 USE quiz;
 
--- Drop existing tables
 -- DROP TABLE IF EXISTS user_result;
 -- DROP TABLE IF EXISTS answer;
 -- DROP TABLE IF EXISTS question;
@@ -70,7 +69,7 @@ CREATE TABLE answer (
 -- read:    
 -- write:   
 -- ------------------------------------------------------------- --
-/*
+
 CREATE TABLE user_result (
     result_id           INT             PRIMARY KEY AUTO_INCREMENT,
     is_correct          TINYINT(1)      NOT NULL,
@@ -84,14 +83,14 @@ CREATE TABLE user_result (
     FOREIGN KEY (question_id) REFERENCES question (question_id),
     FOREIGN KEY (answer_id) REFERENCES answer (answer_id)
 );
-*/
+
 -- ------------------------------------------------------------- --
 -- FEATURE TABLES
 -- ------------------------------------------------------------- --
 -- read:    
 -- write:   
 -- ------------------------------------------------------------- --
-/*
+
 CREATE TABLE achievement (
     achievement_id      INT             PRIMARY KEY AUTO_INCREMENT,
     achievement_name    VARCHAR(100)    NOT NULL UNIQUE,
@@ -109,4 +108,3 @@ CREATE TABLE user_achievement (
     FOREIGN KEY (user_id) REFERENCES app_user(user_id),
     FOREIGN KEY (achievement_id) REFERENCES achievement(achievement_id)
 );
-*/
