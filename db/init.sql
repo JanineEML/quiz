@@ -20,8 +20,8 @@ CREATE TABLE player (
     player_id           INT             PRIMARY KEY AUTO_INCREMENT,
     playername          VARCHAR(50)     NOT NULL UNIQUE,
     password_hash       VARCHAR(255)    NOT NULL,
-    xp                  INT             DEFAULT 0,
-    is_admin            BOOLEAN         DEFAULT false NOT NULL,
+    xp                  INT             NOT NULL DEFAULT 0,
+    is_admin            BOOLEAN         NOT NULL DEFAULT false,
     time_created        TIMESTAMP       DEFAULT CURRENT_TIMESTAMP
 );
 
@@ -56,7 +56,7 @@ CREATE TABLE question (
 CREATE TABLE answer (
     answer_id           INT             PRIMARY KEY AUTO_INCREMENT,
     answer_text         TEXT            NOT NULL,
-    is_correct          BOOLEAN         DEFAULT false NOT NULL,
+    is_correct          BOOLEAN         NOT NULL DEFAULT false,
 
     question_id         INT             NOT NULL,
 
@@ -72,14 +72,14 @@ CREATE TABLE answer (
 
 CREATE TABLE player_result (
     result_id           INT             PRIMARY KEY AUTO_INCREMENT,
-    is_correct          BOOLEAN         DEFAULT false NOT NULL,
-    time_played         TIMESTAMP       DEFAULT CURRENT_TIMESTAMP,
+    is_correct          BOOLEAN         NOT NULL DEFAULT false,
+    time_played         TIMESTAMP       NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
     player_id           INT             NOT NULL,
     question_id         INT             NOT NULL,
     answer_id           INT             NOT NULL,
 
-    FOREIGN KEY (player_id) REFERENCES app_player (player_id),
+    FOREIGN KEY (player_id) REFERENCES player (player_id),
     FOREIGN KEY (question_id) REFERENCES question (question_id),
     FOREIGN KEY (answer_id) REFERENCES answer (answer_id)
 );
@@ -101,10 +101,10 @@ CREATE TABLE player_achievement (
     pa_id               INT             PRIMARY KEY AUTO_INCREMENT,
     player_id           INT             NOT NULL,
     achievement_id      INT             NOT NULL,
-    time_earned         TIMESTAMP       DEFAULT CURRENT_TIMESTAMP,
+    time_earned         TIMESTAMP       NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
     UNIQUE KEY player_achievement_id (player_id, achievement_id),
 
-    FOREIGN KEY (player_id) REFERENCES app_player(player_id),
+    FOREIGN KEY (player_id) REFERENCES player (player_id),
     FOREIGN KEY (achievement_id) REFERENCES achievement(achievement_id)
 );
