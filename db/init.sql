@@ -1,5 +1,5 @@
 -- ---------------------------------------------------------
--- Initializing tables for the Quiz App
+--     Initializing tables for the Quiz App
 -- ---------------------------------------------------------
 USE quiz;
 
@@ -10,12 +10,12 @@ USE quiz;
 -- DROP TABLE IF EXISTS difficulty;
 -- DROP TABLE IF EXISTS player;
 
--- ------------------------------------------------------------- --
--- player TABLES
--- ------------------------------------------------------------- --
--- read:    AuthController->login()
--- write:   AuthController->register()
--- ------------------------------------------------------------- --
+-------------------------------------------------------------------
+--     PLAYER TABLES
+-------------------------------------------------------------------
+--   read:    AuthController->login()
+--   write:   AuthController->register()
+-------------------------------------------------------------------
 CREATE TABLE player (
     player_id           INT             PRIMARY KEY AUTO_INCREMENT,
     playername          VARCHAR(50)     NOT NULL UNIQUE,
@@ -25,12 +25,12 @@ CREATE TABLE player (
     time_created        TIMESTAMP       DEFAULT CURRENT_TIMESTAMP
 );
 
--- ------------------------------------------------------------- --
--- QUESTION / ANSWER TABLES
--- ------------------------------------------------------------- --
--- read:    
--- write:   
--- ------------------------------------------------------------- --
+-------------------------------------------------------------------
+--     QUESTION / ANSWER TABLES
+-------------------------------------------------------------------
+--   read:    
+--   write:   
+-------------------------------------------------------------------
 
 CREATE TABLE difficulty (
     difficulty_id       INT             PRIMARY KEY AUTO_INCREMENT,
@@ -63,12 +63,12 @@ CREATE TABLE answer (
     FOREIGN KEY (question_id) REFERENCES question (question_id)
 );
 
--- ------------------------------------------------------------- --
--- STATISTIC TABLES
--- ------------------------------------------------------------- --
--- read:    
--- write:   
--- ------------------------------------------------------------- --
+-------------------------------------------------------------------
+--     STATISTIC TABLES
+-------------------------------------------------------------------
+--   read:    
+--   write:   
+-------------------------------------------------------------------
 
 CREATE TABLE player_result (
     result_id           INT             PRIMARY KEY AUTO_INCREMENT,
@@ -84,12 +84,12 @@ CREATE TABLE player_result (
     FOREIGN KEY (answer_id) REFERENCES answer (answer_id)
 );
 
--- ------------------------------------------------------------- --
--- FEATURE TABLES
--- ------------------------------------------------------------- --
--- read:    
--- write:   
--- ------------------------------------------------------------- --
+-------------------------------------------------------------------
+--     FEATURE TABLES
+-------------------------------------------------------------------
+--   read:    
+--   write:   
+-------------------------------------------------------------------
 
 CREATE TABLE achievement (
     achievement_id      INT             PRIMARY KEY AUTO_INCREMENT,
