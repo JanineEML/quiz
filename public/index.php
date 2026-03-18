@@ -1,12 +1,16 @@
 <?php
+
+// load autoloader
 require __DIR__.'/../vendor/autoload.php';
-use App\Handler;
 
-$handler = new Handler();
+use App\Router;
+
+// new 
+$router = new Router();
 $routes = require __DIR__.'/../src/routes.php';
-$routes($handler);
+$routes($router);
 
-$handler->run(
+$router->run(
     $_SERVER['REQUEST_METHOD'],
     $_SERVER['REQUEST_URI']
 );
