@@ -21,7 +21,7 @@ CREATE TABLE app_user (
     username            VARCHAR(50)     NOT NULL UNIQUE,
     password_hash       VARCHAR(255)    NOT NULL,
     xp                  INT             DEFAULT 0,
-    is_admin            TINYINT(1)      DEFAULT 0,
+    is_admin            BOOLEAN         DEFAULT false,
     time_created        TIMESTAMP       DEFAULT CURRENT_TIMESTAMP
 );
 
@@ -56,7 +56,7 @@ CREATE TABLE question (
 CREATE TABLE answer (
     answer_id           INT             PRIMARY KEY AUTO_INCREMENT,
     answer_text         TEXT            NOT NULL,
-    is_correct          TINYINT(1)      NOT NULL,
+    is_correct          BOOLEAN         DEFAULT false,
 
     question_id         INT             NOT NULL,
 
@@ -72,7 +72,7 @@ CREATE TABLE answer (
 
 CREATE TABLE user_result (
     result_id           INT             PRIMARY KEY AUTO_INCREMENT,
-    is_correct          TINYINT(1)      NOT NULL,
+    is_correct          BOOLEAN         DEFAULT false,
     time_played         TIMESTAMP       DEFAULT CURRENT_TIMESTAMP,
 
     user_id             INT             NOT NULL,
