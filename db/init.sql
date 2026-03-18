@@ -3,25 +3,25 @@
 -- ---------------------------------------------------------
 USE quiz;
 
--- DROP TABLE IF EXISTS user_result;
+-- DROP TABLE IF EXISTS player_result;
 -- DROP TABLE IF EXISTS answer;
 -- DROP TABLE IF EXISTS question;
 -- DROP TABLE IF EXISTS category;
 -- DROP TABLE IF EXISTS difficulty;
--- DROP TABLE IF EXISTS app_user;
+-- DROP TABLE IF EXISTS player;
 
 -- ------------------------------------------------------------- --
--- USER TABLES
+-- player TABLES
 -- ------------------------------------------------------------- --
 -- read:    AuthController->login()
 -- write:   AuthController->register()
 -- ------------------------------------------------------------- --
-CREATE TABLE app_user (
-    user_id             INT             PRIMARY KEY AUTO_INCREMENT,
-    username            VARCHAR(50)     NOT NULL UNIQUE,
+CREATE TABLE player (
+    player_id           INT             PRIMARY KEY AUTO_INCREMENT,
+    playername          VARCHAR(50)     NOT NULL UNIQUE,
     password_hash       VARCHAR(255)    NOT NULL,
     xp                  INT             DEFAULT 0,
-    is_admin            BOOLEAN         DEFAULT false,
+    is_admin            BOOLEAN         DEFAULT false NOT NULL,
     time_created        TIMESTAMP       DEFAULT CURRENT_TIMESTAMP
 );
 
@@ -56,7 +56,7 @@ CREATE TABLE question (
 CREATE TABLE answer (
     answer_id           INT             PRIMARY KEY AUTO_INCREMENT,
     answer_text         TEXT            NOT NULL,
-    is_correct          BOOLEAN         DEFAULT false,
+    is_correct          BOOLEAN         DEFAULT false NOT NULL,
 
     question_id         INT             NOT NULL,
 
@@ -70,16 +70,16 @@ CREATE TABLE answer (
 -- write:   
 -- ------------------------------------------------------------- --
 
-CREATE TABLE user_result (
+CREATE TABLE player_result (
     result_id           INT             PRIMARY KEY AUTO_INCREMENT,
-    is_correct          BOOLEAN         DEFAULT false,
+    is_correct          BOOLEAN         DEFAULT false NOT NULL,
     time_played         TIMESTAMP       DEFAULT CURRENT_TIMESTAMP,
 
-    user_id             INT             NOT NULL,
+    player_id           INT             NOT NULL,
     question_id         INT             NOT NULL,
     answer_id           INT             NOT NULL,
 
-    FOREIGN KEY (user_id) REFERENCES app_user (user_id),
+    FOREIGN KEY (player_id) REFERENCES app_player (player_id),
     FOREIGN KEY (question_id) REFERENCES question (question_id),
     FOREIGN KEY (answer_id) REFERENCES answer (answer_id)
 );
@@ -97,14 +97,14 @@ CREATE TABLE achievement (
     achievement_desc    TEXT            NOT NULL
 );
 
-CREATE TABLE user_achievement (
-    ua_id               INT             PRIMARY KEY AUTO_INCREMENT,
-    user_id             INT             NOT NULL,
+CREATE TABLE player_achievement (
+    pa_id               INT             PRIMARY KEY AUTO_INCREMENT,
+    player_id           INT             NOT NULL,
     achievement_id      INT             NOT NULL,
     time_earned         TIMESTAMP       DEFAULT CURRENT_TIMESTAMP,
 
-    UNIQUE KEY user_achievement_id (user_id, achievement_id),
+    UNIQUE KEY player_achievement_id (player_id, achievement_id),
 
-    FOREIGN KEY (user_id) REFERENCES app_user(user_id),
+    FOREIGN KEY (player_id) REFERENCES app_player(player_id),
     FOREIGN KEY (achievement_id) REFERENCES achievement(achievement_id)
 );
