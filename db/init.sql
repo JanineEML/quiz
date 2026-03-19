@@ -19,7 +19,7 @@ USE quiz;
 CREATE TABLE player (
     player_id           INT             PRIMARY KEY AUTO_INCREMENT,
     playername          VARCHAR(50)     NOT NULL UNIQUE,
-    password_hash       VARCHAR(255)    NOT NULL,
+    pw_hash             VARCHAR(255)    NOT NULL,
     xp                  INT             NOT NULL DEFAULT 0,
     is_admin            BOOLEAN         NOT NULL DEFAULT false,
     time_created        TIMESTAMP       DEFAULT CURRENT_TIMESTAMP
