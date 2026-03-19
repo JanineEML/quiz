@@ -1,4 +1,5 @@
 <?php
+session_start();
 
 // load autoloader
 require __DIR__.'/../vendor/autoload.php';
