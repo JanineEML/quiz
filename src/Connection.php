@@ -9,7 +9,7 @@ class Connection {
     private static PDO $pdo;
 
     public static function connect(): PDO {
-        $dsn = 'mysql:host=mysql,port=3306,dbname=quiz,charset=utf8';
+        $dsn = 'mysql:host=mysql;port=3306;dbname=quiz;charset=utf8';
         $username = 'jeml';
         $password = 'pass';
 
