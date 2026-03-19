@@ -7,17 +7,15 @@ class Router
     private array $routes = [];
 
     // register Routes, every $router->add() in routes.php adds to $routes
-    public function add(string $method, string $path, string $controller, string $action): void
+    public function add(string $httpMethod, string $uri, string $ctrl, string $ctrlMethod): void
     {
-        $this->routes[] = [
-            'method'     => $method,
-            'path'       => $path,
-            'controller' => $controller,
-            'action'     => $action,
+        $this->routes[$httpMethod][$uri] = [
+            'ctrl'       => $ctrl,
+            'ctrlMethod' => $ctrlMethod
         ];
     }
 
-    public function run(string $method, string $uri): void
+    public function run(string $httpMethod, string $uri): void
     {
         // save query parameters, if any are given
         // parse_url will omit everything before and including ?
@@ -29,22 +27,18 @@ class Router
         parse_str($queryString ?? '', $queryArray);
 
         // strip query string (?foo=bar)
-        $uri = strtok($uri, '?');
+        $uri = parse_url($uri, PHP_URL_PATH);
 
-        foreach ($this->routes as $route) {
-            if ($route['method'] === $method && $route['path'] === $uri) {
-                $controller = new $route['controller']();
-                $controller->{$route['action']}();
-                return;
-            }
+        // check if route is known
+        if (!isset($this->routes[$httpMethod][$uri])) {
+            http_response_code(404);
+            echo '404 - Page not found';
+            return;
         }
 
-        $this->notFound();
-    }
+        $ctrl = $this->routes[$httpMethod][$uri]['ctrl'];
+        $ctrlMethod = $this->routes[$httpMethod][$uri]['ctrlMethod'];
 
-    private function notFound(): void
-    {
-        http_response_code(404);
-        echo '404 - Page not found';
+        (new $ctrl())->$ctrlMethod();
     }
 }
