@@ -19,7 +19,12 @@ return function (Router $router): void {
     );
     */
 
+    // HOME CONTROLLER
     $router->add('GET', '/', HomeController::class, 'home');
-    $router->add('GET', '/login', AuthController::class, 'login');
+
+    // AUTH CONTROLLER
+    $router->add('GET', '/login', AuthController::class, 'loginView');
+    $router->add('POST', '/login', AuthController::class, 'login');
+    $router->add('GET', '/register', AuthController::class, 'registerView');
     $router->add('POST', '/register', AuthController::class, 'register');
 };
