@@ -6,11 +6,16 @@ class AuthController {
     /**
      * 
      */
-    public function login() {
-        echo 'You are logged in!';
+
+    public function loginView() {
+        require __DIR__ . '/../Views/login.php';
     }
 
-    public function register() {
-        echo 'Register here';
+    public function login() {}
+
+    public function registerView() {
+        require __DIR__ . '/../Views/register.php';
     }
+
+    public function register() {}
 }
