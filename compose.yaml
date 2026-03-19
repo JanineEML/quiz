@@ -6,30 +6,20 @@ services:
     ports:
       - "9310:80"
     volumes:
-      - type: bind
-        source: ./public
-        target: /var/www/public
-      - type: bind
-        source: ./nginx.conf
-        target: /etc/nginx/conf.d/default.conf
+      - ./public:/var/www/public
+      - ./nginx.conf:/etc/nginx/conf.d/default.conf
     depends_on:
       - php
 
 
   php:
-    image: php:8.4-fpm-alpine
+    build: .
     container_name: quiz-php
     user: "1000:1000"
     volumes:
-      - type: bind
-        source: ./public
-        target: /var/www/public
-      - type: bind
-        source: ./src
-        target: /var/www/src
-      - type: bind
-        source: ./vendor
-        target: /var/www/vendor
+      - ./public:/var/www/public
+      - ./src:/var/www/src
+      - ./vendor:/var/www/vendor
     depends_on:
       - mysql
 
@@ -47,12 +37,8 @@ services:
       - type: volume
         source: quiz_db
         target: /var/lib/mysql
-      - type: bind
-        source: ./db/init.sql
-        target: /docker-entrypoint-initdb.d/init.sql
-      - type: bind
-        source: ./db/seed.sql
-        target: /docker-entrypoint-initdb.d/seed.sql
+      - ./db/init.sql:/docker-entrypoint-initdb.d/init.sql
+      - ./db/seed.sql:/docker-entrypoint-initdb.d/seed.sql
 
 volumes:
   quiz_db:
