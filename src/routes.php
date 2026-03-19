@@ -1,5 +1,4 @@
 <?php
-
 use App\Router;
 
 // namespaces to shorten ::class call
@@ -27,4 +26,5 @@ return function (Router $router): void {
     $router->add('POST', '/login', AuthController::class, 'login');
     $router->add('GET', '/register', AuthController::class, 'registerView');
     $router->add('POST', '/register', AuthController::class, 'register');
+    $router->add('GET', '/logout', AuthController::class, 'logout');
 };

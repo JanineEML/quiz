@@ -1,35 +1,9 @@
 <?php
-
 namespace App\Controllers;
 
 use App\Connection;
 
 class AuthController {
-    /**
-     * 
-     */
-    public function login() {
-        $playername = $_POST['playername'];
-        $password = $_POST['password'];
-
-        // establish database connection to compare $_POST with DB Data
-        $pdo = Connection::connect();
-        $stmt = $pdo->prepare("SELECT * FROM player WHERE playername = ?");
-        $stmt->execute([$playername]);
-
-        // Fetch row to see if user matched! Since playernames are unique,
-        // can only return one row or false (for none). Check 
-        $player = $stmt->fetch();
-
-        // OR check, so if player is false, pw won't need to be checked
-        if (!$player || !password_verify($password, $player['pw_hash'])) {return;}
-
-        // User found! Store to Session, redirect to home!
-        $_SESSION['player'] = $player;
-        header('Location: /');
-        exit;
-    }
-
     /**
      * 
      */
@@ -53,6 +27,41 @@ class AuthController {
         header('Location: /login');
         exit; // stop PHP from executing /login
     }
+
+    /**
+     * 
+     */
+    public function login() {
+        $playername = $_POST['playername'];
+        $password = $_POST['password'];
+
+        // establish database connection to compare $_POST with DB Data
+        $pdo = Connection::connect();
+        $stmt = $pdo->prepare("SELECT * FROM player WHERE playername = ?");
+        $stmt->execute([$playername]);
+
+        // Fetch row to see if user matched! Since playernames are unique,
+        // can only return one row or false (for none).
+        $player = $stmt->fetch();
+
+        // do a OR check, so if player is false, pw won't need to be checked
+        if (!$player || !password_verify($password, $player['pw_hash'])) {return;}
+
+        // User found! Store to Session, redirect to home!
+        $_SESSION['player'] = $player;
+        header('Location: /');
+        exit;
+    }
+
+    /**
+     * 
+     */
+    public function logout() {
+        session_destroy();
+        header('Location: /');
+        exit;
+    }
+
 
     /**
      * loading Views from GET-Requests to give the user forms for either login or register
