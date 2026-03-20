@@ -2,28 +2,47 @@
 namespace App\Controllers;
 
 use App\Connection;
+use App\Models\User;
 
 class AuthController {
     /**
      * 
      */
     public function register() {
+        // For collecting errors during register
+        $errors = [];
+
         // Get user input info from POST
         $playername = $_POST['playername'];
         $password = $_POST['password'];
 
         // double-check if password was confirmed
-        if ($password !== $_POST['password_confirm']) {return;}
+        if ($password !== $_POST['password_confirm']) {$errors[] = 'Passwörter stimmen nicht überein';}
 
-        $password = password_hash($password, PASSWORD_DEFAULT);
+        // some password checks before hashing it
+        if (strlen($password) < 8) {$errors[] = 'Passwort zu kurz. Bitte mindestens 8 Zeichen';}
+        if (!preg_match('/[A-Z]/', $password)) {$errors[] = 'Mindestens ein Großbuchstabe';}
+        if (!preg_match('/[a-z]/', $password)) {$errors[] = 'Mindestens ein Kleinbuchstabe';}
+        if (!preg_match('/[0-9]/', $password)) {$errors[] = 'Mindestens eine Zahl';}
 
-        // establish Database connection, prepare statement
-        $pdo = Connection::connect();
+        // Database Calls need a User - find one through 
+        // $player is a associative Array, with DB attributes as key
+        $user = new User(Connection::connect());
+        $player = $user->getUserByName($playername);
 
-        $stmt = $pdo->prepare("INSERT INTO player (playername, pw_hash) VALUES (:playername, :pw_hash)");
-        $stmt->execute([':playername' => $playername, ':pw_hash' => $password]);
+        // if player data is already existing, add error
+        if ($player) {$errors[] = 'Name bereits vergeben';}
 
-        // after a succesful registration, the user must be redirected to /login
+        // if any error got collected through the registering process, prevent INSERT INTO statement
+        if (!empty($errors)) {
+            $_SESSION['errors'] = $errors;
+            header('Location: /register');
+            exit;
+        }
+
+        // no errors found, new player gets put in database and redirected to /login
+        $user->create($playername, $password);
+
         header('Location: /login');
         exit; // stop PHP from executing /login
     }
@@ -32,20 +51,31 @@ class AuthController {
      * 
      */
     public function login() {
+        // for collecting errors
+        $errors = [];
+
         $playername = $_POST['playername'];
         $password = $_POST['password'];
 
+        if (empty($playername) || empty($password)) {
+            $errors[] = 'Bitte beide Felder ausfüllen.';
+            header(('Location: /login'));
+            exit;
+        }
+
         // establish database connection to compare $_POST with DB Data
-        $pdo = Connection::connect();
-        $stmt = $pdo->prepare("SELECT * FROM player WHERE playername = ?");
-        $stmt->execute([$playername]);
+        $player = new User(Connection::connect())->getUserByName($playername);
 
-        // Fetch row to see if user matched! Since playernames are unique,
-        // can only return one row or false (for none).
-        $player = $stmt->fetch();
+        // do a OR check, so if player is false / null, pw won't need to be checked
+        if (!$player || !password_verify($password, $player['pw_hash'])) {
+            $errors[] = 'Fehlender Benutzer oder falsches Passwort';
+        }
 
-        // do a OR check, so if player is false, pw won't need to be checked
-        if (!$player || !password_verify($password, $player['pw_hash'])) {return;}
+        if (!empty($errors)) {
+            $_SESSION['errors'] = $errors;
+            header('Location: /login');
+            exit;
+        }
 
         // User found! Store to Session, redirect to home!
         $_SESSION['player'] = $player;
