@@ -1,10 +1,5 @@
 USE quiz;
 
-INSERT INTO player (playername, password_hash, is_admin)
-VALUES
-    ('JEML', 'adkwoakdwao', false),
-    ('ADMIN', 'adminpassword', true);
-
 INSERT INTO difficulty (difficulty_label)
 VALUES
     ('Leicht'),
