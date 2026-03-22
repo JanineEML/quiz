@@ -19,12 +19,10 @@ class Connection
     public static function connect(): ?PDO
     {
         $dsn = 'mysql:host=mysql;port=3306;dbname=quiz;charset=utf8';
-        $username = 'jeml';
-        $password = 'pass';
 
         try {
             if (is_null(self::$pdo)) {
-                self::$pdo = new PDO($dsn, $username, $password);
+                self::$pdo = new PDO($dsn, 'jeml', 'pass');
                 self::$pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
                 }
 

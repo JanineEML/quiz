@@ -30,14 +30,9 @@ class Router
      */
     public function run(string $httpMethod, string $uri): void
     {
-        // save query parameters, if any are given
-        // parse_url will omit everything before and including ?
-        $queryString = parse_url($uri, PHP_URL_QUERY);
-
-        // use parse_str to parse query string to array - hat to add a null coalescing,
-        // since passing null to parse_str is deprecated! $query String will be null,
-        // if the URI passed to parse_url does not contain query parameters!
-        parse_str($queryString ?? '', $queryArray);
+        // to save query parameter in array for later use
+        /* $queryString = parse_url($uri, PHP_URL_QUERY);
+        parse_str($queryString ?? '', $queryArray); */
 
         // strip query string (?foo=bar)
         $uri = parse_url($uri, PHP_URL_PATH);
