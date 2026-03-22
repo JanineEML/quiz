@@ -3,39 +3,56 @@ namespace App\Models;
 
 use PDO;
 
-class User {
-    /**
-     * 
-     */
+class User
+{
+    /** @var PDO DB connection, shared with all model-queries. */
     private PDO $pdo;
 
-    public function __construct(PDO $pdo) {
+    /** @param PDO $pdo Active database connection, provided by Connection::connect(). */
+    public function __construct(PDO $pdo)
+    {
         $this->pdo = $pdo;
     }
 
-    // provide a user by a unique id (or return null) - while searching for a id should
-    // never return null, because the scope of the project is rather small, without
-    // deletions during requests / sessions, but to learn 'defensive' programming,
-    // the nullable return type will be used more often from now on.
-    public function getUserById(int $id): ?array {
+    /**
+     * Fetches a single player row by its primary key.
+     *
+     * @param int $id The player_id to look up.
+     * @return array|null Associative array of the player row, or null if not found.
+     */
+    public function fetchById(int $id): ?array
+    {
         $stmt = $this->pdo->prepare("SELECT * FROM player WHERE player_id = ?");
         $stmt->execute([$id]);
 
-        $result = $stmt->fetch(PDO::FETCH_ASSOC); // return row as associative array
-
-        // if something was found return $ result, if not, return null (since $result will be false)
+        $result = $stmt->fetch(PDO::FETCH_ASSOC);
         return $result ?: null;
     }
 
-    public function getUserByName(string $name): ?array {
+    /**
+     * Fetches a single player row by playername.
+     * Used during login (credential check) and registration (uniqueness check).
+     *
+     * @param string $name The playername to look up.
+     * @return array|null Associative array of the player row, or null if not found.
+     */
+    public function fetchByName(string $name): ?array
+    {
         $stmt = $this->pdo->prepare("SELECT * FROM player WHERE playername = ?");
         $stmt->execute([$name]);
 
-        $result = $stmt->fetch(PDO::FETCH_ASSOC); // return row as assosiative array
+        $result = $stmt->fetch(PDO::FETCH_ASSOC);
         return $result ?: null;
     }
 
-    public function create(string $playername, string $pw): void {
+    /**
+     * Creates a new player record. Hashes the password before storing.
+     *
+     * @param string $playername The chosen display name.
+     * @param string $pw The plain-text password (hashed via password_hash()).
+     */
+    public function create(string $playername, string $pw): void
+    {
         $pw_hash = password_hash($pw, PASSWORD_DEFAULT);
 
         $stmt = $this->pdo->prepare("INSERT INTO player (playername, pw_hash) VALUES (:playername, :pw_hash)");

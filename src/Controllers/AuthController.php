@@ -4,34 +4,35 @@ namespace App\Controllers;
 use App\Connection;
 use App\Models\User;
 
-class AuthController {
+class AuthController
+{
     /**
+     * POST /register
+     * From $_POST uses 'playername', 'password', 'password_confirm'.
      * 
+     * Validates user input (pw confirmation, pw strength, name uniqueness),
+     * on errors, redirects to /register and shows the errors through the view,
+     * on success, redirects to /login.
+     * 
+     * Stores Errors in $_SESSION['errors'], redirects if one is found.
      */
-    public function register() {
-        // For collecting errors during register
-        $errors = [];
-
+    public function register()
+    {
         // Get user input info from POST
         $playername = $_POST['playername'];
         $password = $_POST['password'];
 
-        // double-check if password was confirmed
-        if ($password !== $_POST['password_confirm']) {$errors[] = 'Passwörter stimmen nicht überein';}
+        $errors = $this->validateRegistration($playername, $password);
 
-        // some password checks before hashing it
-        if (strlen($password) < 8) {$errors[] = 'Passwort zu kurz. Bitte mindestens 8 Zeichen';}
-        if (!preg_match('/[A-Z]/', $password)) {$errors[] = 'Mindestens ein Großbuchstabe';}
-        if (!preg_match('/[a-z]/', $password)) {$errors[] = 'Mindestens ein Kleinbuchstabe';}
-        if (!preg_match('/[0-9]/', $password)) {$errors[] = 'Mindestens eine Zahl';}
-
-        // Database Calls need a User - find one through 
-        // $player is a associative Array, with DB attributes as key
+        // Since database action are necessary, create User instance
         $user = new User(Connection::connect());
-        $player = $user->getUserByName($playername);
 
-        // if player data is already existing, add error
-        if ($player) {$errors[] = 'Name bereits vergeben';}
+        // Check if username is already taken, if so, raise error and redirect to register
+        $player = $user->fetchByName($playername);
+
+        if ($player) {
+            $errors[] = 'Name bereits vergeben';
+        }
 
         // if any error got collected through the registering process, prevent INSERT INTO statement
         if (!empty($errors)) {
@@ -48,10 +49,15 @@ class AuthController {
     }
 
     /**
-     * 
+     * POST /login
+     * From $_POST uses 'playername', 'password'.
+     *
+     * Verifies credentials against the database via password_verify().
+     * On success, player record is stored in $_SESSION['player'] and redirects to /.
+     * On failure, stores an error in $_SESSION['errors'] and redirects back to /login.
      */
-    public function login() {
-        // for collecting errors
+    public function login()
+    {
         $errors = [];
 
         $playername = $_POST['playername'];
@@ -59,12 +65,12 @@ class AuthController {
 
         if (empty($playername) || empty($password)) {
             $errors[] = 'Bitte beide Felder ausfüllen.';
-            header(('Location: /login'));
+            header('Location: /login');
             exit;
         }
 
         // establish database connection to compare $_POST with DB Data
-        $player = new User(Connection::connect())->getUserByName($playername);
+        $player = new User(Connection::connect())->fetchByName($playername);
 
         // do a OR check, so if player is false / null, pw won't need to be checked
         if (!$player || !password_verify($password, $player['pw_hash'])) {
@@ -84,19 +90,71 @@ class AuthController {
     }
 
     /**
-     * 
+     * POST /logout
+     *
+     * Destroys the current session and redirects to /.
      */
-    public function logout() {
+    public function logout()
+    {
         session_destroy();
         header('Location: /');
         exit;
     }
 
+    /**
+     * GET /login renders the login form.
+     */
+    public function loginView()
+    {
+        require __DIR__ . '/../Views/login.php';
+    }
 
     /**
-     * loading Views from GET-Requests to give the user forms for either login or register
+     * GET /register renders the registration form.
      */
-    public function loginView() {require __DIR__ . '/../Views/login.php';}
+    public function registerView()
+    {
+        require __DIR__ . '/../Views/register.php';
+    }
 
-    public function registerView() {require __DIR__ . '/../Views/register.php';}
+    /**
+     * Validates playername and password for registration.
+     * From $_POST uses 'password_confirm'.
+     *
+     * @param string $name The chosen playername.
+     * @param string $pw The plain-text password.
+     * @return array List of validation error messages (German). Empty when everything is valid.
+     */
+    private function validateRegistration(string $name, string $pw): array
+    {
+        $errors = [];
+
+        if (strlen($name) < 4) {
+            $errors[] = 'Name zu kurz. Bitte mindestens 4 Zeichen.';
+        }
+
+        // double-check if password was confirmed
+        if ($pw !== $_POST['password_confirm']) {
+            $errors[] = 'Passwörter stimmen nicht überein.';
+        }
+
+        // some password checks before hashing it
+        if (strlen($pw) < 6) {
+            $errors[] = 'Passwort zu kurz. Bitte mindestens 6 Zeichen.';
+        }
+
+        if (!preg_match('/[A-Z]/', $pw)) {
+            $errors[] = 'Mindestens ein Großbuchstabe.';
+        }
+
+        if (!preg_match('/[a-z]/', $pw)) {
+            $errors[] = 'Mindestens ein Kleinbuchstabe.';
+        }
+
+        if (!preg_match('/[0-9]/', $pw)) {
+            $errors[] = 'Mindestens eine Zahl.';
+        }
+
+        return $errors;
+    }
 }
