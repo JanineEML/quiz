@@ -5,10 +5,7 @@ use App\Router;
 use App\Controllers\HomeController;
 use App\Controllers\AuthController;
 
-/**
- * Define routes, see pattern below. Will be passed through Router->add()
- * returns a function call of a Router object, either get() or post()
- */
+/** Defines all routes. Uses the add() function of Router to load the routes. */ 
 return function (Router $router): void {
     /* $router->add(
     string $httpMethod,
@@ -26,5 +23,7 @@ return function (Router $router): void {
     $router->add('POST', '/login', AuthController::class, 'login');
     $router->add('GET', '/register', AuthController::class, 'registerView');
     $router->add('POST', '/register', AuthController::class, 'register');
-    $router->add('GET', '/logout', AuthController::class, 'logout');
+    $router->add('POST', '/logout', AuthController::class, 'logout');
+
+    // QUIZ CONTROLLER
 };
