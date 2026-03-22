@@ -1,5 +1,5 @@
 <?php
-session_start();
+session_start(); // since EVERYTHING starts here, session_status() check should not be necessary
 
 // load autoloader
 require __DIR__.'/../vendor/autoload.php';
