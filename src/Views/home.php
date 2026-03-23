@@ -10,7 +10,7 @@
     <h1>Willkommen, <?= $_SESSION['player']['playername'] ?>!</h1>
 
     <nav>
-        <form method="POST" action="/logout">
+        <form action="/logout" method="post">
             <button type="submit">Abmelden</button>
         </form>
         <a href="/quiz/start">Quiz starten</a>

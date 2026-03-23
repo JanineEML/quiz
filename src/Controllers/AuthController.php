@@ -25,7 +25,7 @@ class AuthController
         $errors = $this->validateRegistration($playername, $password);
 
         // Since database action are necessary, create User instance
-        $user = new User(Connection::connect());
+        $user = (new User(Connection::connect()));
 
         // Check if username is already taken, if so, raise error and redirect to register
         $player = $user->fetchByName($playername);
@@ -70,7 +70,7 @@ class AuthController
         }
 
         // establish database connection to compare $_POST with DB Data
-        $player = new User(Connection::connect())->fetchByName($playername);
+        $player = (new User(Connection::connect()))->fetchByName($playername);
 
         // do a OR check, so if player is false / null, pw won't need to be checked
         if (!$player || !password_verify($password, $player['pw_hash'])) {
