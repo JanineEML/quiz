@@ -30,10 +30,6 @@ class Router
      */
     public function run(string $httpMethod, string $uri): void
     {
-        // to save query parameter in array for later use
-        /* $queryString = parse_url($uri, PHP_URL_QUERY);
-        parse_str($queryString ?? '', $queryArray); */
-
         // strip query string (?foo=bar)
         $uri = parse_url($uri, PHP_URL_PATH);
 
