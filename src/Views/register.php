@@ -19,7 +19,7 @@
     }
     ?>
 
-    <form action="/register" method="POST">
+    <form action="/register" method="post">
         <label>
             Spielername
 
