@@ -19,14 +19,13 @@ class QuizController
         $this->requireAuth();
 
         // Question->fetchQuestions needs int (or null) as input
-        $category = (!empty($_POST['category']) ? (int)$_POST['category'] : null);
-        $count = (int)$_POST['count'];
+        $category = (!empty($_POST['category_id']) ? (int)$_POST['category_id'] : null);
+        $count = (int)$_POST['question_count'];
 
         // Validate count span
         if ($count < self::MIN_COUNT || $count > self::MAX_COUNT) {
             $_SESSION['errors'] = ['Bitte zwischen ' . self::MIN_COUNT . ' und ' . self::MAX_COUNT . ' wählen.'];
             
-
             header('Location: /quiz/start');
             exit;
         }

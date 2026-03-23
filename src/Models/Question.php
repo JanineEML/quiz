@@ -47,8 +47,8 @@ class Question
      */
     public function fetchCategories(): array
     {
-        $stmt = $this->pdo->query("SELECT category_label FROM category");
+        $stmt = $this->pdo->query("SELECT * FROM category");
 
-        return $stmt->fetchAll(PDO::FETCH_COLUMN);
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 }

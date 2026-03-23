@@ -20,18 +20,18 @@
     ?>
 
     <form action="/quiz/start" method="post">
-        <select name="category" id="category_select">
+        <select name="category_id" id="category_id">
             <option value="">Zufall</option>
             <?php 
                 foreach ($categories as $c) {
-                    echo "<option value='$c'>$c</option>";
+                    echo "<option value='{$c['category_id']}'>{$c['category_label']}</option>";
                 }
              ?>
         </select>
 
         <label>
             Anzahl:
-            <input type="number" name="count" id="question_count" min="<?= $min_count ?>" max="<?= $max_count ?>">
+            <input type="number" name="question_count" id="question_count" min="<?= $min_count ?>" max="<?= $max_count ?>">
         </label>
 
         <input type="submit" value="Quiz starten">
