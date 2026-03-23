@@ -60,7 +60,6 @@ class QuizController
     public function play()
     {
         $this->requireAuth();
-        $errors = [];
     }
 
     /**
@@ -95,6 +94,18 @@ class QuizController
     public function playView()
     {
         $this->requireAuth();
+
+        if (!isset($_SESSION['quiz'])) {
+            $_SESSION['errors'] = ["Kein Quiz vorhanden, bitte erneut starten."];
+            header('Location: /quiz/start');
+            exit;
+        }
+
+        $i = $_SESSION['quiz']['counter'];
+        $total = count($_SESSION['quiz']['questions']);
+        
+        $question = $_SESSION['quiz']['questions'][$i];
+        $answers = (new Question(Connection::connect()))->fetchAnswers($question['question_id']);
 
         require __DIR__ . '/../Views/quiz/play.php';
     }
