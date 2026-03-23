@@ -15,7 +15,7 @@ class Question
     }
 
     /**
-     * 
+     * Fetches a number of Questions, optionally from a category
      */
     public function fetchQuestions(?int $category, int $count): array
     {
@@ -40,6 +40,17 @@ class Question
         $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
         
         return $result;
+    }
+
+    /**
+     * Fetches all answers for a given question
+     */
+    public function fetchAnswers(int $questionId): array
+    {
+        $stmt = $this->pdo->prepare("SELECT * FROM answer WHERE question_id = ?");
+        $stmt->execute([$questionId]);
+
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
     /**
