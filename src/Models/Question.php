@@ -86,6 +86,15 @@ class Question
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
+    /**
+     * 
+     */
+    public function fetchRandomCategoryId(): int
+    {
+        $stmt = $this->pdo->query("SELECT category_id FROM category ORDER BY BY RAND() LIMIT 1");
+        return (int) $stmt->fetchColumn();
+    }
+
     public function saveResults(): void
     {}
 }

@@ -7,7 +7,7 @@ use App\Models\Question;
 class QuizController
 {
     private const MIN_COUNT = 1;
-    private const MAX_COUNT = 10;
+    private const MAX_COUNT = 15;
     /**
      * POST /quiz/start
      * From $_POST uses category and count
@@ -19,9 +19,19 @@ class QuizController
         $this->requireAuth();
 
         // Question->fetchQuestions needs int (or null) as input
-        $category = (!empty($_POST['category_id']) ? (int)$_POST['category_id'] : null);
+        $chosenCategory = $_POST['category_id'] ?? '';
+
+        if ($chosenCategory === 'random') {
+            $category = (new Question(Connection::connect()))->fetchRandomCategoryId();
+        }
+        elseif ($chosenCategory !== '') {
+            $category = (int) $chosenCategory;
+        }
+        else {
+            $category = null;
+        }
+
         $count = (int)$_POST['question_count'];
-        $_SESSION['wrong_answers'] = [];
 
         // Validate count span
         if ($count < self::MIN_COUNT || $count > self::MAX_COUNT) {
@@ -45,7 +55,8 @@ class QuizController
         $_SESSION['quiz'] = [
             'questions' => $questions,
             'counter' => 0,
-            'score' => 0
+            'score' => 0,
+            'wrong_answers' => []
         ];
 
         header('Location: /quiz/play');
@@ -73,7 +84,7 @@ class QuizController
             $_SESSION['quiz']['score'] += 1;
         }
         else {
-            $_SESSION['wrong_answers'][] = [
+            $_SESSION['quiz']['wrong_answers'][] = [
                 'question' => $currentQuestion['question_text'],
                 'answer' => $answer['answer_text'],
                 'correct' => $correctAnswer
