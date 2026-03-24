@@ -24,7 +24,7 @@
     <?php foreach ($answers as $answer): ?>
         <form action="/quiz/play" method="post">
             <input type="hidden" name="answer_id" value="<?= $answer['answer_id'] ?>">
-            <button type="submit"> <?= $answer['answer_text'] ?> </button>
+            <button type="submit"> <?= htmlspecialchars($answer['answer_text']) ?> </button>
         </form>
     <?php endforeach; ?>
     
