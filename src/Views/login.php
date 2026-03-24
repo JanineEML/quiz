@@ -34,5 +34,9 @@
 
         <button type="submit">Anmelden</button>
     </form>
+
+    <form action="/register" method="get">
+        <button type="submit">Registrieren</button>
+    </form>
 </body>
 </html>
