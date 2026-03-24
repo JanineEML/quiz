@@ -21,6 +21,7 @@ class QuizController
         // Question->fetchQuestions needs int (or null) as input
         $category = (!empty($_POST['category_id']) ? (int)$_POST['category_id'] : null);
         $count = (int)$_POST['question_count'];
+        $_SESSION['wrong_answers'] = [];
 
         // Validate count span
         if ($count < self::MIN_COUNT || $count > self::MAX_COUNT) {
@@ -60,20 +61,39 @@ class QuizController
     public function play()
     {
         $this->requireAuth();
+
+        $playerAnswer = (int) $_POST['answer_id'];
+        $currentQuestion = $_SESSION['quiz']['questions'][$_SESSION['quiz']['counter']];
+        $correctAnswer = (new Question(Connection::connect()))->fetchCorrectAnswer((int) $currentQuestion['question_id']);
+
+        $answer = (new Question(Connection::connect()))->fetchAnswer($playerAnswer);
+        $isCorrect = $answer['is_correct'];
+
+        if ($isCorrect) {
+            $_SESSION['quiz']['score'] += 1;
+        }
+        else {
+            $_SESSION['wrong_answers'][] = [
+                'question' => $currentQuestion['question_text'],
+                'answer' => $answer['answer_text'],
+                'correct' => $correctAnswer
+            ];
+        }
+
+        // TODO: player_results (Database) - using Question->saveResults()
+
+        $current = ++$_SESSION['quiz']['counter'];
+        $total = count($_SESSION['quiz']['questions']);
+
+        if ($current < $total) {
+            header('Location: /quiz/play');
+            exit;
+        }
+
+        header('Location: /quiz/result');
+        exit;
     }
 
-    /**
-     * POST /quiz/result
-     * From $_POST uses 
-     * 
-     * 
-     */
-    public function result()
-    {
-        $this->requireAuth();
-        $errors = [];
-    }
-    
     /**
      * GET /quiz/start renders the form to start a quiz.
      */
@@ -107,6 +127,8 @@ class QuizController
         $question = $_SESSION['quiz']['questions'][$i];
         $answers = (new Question(Connection::connect()))->fetchAnswers($question['question_id']);
 
+        shuffle($answers);
+
         require __DIR__ . '/../Views/quiz/play.php';
     }
     
@@ -116,6 +138,9 @@ class QuizController
     public function resultView()
     {
         $this->requireAuth();
+
+        $score = $_SESSION['quiz']['score'];
+        $total = count($_SESSION['quiz']['questions']);
 
         require __DIR__ . '/../Views/quiz/result.php';
     }
