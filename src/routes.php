@@ -32,5 +32,4 @@ return function (Router $router): void {
     $router->add('GET', '/quiz/play', QuizController::class, 'playView');
     $router->add('POST', '/quiz/play', QuizController::class, 'play');
     $router->add('GET', '/quiz/result', QuizController::class, 'resultView');
-    $router->add('POST', '/quiz/result', QuizController::class, 'result');
 };
