@@ -18,5 +18,15 @@
         unset($_SESSION['errors']);
     }
     ?>
+
+    <h2><?= $question['question_text'] ?></h2>
+
+    <?php foreach ($answers as $answer): ?>
+        <form action="/quiz/play" method="post">
+            <input type="hidden" name="answer_id" value="<?= $answer['answer_id'] ?>">
+            <button type="submit"> <?= $answer['answer_text'] ?> </button>
+        </form>
+    <?php endforeach; ?>
+    
 </body>
 </html>
