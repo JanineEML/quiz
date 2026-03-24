@@ -7,36 +7,38 @@
     <title>Login</title>
 </head>
 <body>
-    <h1>Anmelden</h1>
+    <div class="f-container">
+        <h1>Anmelden</h1>
     
-    <?php
-    if (isset($_SESSION['errors'])) {
-        foreach ($_SESSION['errors'] as $e) {
-            echo "<p class='error'> $e </p>";
+        <?php
+        if (isset($_SESSION['errors'])) {
+            foreach ($_SESSION['errors'] as $e) {
+                echo "<p class='error'> $e </p>";
+            }
+
+            unset($_SESSION['errors']);
         }
+        ?>
 
-        unset($_SESSION['errors']);
-    }
-    ?>
+        <form action="/login" method="post">
+            <label>
+                <span class="auth-labels">Spielername</span>
+                
+                <input type="text" id="playername" name="playername" required>
+            </label>
 
-    <form action="/login" method="post">
-        <label>
-            Spielername
-            
-            <input type="text" id="playername" name="playername" required>
-        </label>
+            <label>
+                <span class="auth-labels">Passwort</span>
 
-        <label>
-            Passwort
+                <input type="password" id="password" name="password" required>
+            </label>
 
-            <input type="password" id="password" name="password" required>
-        </label>
+            <button type="submit">Anmelden</button>
+        </form>
 
-        <button type="submit">Anmelden</button>
-    </form>
-
-    <form action="/register" method="get">
-        <button type="submit">Registrieren</button>
-    </form>
+        <form action="/register" method="get">
+            <button type="submit">Registrieren</button>
+        </form>
+    </div>
 </body>
 </html>

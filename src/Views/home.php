@@ -4,16 +4,20 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="/css/main.css">
-    <title>Document</title>
+    <title>Home</title>
 </head>
 <body>
-    <h1>Willkommen, <?= $_SESSION['player']['playername'] ?>!</h1>
+    <div class="f-container">
+        <h1>Willkommen, <?= $_SESSION['player']['playername'] ?>!</h1>
 
-    <nav>
-        <form action="/logout" method="post">
-            <button type="submit">Abmelden</button>
-        </form>
-        <a href="/quiz/start">Quiz starten</a>
-    </nav>
+        <nav>
+            <form action="/logout" method="post">
+                <button type="submit">Abmelden</button>
+            </form>
+            <form action="/quiz/start" method="get">
+                <button type="submit">Quiz starten</button>
+            </form>
+        </nav>
+    </div>
 </body>
 </html>
