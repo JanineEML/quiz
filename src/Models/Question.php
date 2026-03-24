@@ -54,6 +54,29 @@ class Question
     }
 
     /**
+     * Fetches a single answer for a given question, to compare a player answer
+     */
+    public function fetchAnswer(int $answerId): array
+    {
+        $stmt = $this->pdo->prepare("SELECT * FROM answer WHERE answer_id = ?");
+        $stmt->execute([$answerId]);
+
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
+
+    /**
+     * Fetches the correct answer only to a given question
+     */
+    public function fetchCorrectAnswer(int $questionId): string
+    {
+        $stmt = $this->pdo->prepare("SELECT answer_text FROM answer 
+            WHERE question_id = ? AND is_correct = true");
+        $stmt->execute([$questionId]);
+
+        return $stmt->fetchColumn();
+    }
+
+    /**
      * Fetches all categories from the database, to fill the Dropdown Menu
      */
     public function fetchCategories(): array
@@ -62,4 +85,7 @@ class Question
 
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
+
+    public function saveResults(): void
+    {}
 }
