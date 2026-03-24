@@ -1,4 +1,5 @@
 USE quiz;
+SET NAMES utf8mb4;
 
 INSERT INTO difficulty (difficulty_label)
 VALUES
@@ -13,4 +14,7 @@ VALUES
     ('Fußball'),
     ('Geographie'),
     ('Unterhaltung'),
-    ('Allgemeinwissen');
+    ('Allgemeinwissen'),
+    ('Formel 1'),
+    ('Infinity Nikki'),
+    ('Webentwicklung');

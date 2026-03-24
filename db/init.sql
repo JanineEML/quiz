@@ -2,6 +2,7 @@
 --     Initializing tables for the Quiz App
 -- -----------------------------------------------------------------
 USE quiz;
+SET NAMES utf8mb4;
 
 -- DROP TABLE IF EXISTS player_result;
 -- DROP TABLE IF EXISTS answer;
