@@ -127,13 +127,19 @@ class QuizController
         $this->requireAuth();
 
         if (!isset($_SESSION['quiz'])) {
-            $_SESSION['errors'] = ["Kein Quiz vorhanden, bitte erneut starten."];
+            $_SESSION['errors'] = ["Kein Quiz vorhanden, starte ein neues:"];
             header('Location: /quiz/start');
             exit;
         }
 
         $i = $_SESSION['quiz']['counter'];
         $total = count($_SESSION['quiz']['questions']);
+
+        if ($i >= $total) {
+            $_SESSION['errors'] = ["Counter invalide"];
+            header('Location: /quiz/start');
+            exit;
+        }
         
         $question = $_SESSION['quiz']['questions'][$i];
         $answers = (new Question(Connection::connect()))->fetchAnswers($question['question_id']);
@@ -150,10 +156,18 @@ class QuizController
     {
         $this->requireAuth();
 
+        if (!isset($_SESSION['quiz'])) {
+            $_SESSION['errors'] = ["Kein Quiz vorhanden, starte ein neues:"];
+            header('Location: /quiz/start');
+            exit;
+        }
+
         $score = $_SESSION['quiz']['score'];
         $total = count($_SESSION['quiz']['questions']);
 
         require __DIR__ . '/../Views/quiz/result.php';
+
+        unset($_SESSION['quiz']);
     }
 
     private function requireAuth() 
