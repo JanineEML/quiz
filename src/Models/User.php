@@ -17,8 +17,10 @@ class User
     /**
      * Fetches a single player row by its primary key.
      *
-     * @param int $id The player_id to look up.
-     * @return array|null Associative array of the player row, or null if not found.
+     * Not yet called — reserved for session refresh after XP updates.
+     *
+     * @param int        $id  The player_id to look up.
+     * @return array|null     Associative array of the player row, or null if not found.
      */
     public function fetchById(int $id): ?array
     {
@@ -31,10 +33,12 @@ class User
 
     /**
      * Fetches a single player row by playername.
-     * Used during login (credential check) and registration (uniqueness check).
      *
-     * @param string $name The playername to look up.
-     * @return array|null Associative array of the player row, or null if not found.
+     * Called by AuthController::login() to verify credentials and
+     * AuthController::register() to check name uniqueness.
+     *
+     * @param string     $name  The playername to look up.
+     * @return array|null       Associative array of the player row, or null if not found.
      */
     public function fetchByName(string $name): ?array
     {
@@ -48,8 +52,10 @@ class User
     /**
      * Creates a new player record. Hashes the password before storing.
      *
-     * @param string $playername The chosen display name.
-     * @param string $pw The plain-text password (hashed via password_hash()).
+     * Called by AuthController::register() after successful validation.
+     *
+     * @param string $playername  The chosen display name.
+     * @param string $pw          Plain-text password, hashed before storage.
      */
     public function create(string $playername, string $pw): void
     {
@@ -57,5 +63,26 @@ class User
 
         $stmt = $this->pdo->prepare("INSERT INTO player (playername, pw_hash) VALUES (:playername, :pw_hash)");
         $stmt->execute([':playername' => $playername, ':pw_hash' => $pw_hash]);
+    }
+
+    /**
+     * Adds XP to a player's total in the database.
+     *
+     * Called by QuizController::resultView() after a quiz is completed.
+     *
+     * @param int $playerId  The ID of the player to award XP to.
+     * @param int $xp        The amount of XP to add.
+     */
+    public function addXp(int $playerId, int $xp): void
+    {
+        $stmt = $this->pdo->prepare("
+            UPDATE player
+            SET xp = xp + :xp
+            WHERE player_id = :pid
+        ");
+        $stmt->execute([
+            ':xp' => $xp,
+            ':pid' => $playerId
+        ]);
     }
 }

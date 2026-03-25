@@ -9,6 +9,7 @@
 <body>
     <div class="f-container">
         <h1>Willkommen, <?= $_SESSION['player']['playername'] ?>!</h1>
+        <p>Current XP: <?= $_SESSION['player']['xp'] ?></p>
 
         <nav>
             <form action="/logout" method="post">

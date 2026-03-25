@@ -2,6 +2,7 @@
 namespace App\Controllers;
 
 use App\Connection;
+use App\Models\User;
 use App\Models\Question;
 
 class QuizController
@@ -10,13 +11,16 @@ class QuizController
     private const MAX_COUNT = 15;
     /**
      * POST /quiz/start
-     * From $_POST uses category and count
-     * 
-     * 
+     * From $_POST uses 'category_id', 'question_count'.
+     *
+     * Stores errors in $_SESSION['errors'] and redirects to /quiz/start on failure.
+     * Stores quiz state in $_SESSION['quiz'] and redirects to /quiz/play on success.
      */
     public function start()
     {
         $this->requireAuth();
+
+        $q = (new Question(Connection::connect()));
 
         // Question->fetchQuestions needs int (or null) as input
         $chosenCategory = $_POST['category_id'] ?? '';
@@ -41,7 +45,7 @@ class QuizController
             exit;
         }
 
-        $questions = (new Question(Connection::connect()))->fetchQuestions($category, $count);
+        $questions = $q->fetchQuestions($category, $count);
 
         // Validate number of found Questions
         if (count($questions) < $count) {
@@ -56,8 +60,15 @@ class QuizController
             'questions' => $questions,
             'counter' => 0,
             'score' => 0,
+            'xp' => 0,
             'wrong_answers' => []
         ];
+
+        $_SESSION['quiz']['quizId'] = $q->beginSession(
+            $_SESSION['player']['player_id'],
+            $category,
+            $count
+        );
 
         header('Location: /quiz/play');
         exit;
@@ -65,23 +76,28 @@ class QuizController
 
     /**
      * POST /quiz/play
-     * From $_POST uses 
-     * 
-     * 
+     * From $_POST uses 'answer_id'. From $_SESSION uses 'quiz', 'player'.
+     *
+     * Increments score and counter in $_SESSION['quiz'].
+     * Redirects to /quiz/play while questions remain, then to /quiz/result.
      */
     public function play()
     {
         $this->requireAuth();
 
+        $q = new Question(Connection::connect());
+
         $playerAnswer = (int) $_POST['answer_id'];
         $currentQuestion = $_SESSION['quiz']['questions'][$_SESSION['quiz']['counter']];
-        $correctAnswer = (new Question(Connection::connect()))->fetchCorrectAnswer((int) $currentQuestion['question_id']);
 
-        $answer = (new Question(Connection::connect()))->fetchAnswer($playerAnswer);
+        $correctAnswer = $q->fetchCorrectAnswer((int) $currentQuestion['question_id']);
+        $answer = $q->fetchAnswer($playerAnswer);
+
         $isCorrect = $answer['is_correct'];
 
         if ($isCorrect) {
             $_SESSION['quiz']['score'] += 1;
+            $_SESSION['quiz']['xp'] += $this->calculateXp($currentQuestion['difficulty_id']);
         }
         else {
             $_SESSION['quiz']['wrong_answers'][] = [
@@ -90,9 +106,16 @@ class QuizController
                 'correct' => $correctAnswer
             ];
         }
+        
+        // save Data to quiz_answer
+        $q->saveResult(
+            $isCorrect,
+            $currentQuestion['question_id'],
+            $playerAnswer,
+            $_SESSION['quiz']['quizId']
+        );
 
-        // TODO: player_results (Database) - using Question->saveResults()
-
+        // decide if redirecting to /play or /result
         $current = ++$_SESSION['quiz']['counter'];
         $total = count($_SESSION['quiz']['questions']);
 
@@ -106,7 +129,7 @@ class QuizController
     }
 
     /**
-     * GET /quiz/start renders the form to start a quiz.
+     * GET /quiz/start — renders the quiz start form.
      */
     public function startView()
     {
@@ -120,7 +143,7 @@ class QuizController
     }
     
     /**
-     * GET /quiz/play renders the form to play a quiz.
+     * GET /quiz/play — renders the current question. Redirects to /quiz/start if no active quiz in $_SESSION.
      */
     public function playView()
     {
@@ -150,7 +173,7 @@ class QuizController
     }
     
     /**
-     * GET /quiz/result renders result page, includes a link to /quiz/start.
+     * GET /quiz/result — renders the result page and clears $_SESSION['quiz']. Redirects to /quiz/start if no active quiz.
      */
     public function resultView()
     {
@@ -164,12 +187,45 @@ class QuizController
 
         $score = $_SESSION['quiz']['score'];
         $total = count($_SESSION['quiz']['questions']);
+        $wrongAnswers = $_SESSION['quiz']['wrong_answers'];
+        // reward xp for completing the quiz
+        $playerId = $_SESSION['player']['player_id'];
+        $xp = $_SESSION['quiz']['xp'];
 
         require __DIR__ . '/../Views/quiz/result.php';
+
+        (new User(Connection::connect()))->addXp($playerId, $xp);
+        $_SESSION['player']['xp'] += $xp;
+
+        (new Question(Connection::connect()))->completeSession(
+            $_SESSION['quiz']['quizId'],
+            $score,
+            $xp
+        );
 
         unset($_SESSION['quiz']);
     }
 
+    /**
+     * Calculates XP earned for a single correct answer based on difficulty.
+     *
+     * @param int $difficulty  The difficulty_id of the question (1 = easy, 2 = medium, 3 = hard).
+     * @return int             XP to award, rounded to the nearest integer.
+     */
+    private function calculateXp(int $difficulty): int
+    {
+        $multiplier = [
+            1 => 1.0,
+            2 => 1.2,
+            3 => 1.4,
+        ];
+
+        return (int) round(15 * ($multiplier[$difficulty] ?? 1.0));
+    }
+
+    /**
+     * Redirects to /login if no active player session exists.
+     */
     private function requireAuth() 
     {
         if (!isset($_SESSION['player'])) {

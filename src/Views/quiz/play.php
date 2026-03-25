@@ -23,10 +23,10 @@
         <h2><?= $question['question_text'] ?></h2>
 
         <div class="answers">
-            <?php foreach ($answers as $answer): ?>
+            <?php foreach ($answers as $a): ?>
                 <form action="/quiz/play" method="post">
-                    <input type="hidden" name="answer_id" value="<?= $answer['answer_id'] ?>">
-                    <button type="submit"> <?= htmlspecialchars($answer['answer_text']) ?> </button>
+                    <input type="hidden" name="answer_id" value="<?= $a['answer_id'] ?>">
+                    <button type="submit"> <?= htmlspecialchars($a['answer_text']) ?> </button>
                 </form>
             <?php endforeach; ?>
         </div>

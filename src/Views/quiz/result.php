@@ -8,7 +8,8 @@
 </head>
 <body>
     <div class="f-container">
-        <h1>Ergebnis: <?= $score ?> von <?= $total ?>.</h1>
+        <h1>Ergebnis</h1>
+        <p><?= $score ?> von <?= $total ?>, <?= $xp ?> XP verdient.</p>
 
         <p> <?php
         if ($score === $total) {
@@ -25,13 +26,13 @@
         }
         ?> </p>
 
-        <?php if (!empty($_SESSION['quiz']['wrong_answers'])) {
+        <?php if (!empty($wrongAnswers)) {
             echo "<h2> Falsche Antworten: </h2>";
             echo "<ul>";
-            foreach ($_SESSION['quiz']['wrong_answers'] as $a) {
-                echo "  <li>" . $a['question'] . "<br>
-                        Deine Antwort: " . $a['answer'] . "<br>
-                        Richtige Antwort: " . $a['correct'] .
+            foreach ($wrongAnswers as $a) {
+                echo "  <li>" . htmlspecialchars($a['question']) . "<br>
+                        Deine Antwort: " . htmlspecialchars($a['answer']) . "<br>
+                        Richtige Antwort: " . htmlspecialchars($a['correct']) .
                         "</li><br>";
             }
             echo "</ul>";

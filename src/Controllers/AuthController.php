@@ -9,12 +9,9 @@ class AuthController
     /**
      * POST /register
      * From $_POST uses 'playername', 'password', 'password_confirm'.
-     * 
-     * Validates user input (pw confirmation, pw strength, name uniqueness),
-     * on errors, redirects to /register and shows the errors through the view,
-     * on success, redirects to /login.
-     * 
-     * Stores Errors in $_SESSION['errors'], redirects if one is found.
+     *
+     * Stores errors in $_SESSION['errors'] and redirects to /register on failure.
+     * Redirects to /login on success.
      */
     public function register()
     {
@@ -51,10 +48,9 @@ class AuthController
     /**
      * POST /login
      * From $_POST uses 'playername', 'password'.
-     *
-     * Verifies credentials against the database via password_verify().
-     * On success, player record is stored in $_SESSION['player'] and redirects to /.
-     * On failure, stores an error in $_SESSION['errors'] and redirects back to /login.
+     * 
+     * Stores errors in $_SESSION['errors'] and redirects to /login on failure.
+     * Stores player in $_SESSION['player'] and redirects to / on success.
      */
     public function login()
     {
@@ -121,9 +117,9 @@ class AuthController
      * Validates playername and password for registration.
      * From $_POST uses 'password_confirm'.
      *
-     * @param string $name The chosen playername.
-     * @param string $pw The plain-text password.
-     * @return array List of validation error messages (German). Empty when everything is valid.
+     * @param string $name  The chosen playername.
+     * @param string $pw    The plain-text password.
+     * @return array        Validation error messages in German. Empty if valid.
      */
     private function validateRegistration(string $name, string $pw): array
     {

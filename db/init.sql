@@ -4,7 +4,7 @@
 USE quiz;
 SET NAMES utf8mb4;
 
--- DROP TABLE IF EXISTS player_result;
+-- DROP TABLE IF EXISTS quiz_answer;
 -- DROP TABLE IF EXISTS answer;
 -- DROP TABLE IF EXISTS question;
 -- DROP TABLE IF EXISTS category;
@@ -70,19 +70,33 @@ CREATE TABLE answer (
 --   read:    
 --   write:   
 -- -----------------------------------------------------------------
+CREATE TABLE quiz_session (
+    qs_id               INT             PRIMARY KEY AUTO_INCREMENT,
+    xp_earned           INT             NOT NULL DEFAULT 0,
+    score               INT             NOT NULL DEFAULT 0,
+    total               INT             NOT NULL,
+    time_started        TIMESTAMP       DEFAULT CURRENT_TIMESTAMP,
+    time_completed      TIMESTAMP,
 
-CREATE TABLE player_result (
+    category_id         INT,
+    player_id           INT             NOT NULL,
+
+    FOREIGN KEY (category_id) REFERENCES category (category_id),
+    FOREIGN KEY (player_id) REFERENCES player (player_id)
+);
+
+CREATE TABLE quiz_answer (
     result_id           INT             PRIMARY KEY AUTO_INCREMENT,
     is_correct          BOOLEAN         NOT NULL DEFAULT false,
     time_played         TIMESTAMP       NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
-    player_id           INT             NOT NULL,
     question_id         INT             NOT NULL,
     answer_id           INT             NOT NULL,
+    qs_id               INT             NOT NULL,
 
-    FOREIGN KEY (player_id) REFERENCES player (player_id),
     FOREIGN KEY (question_id) REFERENCES question (question_id),
-    FOREIGN KEY (answer_id) REFERENCES answer (answer_id)
+    FOREIGN KEY (answer_id) REFERENCES answer (answer_id),
+    FOREIGN KEY (qs_id) REFERENCES quiz_session (qs_id)
 );
 
 -- -----------------------------------------------------------------

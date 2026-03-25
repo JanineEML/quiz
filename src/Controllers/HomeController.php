@@ -5,10 +5,8 @@ class HomeController
 {
     /**
      * GET /
-     * From $_SESSION uses 'player'
-     * 
-     * Landing Page.
-     * For now, redirects visitors to /login for authentication and only loads home for players.
+     * From $_SESSION uses 'player'.
+     * Redirects to /login if not authenticated. Renders home view on success.
      */
     public function home(): void
     {
