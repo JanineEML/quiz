@@ -1,35 +1,35 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="de">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/css/main.css">
-    <title>Document</title>
+    <link rel="stylesheet" href="main.css">
+    <title>Play Quiz</title>
 </head>
 <body>
-    <?php 
-    ?>
+    <div class="f-container">
+        <h1>Frage <?= $i + 1 ?> von <?= $total ?></h1>
 
-    <h1>Frage <?= $i + 1 ?> von <?= $total ?></h1>
+        <?php
+        if (isset($_SESSION['errors'])) {
+            foreach ($_SESSION['errors'] as $e) {
+                echo "<p class='error'> $e </p>";
+            }
 
-    <?php
-    if (isset($_SESSION['errors'])) {
-        foreach ($_SESSION['errors'] as $e) {
-            echo "<p class='error'> $e </p>";
+            unset($_SESSION['errors']);
         }
+        ?>
 
-        unset($_SESSION['errors']);
-    }
-    ?>
+        <h2><?= $question['question_text'] ?></h2>
 
-    <h2><?= $question['question_text'] ?></h2>
-
-    <?php foreach ($answers as $answer): ?>
-        <form action="/quiz/play" method="post">
-            <input type="hidden" name="answer_id" value="<?= $answer['answer_id'] ?>">
-            <button type="submit"> <?= htmlspecialchars($answer['answer_text']) ?> </button>
-        </form>
-    <?php endforeach; ?>
-    
+        <div class="answers">
+            <?php foreach ($answers as $answer): ?>
+                <form action="/quiz/play" method="post">
+                    <input type="hidden" name="answer_id" value="<?= $answer['answer_id'] ?>">
+                    <button type="submit"> <?= htmlspecialchars($answer['answer_text']) ?> </button>
+                </form>
+            <?php endforeach; ?>
+        </div>
+    </div>
 </body>
 </html>
