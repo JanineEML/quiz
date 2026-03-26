@@ -1,6 +1,10 @@
 <?php
 namespace App\Controllers;
 
+use App\Connection;
+use App\Models\Stats;
+use App\Models\User;
+
 class HomeController
 {
     /**
@@ -15,6 +19,11 @@ class HomeController
             header('Location: /login');
             exit;
         }
+
+        $xp = $_SESSION['player']['xp'];
+        $playername = $_SESSION['player']['playername'];
+        $playerId = $_SESSION['player']['player_id'];
+        $stats = (new Stats(Connection::connect()))->fetchByPlayer($playerId);
 
         // displays the home view
         require __DIR__ . '/../Views/home.php';
