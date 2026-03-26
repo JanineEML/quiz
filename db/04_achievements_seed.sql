@@ -28,18 +28,16 @@ VALUES
 INSERT INTO achievement
     (achievement_name, achievement_desc, condition_type, condition_value)
 VALUES
-    ('Antwort Novize', 'Beantworte 10 Fragen', 'total_answers', 10),
-    ('Antwort Lehrling', 'Beantworte 50 Fragen', 'total_answers', 50),
-    ('Antwort Geselle', 'Beantworte 100 Fragen', 'total_answers', 100),
-    ('Antwort Experte', 'Beantworte 250 Fragen', 'total_answers', 250),
-    ('Antwort Meister', 'Beantworte 500 Fragen', 'total_answers', 500);
+    ('Antwort Novize', 'Beantworte 10 Fragen', 'perfect_quiz', 1),
+    ('Antwort Lehrling', 'Beantworte 50 Fragen', 'perfect_quiz', 5),
+    ('Antwort Geselle', 'Beantworte 100 Fragen', 'perfect_quiz', 10),
+    ('Antwort Experte', 'Beantworte 250 Fragen', 'perfect_quiz', 15),
+    ('Antwort Meister', 'Beantworte 500 Fragen', 'perfect_quiz', 20);
 
 -- Kategorien
 INSERT INTO achievement
     (achievement_name, achievement_desc, condition_type, condition_value)
 VALUES
-    ('Erkunder Novize', 'Beantworte 10 Fragen', 'total_answers', 10),
-    ('Erkunder Lehrling', 'Beantworte 50 Fragen', 'total_answers', 50),
-    ('Erkunder Geselle', 'Beantworte 100 Fragen', 'total_answers', 100),
-    ('Erkunder Experte', 'Beantworte 250 Fragen', 'total_answers', 250),
-    ('Erkunder Meister', 'Beantworte 500 Fragen', 'total_answers', 500);
+    ('Erkunder Novize', 'Beantworte 10 Fragen', 'categories_played', 3),
+    ('Erkunder Lehrling', 'Beantworte 50 Fragen', 'categories_played', 6),
+    ('Erkunder Geselle', 'Beantworte 100 Fragen', 'categories_played', 9);
