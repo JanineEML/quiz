@@ -164,7 +164,7 @@ class Question
             SET score = :score,
                 xp_earned = :xp,
                 time_completed = CURRENT_TIMESTAMP
-            WHERE qs_id = :qsId;
+            WHERE qs_id = :qsId
         ");
         $stmt->execute([
             ':score' => $score,
