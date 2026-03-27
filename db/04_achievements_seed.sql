@@ -8,36 +8,48 @@ SET NAMES utf8mb4;
 INSERT INTO achievement
     (achievement_name, achievement_desc, condition_type, condition_value)
 VALUES
-    ('Quiz Novize', 'Schließe dein erstes Quiz ab', 'completed_quizzes', 1),
-    ('Quiz Lehrling', 'Schließe 10 Quizze ab', 'completed_quizzes', 10),
-    ('Quiz Geselle', 'Schließe 25 Quizze ab', 'completed_quizzes', 25),
-    ('Quiz Experte', 'Schließe 50 Quizze ab', 'completed_quizzes', 50),
-    ('Quiz Meister', 'Schließe 100 Quizze ab', 'completed_quizzes', 100);
+    ('Erstversuch', 'Schließe dein erstes Quiz ab', 'completed_quizzes', 1),
+    ('Stammgast', 'Schließe 10 Quiz ab', 'completed_quizzes', 10),
+    ('Veteran', 'Schließe 25 Quiz ab', 'completed_quizzes', 25),
+    ('Marathon', 'Schließe 50 Quiz ab', 'completed_quizzes', 50),
+    ('Legende', 'Schließe 100 Quiz ab', 'completed_quizzes', 100);
+
+-- Total Answers
+INSERT INTO achievement
+    (achievement_name, achievement_desc, condition_type, condition_value)
+VALUES
+    ('Neugierig', 'Beantworte 10 Fragen', 'total_answers', 10),
+    ('Beflissen', 'Beantworte 50 Fragen', 'total_answers', 50),
+    ('Vielwisser', 'Beantworte 100 Fragen', 'total_answers', 100),
+    ('Enzyklopädie', 'Beantworte 250 Fragen', 'total_answers', 250),
+    ('Orakel', 'Beantworte 500 Fragen', 'total_answers', 500);
 
 -- Correct Answers
 INSERT INTO achievement
     (achievement_name, achievement_desc, condition_type, condition_value)
 VALUES
-    ('Antwort Novize', 'Beantworte 10 Fragen', 'correct_answers', 10),
-    ('Antwort Lehrling', 'Beantworte 50 Fragen', 'correct_answers', 50),
-    ('Antwort Geselle', 'Beantworte 100 Fragen', 'correct_answers', 100),
-    ('Antwort Experte', 'Beantworte 250 Fragen', 'correct_answers', 250),
-    ('Antwort Meister', 'Beantworte 500 Fragen', 'correct_answers', 500);
+    ('Glücksgriff', 'Beantworte 10 Fragen richtig', 'correct_answers', 10),
+    ('Treffsicher', 'Beantworte 30 Fragen richtig', 'correct_answers', 30),
+    ('Scharfsinn', 'Beantworte 60 Fragen richtig', 'correct_answers', 60),
+    ('Weitsicht', 'Beantworte 90 Fragen richtig', 'correct_answers', 90),
+    ('Unfehlbar', 'Beantworte 150 Fragen richtig', 'correct_answers', 150);
 
 -- Perfektes Quiz
 INSERT INTO achievement
     (achievement_name, achievement_desc, condition_type, condition_value)
 VALUES
-    ('Antwort Novize', 'Beantworte 10 Fragen', 'perfect_quiz', 1),
-    ('Antwort Lehrling', 'Beantworte 50 Fragen', 'perfect_quiz', 5),
-    ('Antwort Geselle', 'Beantworte 100 Fragen', 'perfect_quiz', 10),
-    ('Antwort Experte', 'Beantworte 250 Fragen', 'perfect_quiz', 15),
-    ('Antwort Meister', 'Beantworte 500 Fragen', 'perfect_quiz', 20);
+    ('Makellos', 'Schließe 1 Quiz ohne Fehler ab', 'perfect_quiz', 1),
+    ('Fehlerlos', 'Schließe 5 Quiz ohne Fehler ab', 'perfect_quiz', 5),
+    ('Fleckenrein', 'Schließe 10 Quiz ohne Fehler ab', 'perfect_quiz', 10),
+    ('Vollkommen', 'Schließe 25 Quiz ohne Fehler ab', 'perfect_quiz', 25),
+    ('Perfektion', 'Schließe 50 Quiz ohne Fehler ab', 'perfect_quiz', 50);
 
 -- Kategorien
 INSERT INTO achievement
     (achievement_name, achievement_desc, condition_type, condition_value)
 VALUES
-    ('Erkunder Novize', 'Beantworte 10 Fragen', 'categories_played', 3),
-    ('Erkunder Lehrling', 'Beantworte 50 Fragen', 'categories_played', 6),
-    ('Erkunder Geselle', 'Beantworte 100 Fragen', 'categories_played', 9);
+    ('Entdecker', 'Spiele 3 verschiedene Kategorien', 'categories_played', 3),
+    ('Weitgereist', 'Spiele 6 verschiedene Kategorien', 'categories_played', 6),
+    ('Allrounder', 'Spiele 9 verschiedene Kategorien', 'categories_played', 9),
+    ('Universalist', 'Spiele 12 verschiedene Kategorien', 'categories_played', 12),
+    ('Polymath', 'Spiele 15 verschiedene Kategorien', 'categories_played', 15);
