@@ -4,21 +4,19 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="/css/main.css">
-    <title>Login</title>
+    <title>Anmelden</title>
 </head>
 <body>
     <div class="f-container">
         <h1>Anmelden</h1>
     
-        <?php
-        if (isset($_SESSION['errors'])) {
-            foreach ($_SESSION['errors'] as $e) {
-                echo "<p class='error'> $e </p>";
-            }
+        <?php if (isset($_SESSION['errors'])):
+            foreach ($_SESSION['errors'] as $e): ?>
+                <p class="error"><?= htmlspecialchars($e) ?></p>
+            <?php endforeach;
 
             unset($_SESSION['errors']);
-        }
-        ?>
+        endif; ?>
 
         <form action="/login" method="post">
             <label>

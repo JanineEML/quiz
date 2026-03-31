@@ -13,11 +13,11 @@
         <ul>
             <li>Gesammelte XP: <?= $xp ?></li>
 
-            <?php if ($stats['accuracy'] !== null) : ?>
+            <?php if ($stats['accuracy'] !== null): ?>
                 <li>Genauigkeit: <?= $stats['accuracy'] ?>% - <?= $stats['correct'] ?> / <?= $stats['total'] ?></li>
-            <?php else : ?>
-                <li>Genauigket: N/A - 0 / 0</li>
-            <?php endif ?>
+            <?php else: ?>
+                <li>Genauigkeit: N/A - 0 / 0</li>
+            <?php endif; ?>
         </ul>
 
         <nav>

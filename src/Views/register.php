@@ -10,15 +10,13 @@
     <div class="f-container">
         <h1>Registrieren</h1>
         
-        <?php
-        if (isset($_SESSION['errors'])) {
-            foreach ($_SESSION['errors'] as $e) {
-                echo "<p class='error'> $e </p>";
-            }
+        <?php if (isset($_SESSION['errors'])):
+            foreach ($_SESSION['errors'] as $e): ?>
+                <p class="error"><?= htmlspecialchars($e) ?></p>
+            <?php endforeach;
 
             unset($_SESSION['errors']);
-        }
-        ?>
+        endif; ?>
 
         <form action="/register" method="post">
             <label>
