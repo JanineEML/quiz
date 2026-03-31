@@ -2,6 +2,7 @@
 namespace App\Controllers;
 
 use App\Connection;
+use App\Models\Achievement;
 use App\Models\User;
 use App\Models\Question;
 
@@ -192,8 +193,6 @@ class QuizController
         $playerId = $_SESSION['player']['player_id'];
         $xp = $_SESSION['quiz']['xp'];
 
-        require __DIR__ . '/../Views/quiz/result.php';
-
         (new User(Connection::connect()))->addXp($playerId, $xp);
         $_SESSION['player']['xp'] += $xp;
 
@@ -202,6 +201,10 @@ class QuizController
             $score,
             $xp
         );
+
+        $unlockedAchievements = (new Achievement(Connection::connect()))->award($playerId);
+
+        require __DIR__ . '/../Views/quiz/result.php';
 
         unset($_SESSION['quiz']);
     }
