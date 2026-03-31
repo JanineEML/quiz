@@ -47,6 +47,25 @@ class Achievement
 
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
+    
+    /**
+     * Fetches all achievement IDs already unlocked by a given player.
+     *
+     * Called by Achievement::award().
+     *
+     * @param int    $playerId  The player's ID.
+     * @return array            Flat array of unlocked achievement IDs.
+     */
+    private function fetchUnlocked(int $playerId): array
+    {
+        $stmt = $this->pdo->prepare("
+            SELECT achievement_id FROM player_achievement
+            WHERE player_id = ?
+        ");
+        $stmt->execute([$playerId]);
+
+        return $stmt->fetchAll(PDO::FETCH_COLUMN);
+    }
 
     /**
      * Unlocks an achievement for a player, ignoring duplicates.
@@ -70,18 +89,54 @@ class Achievement
     }
 
     /**
-     * 
+     * Checks all achievements and unlocks any newly met conditions for a player.
+     *
+     * Called by QuizController::resultView() after a session is completed.
+     *
+     * @param int    $playerId  The player's ID.
+     * @return array            Newly unlocked achievement rows as associative arrays, or [] if none.
      */
-    public function award()
+    public function award(int $playerId): array
     {
-        $achievements = (new Achievement(Connection::connect()))->fetchAll();
-        // TODO
+        // get lookup-array to use as filter
+        $unlockedIds = array_fill_keys(
+            $this->fetchUnlocked($playerId),
+            true
+        );
+
+        // filter out already unlocked achievements by the player
+        $lockedAchievements = array_filter(
+            $this->fetchAll(),
+            fn($row) => !isset($unlockedIds[$row['achievement_id']])
+        );
+
+        $unlockedAchievements = [];
+
+        // iterate through the still locked achievements and use the condition_type
+        // to be able to call the matching check function
+        foreach($lockedAchievements as $achievement) {
+            $matched = match($achievement['condition_type']) {
+                'completed_quizzes' => $this->checkCompletedQuizzes($playerId, $achievement['condition_value']),
+                'total_answers' => $this->checkTotalAnswers($playerId, $achievement['condition_value']),
+                'correct_answers' => $this->checkCorrectAnswers($playerId, $achievement['condition_value']),
+                'perfect_quiz' => $this->checkPerfectQuiz($playerId, $achievement['condition_value']),
+                'categories_played' => $this->checkCategoriesPlayed($playerId, $achievement['condition_value']),
+                default => false
+            };
+
+            if ($matched) {
+                $this->unlock($playerId, $achievement['achievement_id']);
+                $unlockedAchievements[] = $achievement;
+            }
+        }
+
+        return $unlockedAchievements;
     }
 
     /**
      * Returns true if the player has completed at least $required quiz sessions.
      *
-     * Called by Achievement::award().
+     * Called by Achievement->award().
      *
      * @param int   $playerId  The player's ID.
      * @param int   $required  Minimum number of completed sessions required.
@@ -102,7 +157,7 @@ class Achievement
     /**
      * Returns true if the player has submitted at least $required answers in total.
      *
-     * Called by Achievement::award().
+     * Called by Achievement->award().
      *
      * @param int   $playerId  The player's ID.
      * @param int   $required  Minimum number of answers required.
@@ -124,7 +179,7 @@ class Achievement
     /**
      * Returns true if the player has given at least $required correct answers.
      *
-     * Called by Achievement::award().
+     * Called by Achievement->award().
      *
      * @param int   $playerId  The player's ID.
      * @param int   $required  Minimum number of correct answers required.
@@ -146,7 +201,7 @@ class Achievement
     /**
      * Returns true if the player has completed at least $required quiz sessions with a perfect score.
      *
-     * Called by Achievement::award().
+     * Called by Achievement->award().
      *
      * @param int   $playerId  The player's ID.
      * @param int   $required  Minimum number of perfect sessions required.
@@ -168,7 +223,7 @@ class Achievement
     /**
      * Returns true if the player has played in at least $required distinct categories.
      *
-     * Called by Achievement::award().
+     * Called by Achievement->award().
      *
      * @param int   $playerId  The player's ID.
      * @param int   $required  Minimum number of distinct categories required.
