@@ -8,7 +8,7 @@ class Question
     /** @var PDO DB connection, shared with all model-queries. */
     private PDO $pdo;
 
-    /** @param PDO $pdo Active database connection, provided by Connection::connect(). */
+    /** @param PDO $pdo Active database connection, provided by Connection->connect(). */
     public function __construct(PDO $pdo)
     {
         $this->pdo = $pdo;
@@ -51,7 +51,7 @@ class Question
     /**
      * Fetches all four answers for a given question.
      *
-     * Called by QuizController::playView() to render the answer buttons.
+     * Called by QuizController->playView() to render the answer buttons.
      *
      * @param int   $questionId  The question_id to fetch answers for.
      * @return array             Array of answer rows as associative arrays.
@@ -70,7 +70,7 @@ class Question
     /**
      * Fetches a single answer row by its ID.
      *
-     * Called by QuizController::play() to check if the player's choice is correct.
+     * Called by QuizController->play() to check if the player's choice is correct.
      *
      * @param int   $answerId  The answer_id to look up.
      * @return array           Associative array of the answer row.
@@ -89,7 +89,7 @@ class Question
     /**
      * Fetches the answer_text of the correct answer for a given question.
      *
-     * Called by QuizController::play() to store the correct answer in wrong_answers.
+     * Called by QuizController->play() to store the correct answer in wrong_answers.
      *
      * @param int    $questionId  The question_id to look up the correct answer for.
      * @return string             The answer_text of the correct answer.
@@ -108,7 +108,7 @@ class Question
     /**
      * Fetches all categories from the database.
      *
-     * Called by QuizController::startView() to populate the category dropdown.
+     * Called by QuizController->startView() to populate the category dropdown.
      */
     public function fetchCategories(): array
     {
@@ -120,7 +120,7 @@ class Question
     /**
      * Returns the category_id of a randomly selected category.
      *
-     * Called by QuizController::start() when the player selects "Zufällig".
+     * Called by QuizController->start() when the player selects "Zufällig".
      */
     public function fetchRandomCategoryId(): int
     {
@@ -176,7 +176,7 @@ class Question
     /**
      * Save a player's answer for a question to table player_result.
      *
-     * From $_SESSION uses 'player_id'. Called by QuizController::play() after each answer.
+     * From $_SESSION uses 'player_id'. Called by QuizController->play() after each answer.
      *
      * @param int  $isCorrect   Whether the chosen answer was correct.
      * @param int  $playerId    The ID of the player answering.

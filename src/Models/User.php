@@ -8,7 +8,7 @@ class User
     /** @var PDO DB connection, shared with all model-queries. */
     private PDO $pdo;
 
-    /** @param PDO $pdo Active database connection, provided by Connection::connect(). */
+    /** @param PDO $pdo Active database connection, provided by Connection->connect(). */
     public function __construct(PDO $pdo)
     {
         $this->pdo = $pdo;
@@ -34,8 +34,8 @@ class User
     /**
      * Fetches a single player row by playername.
      *
-     * Called by AuthController::login() to verify credentials and
-     * AuthController::register() to check name uniqueness.
+     * Called by AuthController->login() to verify credentials and
+     * AuthController->register() to check name uniqueness.
      *
      * @param string     $name  The playername to look up.
      * @return array|null       Associative array of the player row, or null if not found.
@@ -52,7 +52,7 @@ class User
     /**
      * Creates a new player record. Hashes the password before storing.
      *
-     * Called by AuthController::register() after successful validation.
+     * Called by AuthController->register() after successful validation.
      *
      * @param string $playername  The chosen display name.
      * @param string $pw          Plain-text password, hashed before storage.
@@ -68,7 +68,7 @@ class User
     /**
      * Adds XP to a player's total in the database.
      *
-     * Called by QuizController::resultView() after a quiz is completed.
+     * Called by QuizController->resultView() after a quiz is completed.
      *
      * @param int $playerId  The ID of the player to award XP to.
      * @param int $xp        The amount of XP to add.

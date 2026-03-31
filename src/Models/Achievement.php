@@ -1,7 +1,6 @@
 <?php
 namespace App\Models;
 
-use App\Connection;
 use PDO;
 
 class Achievement
@@ -9,7 +8,7 @@ class Achievement
     /** @var PDO DB connection, shared with all model-queries. */
     private PDO $pdo;
 
-    /** @param PDO $pdo Active database connection, provided by Connection::connect(). */
+    /** @param PDO $pdo Active database connection, provided by Connection->connect(). */
     public function __construct(PDO $pdo)
     {
         $this->pdo = $pdo;
@@ -51,7 +50,7 @@ class Achievement
     /**
      * Fetches all achievement IDs already unlocked by a given player.
      *
-     * Called by Achievement::award().
+     * Called by Achievement->award().
      *
      * @param int    $playerId  The player's ID.
      * @return array            Flat array of unlocked achievement IDs.
@@ -91,7 +90,7 @@ class Achievement
     /**
      * Checks all achievements and unlocks any newly met conditions for a player.
      *
-     * Called by QuizController::resultView() after a session is completed.
+     * Called by QuizController->resultView() after a session is completed.
      *
      * @param int    $playerId  The player's ID.
      * @return array            Newly unlocked achievement rows as associative arrays, or [] if none.
