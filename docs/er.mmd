@@ -1,0 +1,83 @@
+erDiagram
+    DIFFICULTY ||--o{ QUESTION : "hat"
+    CATEGORY ||--o{ QUESTION : "gehört zu"
+    QUESTION ||--|{ ANSWER : "hat"
+
+    PLAYER ||--o{ QUIZ_SESSION : "spielt"
+    CATEGORY |o--o{ QUIZ_SESSION : "gefiltert nach"
+
+    QUIZ_SESSION ||--|{ QUIZ_ANSWER : "enthält"
+    QUESTION ||--|{ QUIZ_ANSWER : "beantwortet in"
+    ANSWER ||--|{ QUIZ_ANSWER : "gewählt in"
+
+    PLAYER ||--o{ PLAYER_ACHIEVEMENT : "erhält"
+    ACHIEVEMENT ||--o{ PLAYER_ACHIEVEMENT : "vergeben an"
+
+
+    PLAYER {
+        INT player_id
+        VARCHAR playername
+        VARCHAR pw_hash
+        INT xp
+        BOOLEAN is_admin
+        TIMESTAMP time_created
+    }
+
+    ACHIEVEMENT {
+        INT achievement_id
+        VARCHAR achievement_name
+        TEXT achievement_desc
+        VARCHAR condition_type
+        INT contition_value
+    }
+
+    PLAYER_ACHIEVEMENT {
+        INT pa_id
+        INT player_id
+        INT achievement_id
+        TIMESTAMP time_earned
+    }
+
+    DIFFICULTY {
+        INT difficulty_id
+        INT difficulty_label
+    }
+
+    CATEGORY {
+        INT category_id
+        INT category_label
+    }
+
+    QUESTION {
+        INT question_id
+        TEXT question_text
+        INT difficulty_id
+        INT category_id
+    }
+
+    ANSWER {
+        INT answer_id
+        TEXT answer_text
+        BOOLEAN is_correct
+        INT question_id
+    }
+
+    QUIZ_SESSION {
+        INT qs_id
+        INT xp_earned
+        INT score
+        INT total
+        TIMESTAMP time_started
+        TIMESTAMP time_completed
+        INT category_id
+        INT player_id
+    }
+
+    QUIZ_ANSWER {
+        INT result_id
+        BOOLEAN is_correct
+        TIMESTAMP time_played
+        INT question_id
+        INT answer_id
+        INT qs_id
+    }

@@ -1,0 +1,68 @@
+classDiagram
+    HomeController ..> Stats : uses
+    AuthController ..> User : uses
+    QuizController ..> Question : uses
+    QuizController ..> Achievement : uses
+    QuizController ..> User : uses
+
+    class HomeController {
+        +home()
+    }
+
+    class AuthController {
+        +register()
+        +login()
+        +logout()
+        +loginView()
+        +registerView()
+        -validateRegistration()
+    }
+
+    class QuizController {
+        +start()
+        +play()
+        +startView()
+        +playView()
+        +resultView()
+        -calculateXp()
+    }
+
+    class User {
+        -PDO pdo
+        +fetchById()
+        +fetchByName()
+        +create()
+        +addXp()
+    }
+
+    class Question {
+        -PDO pdo
+        +fetchQuestion()
+        +fetchAnswers()
+        +fetchAnswer()
+        +fetchCorrectAnswer()
+        +fetchCategories()
+        +fetchRandomCategoryId()
+        +beginSession()
+        +completeSession()
+        +saveResult()
+    }
+
+    class Stats {
+        -PDO pdo
+        +fetchByPlayer()
+    }
+
+    class Achievement {
+        -PDO pdo
+        +fetchAll()
+        +fetchByPlayer()
+        -fetchUnlocked()
+        -unlock()
+        +award()
+        -checkCompletedQuizzes()
+        -checkTotalAnswers()
+        -checkCorrectAnswers()
+        -checkPerfectQuiz()
+        -checkCategoriesPlayed()
+    }
