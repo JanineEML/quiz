@@ -25,6 +25,7 @@ classDiagram
         +playView()
         +resultView()
         -calculateXp()
+        -requireAuth()
     }
 
     class User {
@@ -37,7 +38,7 @@ classDiagram
 
     class Question {
         -PDO pdo
-        +fetchQuestion()
+        +fetchQuestions()
         +fetchAnswers()
         +fetchAnswer()
         +fetchCorrectAnswer()
