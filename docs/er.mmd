@@ -20,6 +20,7 @@ erDiagram
         VARCHAR pw_hash
         INT xp
         BOOLEAN is_admin
+        BOOLEAN is_deleted
         TIMESTAMP time_created
     }
 
@@ -28,7 +29,7 @@ erDiagram
         VARCHAR achievement_name
         TEXT achievement_desc
         VARCHAR condition_type
-        INT contition_value
+        INT condition_value
     }
 
     PLAYER_ACHIEVEMENT {
@@ -40,12 +41,12 @@ erDiagram
 
     DIFFICULTY {
         INT difficulty_id
-        INT difficulty_label
+        VARCHAR difficulty_label
     }
 
     CATEGORY {
         INT category_id
-        INT category_label
+        VARCHAR category_label
     }
 
     QUESTION {

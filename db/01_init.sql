@@ -4,13 +4,6 @@
 USE quiz;
 SET NAMES utf8mb4;
 
--- DROP TABLE IF EXISTS quiz_answer;
--- DROP TABLE IF EXISTS answer;
--- DROP TABLE IF EXISTS question;
--- DROP TABLE IF EXISTS category;
--- DROP TABLE IF EXISTS difficulty;
--- DROP TABLE IF EXISTS player;
-
 -- -----------------------------------------------------------------
 --     PLAYER TABLES
 -- -----------------------------------------------------------------
@@ -23,6 +16,7 @@ CREATE TABLE player (
     pw_hash             VARCHAR(255)    NOT NULL,
     xp                  INT             NOT NULL DEFAULT 0,
     is_admin            BOOLEAN         NOT NULL DEFAULT false,
+    is_deleted          BOOLEAN         NOT NULL DEFAULT false,
     time_created        TIMESTAMP       DEFAULT CURRENT_TIMESTAMP
 );
 
