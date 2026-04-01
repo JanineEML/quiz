@@ -2,17 +2,13 @@ erDiagram
     DIFFICULTY ||--o{ QUESTION : "hat"
     CATEGORY ||--o{ QUESTION : "gehört zu"
     QUESTION ||--|{ ANSWER : "hat"
-
     PLAYER ||--o{ QUIZ_SESSION : "spielt"
     CATEGORY |o--o{ QUIZ_SESSION : "gefiltert nach"
-
     QUIZ_SESSION ||--|{ QUIZ_ANSWER : "enthält"
     QUESTION ||--|{ QUIZ_ANSWER : "beantwortet in"
     ANSWER ||--|{ QUIZ_ANSWER : "gewählt in"
-
     PLAYER ||--o{ PLAYER_ACHIEVEMENT : "erhält"
     ACHIEVEMENT ||--o{ PLAYER_ACHIEVEMENT : "vergeben an"
-
 
     PLAYER {
         INT player_id
