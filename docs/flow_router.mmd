@@ -7,3 +7,6 @@ flowchart TD
     D --> F[Controller]
     F --> G[Model]
     F --> H[View]
+    H -->|HTML| B
+    F -->|Redirect| B
+    B -->|HTTP Response| A
