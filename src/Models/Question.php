@@ -53,17 +53,25 @@ class Question
      *
      * Called by AdminController::questionsView().
      *
-     * @return array  All questions with question_id, question_text, category_label, difficulty_label.
+     * @param int|null $categoryId  Filter by category ID, or null for all categories.
+     * @return array                All questions with question_id, question_text, category_label, difficulty_label.
      */
-    public function fetchAll()
+    public function fetchAll(?int $categoryId = null): array
     {
-        $stmt = $this->pdo->query("
+        $sql = "
             SELECT q.question_id, q.question_text, c.category_label, d.difficulty_label
             FROM question AS q
             JOIN category AS c USING (category_id)
             JOIN difficulty AS d USING (difficulty_id)
-            ORDER BY q.question_id DESC
-        ");
+        ";
+
+        if (!is_null($categoryId)) {
+            $sql .= " WHERE q.category_id = ?";
+        }
+
+        $sql .= " ORDER BY q.question_id DESC";
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->execute($categoryId !== null ? [$categoryId] : []);
 
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
