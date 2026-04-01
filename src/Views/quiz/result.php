@@ -31,9 +31,9 @@
             <h2>Falsche Antworten:</h2>
             <ul>
                 <?php foreach ($wrongAnswers as $a): ?>
-                    <li><?= htmlspecialchars($a['question']) ?><br>
-                        Deine Antwort: <?= htmlspecialchars($a['answer']) ?><br>
-                        Richtige Antwort: <?= htmlspecialchars($a['correct']) ?>
+                    <li><?= e($a['question']) ?><br>
+                        Deine Antwort: <?= e($a['answer']) ?><br>
+                        Richtige Antwort: <?= e($a['correct']) ?>
                     </li>
                 <?php endforeach; ?>
             </ul>
@@ -43,8 +43,8 @@
             <h2>Freigeschaltete Achievements:</h2>
             <ul>
                 <?php foreach ($unlockedAchievements as $achievement): ?>
-                    <li><?= htmlspecialchars($achievement['achievement_name']) ?><br>
-                         <?= htmlspecialchars($achievement['achievement_desc']) ?>
+                    <li><?= e($achievement['achievement_name']) ?><br>
+                         <?= e($achievement['achievement_desc']) ?>
                     </li>
                 <?php endforeach; ?>
             </ul>

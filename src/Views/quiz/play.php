@@ -11,20 +11,20 @@
         <h1>Frage <?= $i + 1 ?> von <?= $total ?></h1>
 
         <?php if (isset($_SESSION['errors'])):
-            foreach ($_SESSION['errors'] as $e): ?>
-                <p class="error"><?= htmlspecialchars($e) ?></p>
+            foreach ($_SESSION['errors'] as $err): ?>
+                <p class="error"><?= e($err) ?></p>
             <?php endforeach;
 
             unset($_SESSION['errors']);
         endif; ?>
 
-        <h2><?= htmlspecialchars($question['question_text']) ?></h2>
+        <h2><?= e($question['question_text']) ?></h2>
 
         <div class="answers">
             <?php foreach ($answers as $a): ?>
                 <form action="/quiz/play" method="post">
                     <input type="hidden" name="answer_id" value="<?= $a['answer_id'] ?>">
-                    <button type="submit"><?= htmlspecialchars($a['answer_text']) ?></button>
+                    <button type="submit"><?= e($a['answer_text']) ?></button>
                 </form>
             <?php endforeach; ?>
         </div>

@@ -1,8 +1,11 @@
 <?php
 session_start(); // since EVERYTHING starts here, session_status() check should not be necessary
 
+// load helpers
+require __DIR__ . '/../src/helpers.php';
+
 // load autoloader
-require __DIR__.'/../vendor/autoload.php';
+require __DIR__ . '/../vendor/autoload.php';
 
 use App\Router;
 

@@ -34,21 +34,19 @@ class AuthController
         // if any error got collected through the registering process, prevent INSERT INTO statement
         if (!empty($errors)) {
             $_SESSION['errors'] = $errors;
-            header('Location: /register');
-            exit;
+            redirect('/register');
         }
 
         // no errors found, new player gets put in database and redirected to /login
         $user->create($playername, $password);
 
-        header('Location: /login');
-        exit; // stop PHP from executing /login
+        redirect('/login');
     }
 
     /**
      * POST /login
      * From $_POST uses 'playername', 'password'.
-     * 
+     *
      * Stores errors in $_SESSION['errors'] and redirects to /login on failure.
      * Stores player in $_SESSION['player'] and redirects to / on success.
      */
@@ -61,8 +59,7 @@ class AuthController
 
         if (empty($playername) || empty($password)) {
             $errors[] = 'Bitte beide Felder ausfüllen.';
-            header('Location: /login');
-            exit;
+            redirect('/login');
         }
 
         // establish database connection to compare $_POST with DB Data
@@ -75,14 +72,12 @@ class AuthController
 
         if (!empty($errors)) {
             $_SESSION['errors'] = $errors;
-            header('Location: /login');
-            exit;
+            redirect('/login');
         }
 
         // User found! Store to Session, redirect to home!
         $_SESSION['player'] = $player;
-        header('Location: /');
-        exit;
+        redirect('/');
     }
 
     /**
@@ -93,8 +88,7 @@ class AuthController
     public function logout()
     {
         session_destroy();
-        header('Location: /');
-        exit;
+        redirect('/');
     }
 
     /**

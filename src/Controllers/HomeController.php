@@ -3,7 +3,6 @@ namespace App\Controllers;
 
 use App\Connection;
 use App\Models\Stats;
-use App\Models\User;
 
 class HomeController
 {
@@ -16,8 +15,7 @@ class HomeController
     {
         // check if active Session
         if (!isset($_SESSION['player'])) {
-            header('Location: /login');
-            exit;
+            redirect('/login');
         }
 
         $xp = $_SESSION['player']['xp'];

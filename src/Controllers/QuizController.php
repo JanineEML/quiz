@@ -41,9 +41,7 @@ class QuizController
         // Validate count span
         if ($count < self::MIN_COUNT || $count > self::MAX_COUNT) {
             $_SESSION['errors'] = ['Bitte zwischen ' . self::MIN_COUNT . ' und ' . self::MAX_COUNT . ' wählen.'];
-            
-            header('Location: /quiz/start');
-            exit;
+            redirect('/quiz/start');
         }
 
         $questions = $q->fetchQuestions($category, $count);
@@ -51,9 +49,7 @@ class QuizController
         // Validate number of found Questions
         if (count($questions) < $count) {
             $_SESSION['errors'] = ['Zu wenig Fragen gefunden: ' . count($questions) . " / $count."];
-
-            header('Location: /quiz/start');
-            exit;
+            redirect('/quiz/start');
         }
 
         // save in $_SESSION
@@ -71,8 +67,7 @@ class QuizController
             $count
         );
 
-        header('Location: /quiz/play');
-        exit;
+        redirect('/quiz/play');
     }
 
     /**
@@ -107,7 +102,7 @@ class QuizController
                 'correct' => $correctAnswer
             ];
         }
-        
+
         // save Data to quiz_answer
         $q->saveResult(
             $isCorrect,
@@ -121,12 +116,10 @@ class QuizController
         $total = count($_SESSION['quiz']['questions']);
 
         if ($current < $total) {
-            header('Location: /quiz/play');
-            exit;
+            redirect('/quiz/play');
         }
 
-        header('Location: /quiz/result');
-        exit;
+        redirect('/quiz/result');
     }
 
     /**
@@ -142,7 +135,7 @@ class QuizController
         $categories = (new Question(Connection::connect()))->fetchCategories();
         require __DIR__ . '/../Views/quiz/start.php';
     }
-    
+
     /**
      * GET /quiz/play — renders the current question. Redirects to /quiz/start if no active quiz in $_SESSION.
      */
@@ -152,8 +145,7 @@ class QuizController
 
         if (!isset($_SESSION['quiz'])) {
             $_SESSION['errors'] = ["Kein Quiz vorhanden, starte ein neues:"];
-            header('Location: /quiz/start');
-            exit;
+            redirect('/quiz/start');
         }
 
         $i = $_SESSION['quiz']['counter'];
@@ -161,10 +153,9 @@ class QuizController
 
         if ($i >= $total) {
             $_SESSION['errors'] = ["Counter invalide"];
-            header('Location: /quiz/start');
-            exit;
+            redirect('/quiz/start');
         }
-        
+
         $question = $_SESSION['quiz']['questions'][$i];
         $answers = (new Question(Connection::connect()))->fetchAnswers($question['question_id']);
 
@@ -172,7 +163,7 @@ class QuizController
 
         require __DIR__ . '/../Views/quiz/play.php';
     }
-    
+
     /**
      * GET /quiz/result — renders the result page and clears $_SESSION['quiz']. Redirects to /quiz/start if no active quiz.
      */
@@ -182,8 +173,7 @@ class QuizController
 
         if (!isset($_SESSION['quiz'])) {
             $_SESSION['errors'] = ["Kein Quiz vorhanden, starte ein neues:"];
-            header('Location: /quiz/start');
-            exit;
+            redirect('/quiz/start');
         }
 
         $score = $_SESSION['quiz']['score'];
@@ -229,11 +219,10 @@ class QuizController
     /**
      * Redirects to /login if no active player session exists.
      */
-    private function requireAuth() 
+    private function requireAuth()
     {
         if (!isset($_SESSION['player'])) {
-            header('Location: /login');
-            exit;
+            redirect('/login');
         }
     }
 }

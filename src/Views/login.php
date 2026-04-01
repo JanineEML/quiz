@@ -11,8 +11,8 @@
         <h1>Anmelden</h1>
     
         <?php if (isset($_SESSION['errors'])):
-            foreach ($_SESSION['errors'] as $e): ?>
-                <p class="error"><?= htmlspecialchars($e) ?></p>
+            foreach ($_SESSION['errors'] as $err): ?>
+                <p class="error"><?= e($err) ?></p>
             <?php endforeach;
 
             unset($_SESSION['errors']);

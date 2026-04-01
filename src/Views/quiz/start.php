@@ -11,8 +11,8 @@
         <h1>Quiz Starten</h1>
 
         <?php if (isset($_SESSION['errors'])):
-            foreach ($_SESSION['errors'] as $e): ?>
-                <p class="error"><?= htmlspecialchars($e) ?></p>
+            foreach ($_SESSION['errors'] as $err): ?>
+                <p class="error"><?= e($err) ?></p>
             <?php endforeach;
 
             unset($_SESSION['errors']);
@@ -24,7 +24,7 @@
                 <option value="random">Zufällige Kategorie</option>
                 <?php foreach ($categories as $c): ?>
                     <option value="<?= $c['category_id'] ?>">
-                        <?= $c['category_label'] ?>
+                        <?= e($c['category_label']) ?>
                     </option>
                 <?php endforeach; ?>
             </select>

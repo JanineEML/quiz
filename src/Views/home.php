@@ -8,7 +8,7 @@
 </head>
 <body>
     <div class="f-container">
-        <h1>Willkommen, <?= $playername ?>!</h1>
+        <h1>Willkommen, <?= e($playername) ?>!</h1>
         <h2>Statistik:</h2>
         <ul>
             <li>Gesammelte XP: <?= $xp ?></li>
