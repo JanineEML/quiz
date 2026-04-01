@@ -1,0 +1,12 @@
+sequenceDiagram
+    participant B as Browser
+    participant AC as AuthController
+    participant U as User Model
+
+    B->>AC: POST /register (name, pw, pw_confirm)
+    Note over AC: validateRegistration()
+    AC->>U: fetchByName(name)
+    U-->>AC: player or null
+    Note over AC: Redirects to /register<br>on validation or name errors
+    AC->>U: create(name, pw)
+    AC-->>B: Redirect /login

@@ -1,0 +1,24 @@
+@startuml
+left to right direction
+
+actor "Player" as P
+actor "Admin" as A
+
+rectangle "Quiz App" {
+  usecase "Registration" as UC1
+  usecase "Login" as UC2
+  usecase "Logout" as UC3
+  usecase "Quiz spielen" as UC4
+  usecase "Kategorie wählen" as UC5
+}
+
+UC4 ..> UC5 : <<include>>
+
+P -- UC1
+P -- UC2
+P -- UC3
+P -- UC4
+
+A --|> P
+
+@enduml

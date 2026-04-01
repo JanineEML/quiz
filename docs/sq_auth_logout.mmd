@@ -1,0 +1,7 @@
+sequenceDiagram
+    participant B as Browser
+    participant AC as AuthController
+
+    B->>AC: POST /logout
+    Note over AC: session_destroy()
+    AC-->>B: Redirect /

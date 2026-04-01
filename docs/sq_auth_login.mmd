@@ -1,0 +1,12 @@
+sequenceDiagram
+    participant B as Browser
+    participant AC as AuthController
+    participant U as User Model
+
+    B->>AC: POST /login (name, pw)
+    AC->>U: fetchByName(name)
+    U-->>AC: player or null
+    Note over AC: password_verify()
+    Note over AC: Redirects to /login on invalid credentials
+    Note over AC: Store player in session
+    AC-->>B: Redirect /
