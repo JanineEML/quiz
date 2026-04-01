@@ -49,6 +49,26 @@ class Question
     }
 
     /**
+     * Fetches all questions joined with their category and difficulty labels.
+     *
+     * Called by AdminController::questionsView().
+     *
+     * @return array  All questions with question_id, question_text, category_label, difficulty_label.
+     */
+    public function fetchAll()
+    {
+        $stmt = $this->pdo->query("
+            SELECT q.question_id, q.question_text, c.category_label, d.difficulty_label
+            FROM question AS q
+            JOIN category AS c USING (category_id)
+            JOIN difficulty AS d USING (difficulty_id)
+            ORDER BY q.question_id DESC
+        ");
+
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    /**
      * Fetches all four answers for a given question.
      *
      * Called by QuizController->playView() to render the answer buttons.
