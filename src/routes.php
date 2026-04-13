@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 use App\Router;
 
 // namespaces to shorten ::class call

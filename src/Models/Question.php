@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 namespace App\Models;
 
 use PDO;
@@ -49,14 +52,16 @@ class Question
     }
 
     /**
-     * Fetches all questions joined with their category and difficulty labels.
+     * Fetches a paginated list of questions joined with their category and difficulty labels.
      *
      * Called by AdminController::questionsView().
      *
+     * @param int      $limit       Maximum number of rows to return.
+     * @param int      $offset      Number of rows to skip (for pagination).
      * @param int|null $categoryId  Filter by category ID, or null for all categories.
-     * @return array                All questions with question_id, question_text, category_label, difficulty_label.
+     * @return array                Questions with question_id, question_text, category_label, difficulty_label.
      */
-    public function fetchAll(?int $categoryId = null): array
+    public function fetchAll(int $limit, int $offset, ?int $categoryId = null): array
     {
         $sql = "
             SELECT q.question_id, q.question_text, c.category_label, d.difficulty_label
@@ -66,14 +71,45 @@ class Question
         ";
 
         if (!is_null($categoryId)) {
-            $sql .= " WHERE q.category_id = ?";
+            $sql .= " WHERE q.category_id = :cid";
         }
 
-        $sql .= " ORDER BY q.question_id DESC";
+        $sql .= " ORDER BY q.question_id LIMIT :lim OFFSET :off";
         $stmt = $this->pdo->prepare($sql);
-        $stmt->execute($categoryId !== null ? [$categoryId] : []);
+
+        if (!is_null($categoryId)) {
+           $stmt->bindParam(':cid', $categoryId, PDO::PARAM_INT);
+        }
+        $stmt->bindParam(':lim', $limit, PDO::PARAM_INT);
+        $stmt->bindParam(':off', $offset, PDO::PARAM_INT);
+        $stmt->execute();
 
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    /**
+     * Returns the total number of questions, optionally filtered by category.
+     *
+     * Called by AdminController::questionsView() to compute pagination.
+     *
+     * @param int|null $categoryId  Filter by category ID, or null for all categories.
+     * @return int                  Total question count.
+     */
+    public function countQuestions(?int $categoryId = null): int
+    {
+        $sql = "SELECT COUNT(*) FROM question";
+
+        if (!is_null($categoryId)) {
+            $sql .= " WHERE category_id = ?";
+        }
+        $stmt = $this->pdo->prepare($sql);
+
+        if (!is_null($categoryId)) {
+            $stmt->bindValue(1, $categoryId, PDO::PARAM_INT);
+        }
+        $stmt->execute();
+
+        return (int) $stmt->fetchColumn();
     }
 
     /**
@@ -163,7 +199,14 @@ class Question
     }
 
     /**
-     * 
+     * Inserts a new quiz session row and returns its generated ID.
+     *
+     * Called by QuizController::start() when a quiz begins.
+     *
+     * @param int      $playerId    The ID of the player starting the quiz.
+     * @param int|null $categoryId  The chosen category ID, or null if random.
+     * @param int      $total       Total number of questions in the session.
+     * @return int                  The qs_id of the newly created session.
      */
     public function beginSession(int $playerId, ?int $categoryId, int $total): int
     {
@@ -183,7 +226,13 @@ class Question
     }
 
     /**
-     * 
+     * Updates a quiz session with the final score, XP earned, and completion timestamp.
+     *
+     * Called by QuizController::result() when the quiz ends.
+     *
+     * @param int $qsId   The session ID to update.
+     * @param int $score  The player's final score.
+     * @param int $xp     XP earned during the session.
      */
     public function completeSession(int $qsId, int $score, int $xp): void
     {

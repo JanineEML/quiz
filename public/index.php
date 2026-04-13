@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 session_start(); // since EVERYTHING starts here, session_status() check should not be necessary
 
 // load helpers
