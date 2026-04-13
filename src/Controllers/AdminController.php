@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 namespace App\Controllers;
 
 use App\Connection;
@@ -37,9 +40,15 @@ class AdminController
 
         $q = new Question(Connection::connect());
 
-        $selectedCategory = $_GET['category_id'] ?? null;
-        $questions = $q->fetchAll($selectedCategory);
+        $page = max(1, (int) ($_GET['page'] ?? 1));
+        $limit = 25;
+        $offset = ($page - 1) * $limit;
         $categories = $q->fetchCategories();
+
+        $selectedCategory = !empty($_GET['category_id']) ? (int) $_GET['category_id'] : null;
+        $questions = $q->fetchAll($limit, $offset, $selectedCategory);
+        $total = $q->countQuestions($selectedCategory);
+        $totalPages = (int) ceil($total / $limit);
         
         require __DIR__ . '/../Views/admin/questions.php';
     }
