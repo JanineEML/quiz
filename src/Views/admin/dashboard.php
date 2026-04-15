@@ -10,7 +10,6 @@
     <h1>Admin Dashboard</h1>
     <nav>
         <a href="/admin/questions">Fragen verwalten</a>
-        <a href="/admin/users">Nutzer verwalten</a>
         <a href="/admin/categories">Kategorien verwalten</a>
     </nav>
 </body>
