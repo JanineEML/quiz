@@ -18,6 +18,25 @@ class Question
     }
 
     /**
+     * Fetches a single question row by its ID.
+     *
+     * Called by AdminController::editQuestionView().
+     *
+     * @param int   $questionId  The question_id to fetch.
+     * @return array             Associative array of the question row.
+     */
+    public function fetchQuestion(int $questionId): array
+    {
+        $stmt = $this->pdo->prepare("
+            SELECT * FROM question
+            WHERE question_id = ?
+        ");
+        $stmt->execute([$questionId]);
+
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
+
+    /**
      * Fetches a random selection of questions, optionally filtered by category.
      *
      * Returns an empty array if no questions match the criteria.
@@ -307,7 +326,7 @@ class Question
 
         $questionId = (int) $this->pdo->lastInsertId();
 
-        for ($i = 0; $i < count($answers); $i++) {
+        foreach ($answers as $i => $a) {
             $isCorrect = $i === $correct ? 1 : 0;
             $stmt = $this->pdo->prepare("
                 INSERT INTO answer
@@ -315,10 +334,83 @@ class Question
                 VALUES (:atxt, :correct, :qid)
             ");
             $stmt->execute([
-                ':atxt' => $answers[$i],
+                ':atxt' => $a,
                 ':correct' => $isCorrect,
                 ':qid' => $questionId
             ]);
         }
+    }
+
+    /**
+     * Deletes a question and all associated answers and quiz results.
+     *
+     * Called by AdminController::deleteQuestion().
+     *
+     * @param int $questionId  The question_id to delete.
+     */
+    public function deleteQuestion(int $questionId): void
+    {
+        $stmt = $this->pdo->prepare("
+            DELETE FROM quiz_answer WHERE question_id = ?
+        ");
+        $stmt->execute([$questionId]);
+
+        $stmt = $this->pdo->prepare("
+            DELETE FROM answer WHERE question_id = ?
+        ");
+        $stmt->execute([$questionId]);
+
+        $stmt = $this->pdo->prepare("
+            DELETE FROM question WHERE question_id = ?
+        ");
+        $stmt->execute([$questionId]);
+    }
+
+    /**
+     * Updates the text, category, and difficulty of an existing question.
+     *
+     * Called by AdminController::editQuestion().
+     *
+     * @param int    $questionId   The question_id to update.
+     * @param string $questionText The new question text.
+     * @param int    $categoryId   The new category ID.
+     * @param int    $difficultyId The new difficulty ID.
+     */
+    public function updateQuestion(int $questionId, string $questionText, int $categoryId, int $difficultyId): void
+    {
+        $stmt = $this->pdo->prepare("
+            UPDATE question
+            SET question_text = :qtxt, category_id = :cid, difficulty_id = :did
+            WHERE question_id = :qid
+        ");
+        $stmt->execute([
+            ':qtxt' => $questionText,
+            ':cid' => $categoryId,
+            ':did' => $difficultyId,
+            ':qid' => $questionId
+        ]);
+    }
+
+    /**
+     * Updates the text and correctness of an existing answer.
+     *
+     * Called by AdminController::editQuestion() once per answer.
+     *
+     * @param int    $answerId   The answer_id to update.
+     * @param string $answerText The new answer text.
+     * @param bool   $isCorrect  Whether this answer is the correct one.
+     */
+    public function updateAnswer(int $answerId, string $answerText, bool $isCorrect): void
+    {
+        $stmt = $this->pdo->prepare("
+            UPDATE answer
+            SET answer_text = :atxt, is_correct = :correct
+            WHERE answer_id = :aid
+        ");
+        $stmt->execute([
+            ':atxt' => $answerText,
+            ':correct' => $isCorrect,
+            ':aid' => $answerId
+        ]);
     }
 }
