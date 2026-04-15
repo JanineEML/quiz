@@ -6,9 +6,20 @@ namespace App\Controllers;
 
 use App\Connection;
 use App\Models\Question;
+use PDOException;
 
 class AdminController
 {
+    /**
+     * GET /admin — renders the admin dashboard.
+     */
+    public function dashboard(): void
+    {
+        $this->requireAdmin();
+
+        require __DIR__ . '/../Views/admin/dashboard.php';
+    }
+
     /**
      * POST /admin/questions/add
      * From $_POST uses 'question_text', 'answers', 'correct', 'category', 'difficulty'.
@@ -50,6 +61,21 @@ class AdminController
     }
 
     /**
+     * POST /admin/questions/delete
+     * From $_POST uses 'question_id'.
+     *
+     * Redirects to /admin/questions on success.
+     */
+    public function deleteQuestion(): void
+    {
+        $this->requireAdmin();
+
+        $questionId = (int) $_POST['question_id'];
+        (new Question(Connection::connect()))->deleteQuestion($questionId);
+        redirect('/admin/questions');
+    }
+
+    /**
      * POST /admin/questions/edit
      * From $_POST uses 'question_id', 'question_text', 'category_id', 'difficulty_id', 'answers', 'answer_ids', 'correct'.
      *
@@ -78,28 +104,67 @@ class AdminController
     }
 
     /**
-     * POST /admin/questions/delete
-     * From $_POST uses 'qid_delete'.
+     * POST /admin/categories/add
+     * From $_POST uses 'category_label'.
      *
-     * Redirects to /admin/questions on success.
+     * Stores errors in $_SESSION['errors'] and redirects to /admin/categories on validation error.
+     * Redirects to /admin/categories on success.
      */
-    public function deleteQuestion(): void
+    public function addCategory(): void
     {
         $this->requireAdmin();
 
-        $questionId = (int) $_POST['qid_delete'];
-        (new Question(Connection::connect()))->deleteQuestion($questionId);
-        redirect('/admin/questions');
+        $errors = [];
+        $categoryLabel = trim($_POST['category_label']);
+
+        if (empty($categoryLabel)) {
+            $errors['missing_label'] = 'Bitte Label für die Kategorie angeben.';
+
+            $_SESSION['errors'] = $errors;
+            redirect('/admin/categories');
+        }
+
+        (new Question(Connection::connect()))->addCategory($categoryLabel);
+        redirect('/admin/categories');
     }
 
     /**
-     * GET /admin — renders the admin dashboard.
+     * POST /admin/categories/delete
+     * From $_POST uses 'category_id'.
+     *
+     * Stores errors in $_SESSION['errors'] and redirects to /admin/categories if questions are still assigned.
+     * Redirects to /admin/categories on success.
      */
-    public function dashboard(): void
+    public function deleteCategory(): void
     {
         $this->requireAdmin();
 
-        require __DIR__ . '/../Views/admin/dashboard.php';
+        $categoryId = (int) $_POST['category_id'];
+
+        try {
+            (new Question(Connection::connect()))->deleteCategory($categoryId);
+        } catch (PDOException $e) {
+            $_SESSION['errors'] = ['category_not_empty' => "Kategorie ist nicht leer, kann nicht gelöscht werden."];
+            }
+            
+        redirect('/admin/categories');
+    }
+
+    /**
+     * POST /admin/categories/edit
+     * From $_POST uses 'category_id', 'category_label'.
+     *
+     * Redirects to /admin/categories on success.
+     */
+    public function editCategory(): void
+    {
+        $this->requireAdmin();
+
+        $categoryId = (int) $_POST['category_id'];
+        $categoryLabel = trim($_POST['category_label']);
+
+        (new Question(Connection::connect()))->editCategory($categoryId, $categoryLabel);
+        redirect('/admin/categories');
     }
 
     /**
@@ -132,7 +197,7 @@ class AdminController
     {
         $this->requireAdmin();
 
-        $questionId = (int) $_GET['qid_edit'];
+        $questionId = (int) $_GET['question_id'];
         $q = (new Question(Connection::connect()));
         $question = $q->fetchQuestion($questionId);
         $answers = $q->fetchAnswers($questionId);
@@ -141,6 +206,18 @@ class AdminController
         $difficulties = $q->fetchDifficulties();
 
         require __DIR__ . '/../Views/admin/questionsEdit.php';
+    }
+
+    /**
+     * GET /admin/categories - renders the category management view.
+     */
+    public function categoriesView(): void
+    {
+        $this->requireAdmin();
+
+        $categories = (new Question(Connection::connect()))->fetchCategories();
+
+        require __DIR__ . '/../Views/admin/categories.php';
     }
 
     /**

@@ -413,4 +413,56 @@ class Question
             ':aid' => $answerId
         ]);
     }
+
+    /**
+     * Inserts a new category with the given label.
+     *
+     * Called by AdminController::addCategory().
+     *
+     * @param string $label  The category label to insert.
+     */
+    public function addCategory(string $label): void
+    {
+        $stmt = $this->pdo->prepare("
+            INSERT INTO category (category_label) VALUES (?)
+        ");
+        $stmt->execute([$label]);
+    }
+
+    /**
+     * Deletes a category by its ID.
+     *
+     * Throws a PDOException if questions are still assigned to this category (FK constraint).
+     * Called by AdminController::deleteCategory().
+     *
+     * @param int $categoryId  The category_id to delete.
+     */
+    public function deleteCategory(int $categoryId): void
+    {
+        $stmt = $this->pdo->prepare("
+            DELETE FROM category WHERE category_id = ?
+        ");
+        $stmt->execute([$categoryId]);
+    }
+
+    /**
+     * Updates the label of an existing category.
+     *
+     * Called by AdminController::editCategory().
+     *
+     * @param int    $categoryId  The category_id to update.
+     * @param string $label       The new category label.
+     */
+    public function editCategory(int $categoryId, string $label): void
+    {
+        $stmt = $this->pdo->prepare("
+            UPDATE category
+            SET category_label = :label
+            WHERE category_id = :cid
+        ");
+        $stmt->execute([
+            ':label' => $label,
+            ':cid' => $categoryId
+        ]);
+    }
 }

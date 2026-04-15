@@ -37,11 +37,17 @@ return function (Router $router): void {
     $router->add('POST', '/quiz/play',   QuizController::class, 'play');
     $router->add('GET',  '/quiz/result', QuizController::class, 'resultView');
 
-    // ADMIN CONTROLLER
+    // ADMIN CONTROLLER - QUESTIONS
     $router->add('GET',  '/admin',                  AdminController::class, 'dashboard');
     $router->add('GET',  '/admin/questions',        AdminController::class, 'questionsView');
     $router->add('POST', '/admin/questions/add',    AdminController::class, 'addQuestion');
     $router->add('GET',  '/admin/questions/edit',   AdminController::class, 'editQuestionView');
     $router->add('POST', '/admin/questions/edit',   AdminController::class, 'editQuestion');
     $router->add('POST', '/admin/questions/delete', AdminController::class, 'deleteQuestion');
+
+    // ADMIN CONTROLLER - CATEGORIES
+    $router->add('GET',  '/admin/categories',        AdminController::class, 'categoriesView');
+    $router->add('POST', '/admin/categories/add',    AdminController::class, 'addCategory');
+    $router->add('POST', '/admin/categories/edit',   AdminController::class, 'editCategory');
+    $router->add('POST', '/admin/categories/delete', AdminController::class, 'deleteCategory');
 };

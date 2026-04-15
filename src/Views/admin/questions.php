@@ -51,11 +51,11 @@
                         <td><?= e($q['difficulty_label']) ?></td>
                         <td>
                             <form action="/admin/questions/edit" method="get">
-                                <input type="hidden" name="qid_edit" value="<?= $q['question_id'] ?>">
+                                <input type="hidden" name="question_id" value="<?= $q['question_id'] ?>">
                                 <button type="submit">EDITIEREN</button>
                             </form>
                             <form action="/admin/questions/delete" method="post" onsubmit="return confirm('Frage wirklich löschen?')">
-                                <input type="hidden" name="qid_delete" value="<?= $q['question_id'] ?>">
+                                <input type="hidden" name="question_id" value="<?= $q['question_id'] ?>">
                                 <button type="submit">LÖSCHEN</button>
                             </form>
                         </td>
@@ -78,13 +78,7 @@
     </div>
 
     <h2>Frage hinzufügen</h2>
-    <?php if (isset($_SESSION['errors'])):
-            foreach ($_SESSION['errors'] as $err): ?>
-                <p class="error"><?= e($err) ?></p>
-            <?php endforeach;
-
-            unset($_SESSION['errors']);
-        endif; ?>
+    <?php showErrors() ?>
 
     <div class="admin-add">
         <form action="/admin/questions/add" method="post">
