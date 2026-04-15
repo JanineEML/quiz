@@ -13,8 +13,8 @@ class AdminController
      * POST /admin/questions/add
      * From $_POST uses 'question_text', 'answers', 'correct', 'category', 'difficulty'.
      *
-     * Rendert Formular erneut bei Validierungsfehler.
-     * Leitet nach /admin/questions weiter bei Erfolg.
+     * Redirects to /admin/questions on validation error.
+     * Redirects to /admin/questions on success.
      */
     public function addQuestion(): void
     {
@@ -40,7 +40,7 @@ class AdminController
 
         if (!empty($errors)) {
             $_SESSION['errors'] = $errors;
-            redirect("/admin/questions/add");
+            redirect("/admin/questions");
         }
 
         $q = new Question(Connection::connect());
@@ -50,16 +50,47 @@ class AdminController
     }
 
     /**
+     * POST /admin/questions/edit
+     * From $_POST uses 'question_id', 'question_text', 'category_id', 'difficulty_id', 'answers', 'answer_ids', 'correct'.
      *
+     * Redirects to /admin/questions on success.
      */
     public function editQuestion(): void
-    {}
+    {
+        $this->requireAdmin();
+
+        $questionId = (int) $_POST['question_id'];
+        $questionText = $_POST['question_text'];
+        $categoryId = (int) $_POST['category_id'];
+        $difficultyId = (int) $_POST['difficulty_id'];
+        $answers = $_POST['answers'];
+        $answerIds = $_POST['answer_ids'];
+        $correct = (int) $_POST['correct'];
+
+        $q = new Question(Connection::connect());
+        $q->updateQuestion($questionId, $questionText, $categoryId, $difficultyId);
+
+        for ($i = 0; $i < count($answers); $i++) {
+            $q->updateAnswer($answerIds[$i], $answers[$i], $correct === $i);
+        }
+
+        redirect('/admin/questions');
+    }
 
     /**
+     * POST /admin/questions/delete
+     * From $_POST uses 'qid_delete'.
      *
+     * Redirects to /admin/questions on success.
      */
     public function deleteQuestion(): void
-    {}
+    {
+        $this->requireAdmin();
+
+        $questionId = (int) $_POST['qid_delete'];
+        (new Question(Connection::connect()))->deleteQuestion($questionId);
+        redirect('/admin/questions');
+    }
 
     /**
      * GET /admin — renders the admin dashboard.
@@ -72,7 +103,7 @@ class AdminController
     }
 
     /**
-     *
+     * GET /admin/questions — renders the question management view.
      */
     public function questionsView(): void
     {
@@ -95,10 +126,22 @@ class AdminController
     }
 
     /**
-     *
+     * GET /admin/questions/edit — renders the edit form for a single question.
      */
     public function editQuestionView(): void
-    {}
+    {
+        $this->requireAdmin();
+
+        $questionId = (int) $_GET['qid_edit'];
+        $q = (new Question(Connection::connect()));
+        $question = $q->fetchQuestion($questionId);
+        $answers = $q->fetchAnswers($questionId);
+
+        $categories = $q->fetchCategories();
+        $difficulties = $q->fetchDifficulties();
+
+        require __DIR__ . '/../Views/admin/questionsEdit.php';
+    }
 
     /**
      * Redirects to / if the player is not logged in or is not an admin.
