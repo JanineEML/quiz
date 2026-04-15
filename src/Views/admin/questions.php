@@ -54,7 +54,7 @@
                                 <input type="hidden" name="qid_edit" value="<?= $q['question_id'] ?>">
                                 <button type="submit">EDITIEREN</button>
                             </form>
-                            <form action="/admin/questions/delete" method="post">
+                            <form action="/admin/questions/delete" method="post" onsubmit="return confirm('Frage wirklich löschen?')">
                                 <input type="hidden" name="qid_delete" value="<?= $q['question_id'] ?>">
                                 <button type="submit">LÖSCHEN</button>
                             </form>
@@ -78,6 +78,14 @@
     </div>
 
     <h2>Frage hinzufügen</h2>
+    <?php if (isset($_SESSION['errors'])):
+            foreach ($_SESSION['errors'] as $err): ?>
+                <p class="error"><?= e($err) ?></p>
+            <?php endforeach;
+
+            unset($_SESSION['errors']);
+        endif; ?>
+
     <div class="admin-add">
         <form action="/admin/questions/add" method="post">
             <label>
@@ -147,6 +155,8 @@
     
                 <input type="radio" name="correct" value="3">
             </label>
+
+            <button type="submit">Frage hinzufügen</button>
         </form>
     </div>
 </body>
