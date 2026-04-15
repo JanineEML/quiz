@@ -10,13 +10,7 @@
     <div class="f-container">
         <h1>Quiz Starten</h1>
 
-        <?php if (isset($_SESSION['errors'])):
-            foreach ($_SESSION['errors'] as $err): ?>
-                <p class="error"><?= e($err) ?></p>
-            <?php endforeach;
-
-            unset($_SESSION['errors']);
-        endif; ?>
+        <?php showErrors() ?>
 
         <form action="/quiz/start" method="post">
             <select name="category_id" id="category_id">

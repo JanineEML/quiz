@@ -10,13 +10,7 @@
     <div class="f-container">
         <h1>Frage <?= $i + 1 ?> von <?= $total ?></h1>
 
-        <?php if (isset($_SESSION['errors'])):
-            foreach ($_SESSION['errors'] as $err): ?>
-                <p class="error"><?= e($err) ?></p>
-            <?php endforeach;
-
-            unset($_SESSION['errors']);
-        endif; ?>
+        <?php showErrors() ?>
 
         <h2><?= e($question['question_text']) ?></h2>
 

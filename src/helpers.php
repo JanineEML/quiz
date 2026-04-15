@@ -12,3 +12,14 @@ function redirect(string $path): never
     header('Location: ' . $path);
     exit;
 }
+
+function showErrors(): void
+{
+    if (!empty($_SESSION['errors'])) {
+        foreach ($_SESSION['errors'] as $err) {
+            echo '<p class="error">' . e($err) . '</p>';
+        }
+
+        unset($_SESSION['errors']);
+    }
+}
