@@ -78,10 +78,10 @@ class Question
         $stmt = $this->pdo->prepare($sql);
 
         if (!is_null($categoryId)) {
-           $stmt->bindParam(':cid', $categoryId, PDO::PARAM_INT);
+           $stmt->bindValue(':cid', $categoryId, PDO::PARAM_INT);
         }
-        $stmt->bindParam(':lim', $limit, PDO::PARAM_INT);
-        $stmt->bindParam(':off', $offset, PDO::PARAM_INT);
+        $stmt->bindValue(':lim', $limit, PDO::PARAM_INT);
+        $stmt->bindValue(':off', $offset, PDO::PARAM_INT);
         $stmt->execute();
 
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -173,6 +173,7 @@ class Question
      * Fetches all categories from the database.
      *
      * Called by QuizController->startView() to populate the category dropdown.
+     * Called by AdminController->questionView() to populate the admin panel
      */
     public function fetchCategories(): array
     {
@@ -180,6 +181,19 @@ class Question
 
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
+
+    /**
+     * Fetches all difficulties from the database
+     * 
+     * Called by AdminController->questionView() to populate the admin panel
+     */
+    public function fetchDifficulties(): array
+    {
+        $stmt = $this->pdo->query("SELECT * FROM difficulty");
+
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
 
     /**
      * Returns the category_id of a randomly selected category.
@@ -273,5 +287,38 @@ class Question
             ':aid' => $answerId,
             ':sid' => $sessionId
         ]);
+    }
+
+    /**
+     * Save a new question and its anwers to question / answer
+     */
+    public function addQuestion(string $questionText, int $categoryId, int $difficultyId, array $answers, int $correct): void
+    {
+        $stmt = $this->pdo->prepare("
+            INSERT INTO question
+            (question_text, category_id, difficulty_id)
+            VALUES (:qtxt, :cid, :did)
+        ");
+        $stmt->execute([
+            ':qtxt' => $questionText,
+            ':cid' => $categoryId,
+            ':did' => $difficultyId
+        ]);
+
+        $questionId = (int) $this->pdo->lastInsertId();
+
+        for ($i = 0; $i < count($answers); $i++) {
+            $isCorrect = $i === $correct ? 1 : 0;
+            $stmt = $this->pdo->prepare("
+                INSERT INTO answer
+                (answer_text, is_correct, question_id)
+                VALUES (:atxt, :correct, :qid)
+            ");
+            $stmt->execute([
+                ':atxt' => $answers[$i],
+                ':correct' => $isCorrect,
+                ':qid' => $questionId
+            ]);
+        }
     }
 }
