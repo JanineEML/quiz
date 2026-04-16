@@ -1,12 +1,4 @@
-<!DOCTYPE html>
-<html lang="de">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/css/main.css">
-    <title>Kategorien bearbeiten</title>
-</head>
-<body>
+<?php require __DIR__ . '/shared/header.php' ?>
     <h1>Kategorien bearbeiten</h1>
     <?php showErrors() ?>
 
@@ -46,5 +38,4 @@
         <input type="text" name="category_label">
         <button type="submit">EINFÜGEN</button>
     </form>
-</body>
-</html>
+<?php require __DIR__ . '/shared/footer.php' ?>

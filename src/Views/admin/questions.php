@@ -1,12 +1,4 @@
-<!DOCTYPE html>
-<html lang="de">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/css/main.css">
-    <title>Vorhandene Fragen</title>
-</head>
-<body>
+<?php require __DIR__ . '/shared/header.php' ?>
     <h1>Admin: Frageverwaltung</h1>
     
     <div class="admin-table">
@@ -153,5 +145,4 @@
             <button type="submit">Frage hinzufügen</button>
         </form>
     </div>
-</body>
-</html>
+<?php require __DIR__ . '/shared/footer.php' ?>

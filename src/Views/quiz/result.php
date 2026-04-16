@@ -1,12 +1,4 @@
-<!DOCTYPE html>
-<html lang="de">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/css/main.css">
-    <title>Ergebnis</title>
-</head>
-<body>
+<?php require __DIR__ . '/shared/header.php' ?>
     <div class="f-container">
         <h1>Ergebnis</h1>
         <p><?= $score ?> von <?= $total ?>, <?= $xp ?> XP verdient.</p>
@@ -52,5 +44,4 @@
 
         <a href="/quiz/start">Nochmal?</a>
     </div>
-</body>
-</html>
+<?php require __DIR__ . '/shared/footer.php' ?>
