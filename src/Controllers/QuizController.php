@@ -13,6 +13,21 @@ class QuizController
 {
     private const MIN_COUNT = 1;
     private const MAX_COUNT = 15;
+
+    /**
+     * GET /quiz/start — renders the quiz start form.
+     */
+    public function startView()
+    {
+        $this->requireAuth();
+
+        // pass constant as a local variable to the view
+        $min_count = self::MIN_COUNT;
+        $max_count = self::MAX_COUNT;
+        $categories = (new Question(Connection::connect()))->fetchCategories();
+        require __DIR__ . '/../Views/quiz/start.php';
+    }
+
     /**
      * POST /quiz/start
      * From $_POST uses 'category_id', 'question_count'.
@@ -74,6 +89,34 @@ class QuizController
     }
 
     /**
+     * GET /quiz/play — renders the current question. Redirects to /quiz/start if no active quiz in $_SESSION.
+     */
+    public function playView()
+    {
+        $this->requireAuth();
+
+        if (!isset($_SESSION['quiz'])) {
+            $_SESSION['errors'] = ["Kein Quiz vorhanden, starte ein neues:"];
+            redirect('/quiz/start');
+        }
+
+        $i = $_SESSION['quiz']['counter'];
+        $total = count($_SESSION['quiz']['questions']);
+
+        if ($i >= $total) {
+            $_SESSION['errors'] = ["Counter invalide"];
+            redirect('/quiz/start');
+        }
+
+        $question = $_SESSION['quiz']['questions'][$i];
+        $answers = (new Question(Connection::connect()))->fetchAnswers($question['question_id']);
+
+        shuffle($answers);
+
+        require __DIR__ . '/../Views/quiz/play.php';
+    }
+
+    /**
      * POST /quiz/play
      * From $_POST uses 'answer_id'. From $_SESSION uses 'quiz', 'player'.
      *
@@ -123,48 +166,6 @@ class QuizController
         }
 
         redirect('/quiz/result');
-    }
-
-    /**
-     * GET /quiz/start — renders the quiz start form.
-     */
-    public function startView()
-    {
-        $this->requireAuth();
-
-        // pass constant as a local variable to the view
-        $min_count = self::MIN_COUNT;
-        $max_count = self::MAX_COUNT;
-        $categories = (new Question(Connection::connect()))->fetchCategories();
-        require __DIR__ . '/../Views/quiz/start.php';
-    }
-
-    /**
-     * GET /quiz/play — renders the current question. Redirects to /quiz/start if no active quiz in $_SESSION.
-     */
-    public function playView()
-    {
-        $this->requireAuth();
-
-        if (!isset($_SESSION['quiz'])) {
-            $_SESSION['errors'] = ["Kein Quiz vorhanden, starte ein neues:"];
-            redirect('/quiz/start');
-        }
-
-        $i = $_SESSION['quiz']['counter'];
-        $total = count($_SESSION['quiz']['questions']);
-
-        if ($i >= $total) {
-            $_SESSION['errors'] = ["Counter invalide"];
-            redirect('/quiz/start');
-        }
-
-        $question = $_SESSION['quiz']['questions'][$i];
-        $answers = (new Question(Connection::connect()))->fetchAnswers($question['question_id']);
-
-        shuffle($answers);
-
-        require __DIR__ . '/../Views/quiz/play.php';
     }
 
     /**

@@ -10,40 +10,11 @@ use App\Models\User;
 class AuthController
 {
     /**
-     * POST /register
-     * From $_POST uses 'playername', 'password', 'password_confirm'.
-     *
-     * Stores errors in $_SESSION['errors'] and redirects to /register on failure.
-     * Redirects to /login on success.
+     * GET /login renders the login form.
      */
-    public function register()
+    public function loginView()
     {
-        // Get user input info from POST
-        $playername = $_POST['playername'];
-        $password = $_POST['password'];
-
-        $errors = $this->validateRegistration($playername, $password);
-
-        // Since database action are necessary, create User instance
-        $user = (new User(Connection::connect()));
-
-        // Check if username is already taken, if so, raise error and redirect to register
-        $player = $user->fetchByName($playername);
-
-        if ($player) {
-            $errors[] = 'Name bereits vergeben';
-        }
-
-        // if any error got collected through the registering process, prevent INSERT INTO statement
-        if (!empty($errors)) {
-            $_SESSION['errors'] = $errors;
-            redirect('/register');
-        }
-
-        // no errors found, new player gets put in database and redirected to /login
-        $user->create($playername, $password);
-
-        redirect('/login');
+        require __DIR__ . '/../Views/login.php';
     }
 
     /**
@@ -84,6 +55,51 @@ class AuthController
     }
 
     /**
+     * GET /register renders the registration form.
+     */
+    public function registerView()
+    {
+        require __DIR__ . '/../Views/register.php';
+    }
+
+    /**
+     * POST /register
+     * From $_POST uses 'playername', 'password', 'password_confirm'.
+     *
+     * Stores errors in $_SESSION['errors'] and redirects to /register on failure.
+     * Redirects to /login on success.
+     */
+    public function register()
+    {
+        // Get user input info from POST
+        $playername = $_POST['playername'];
+        $password = $_POST['password'];
+
+        $errors = $this->validateRegistration($playername, $password);
+
+        // Since database action are necessary, create User instance
+        $user = (new User(Connection::connect()));
+
+        // Check if username is already taken, if so, raise error and redirect to register
+        $player = $user->fetchByName($playername);
+
+        if ($player) {
+            $errors[] = 'Name bereits vergeben';
+        }
+
+        // if any error got collected through the registering process, prevent INSERT INTO statement
+        if (!empty($errors)) {
+            $_SESSION['errors'] = $errors;
+            redirect('/register');
+        }
+
+        // no errors found, new player gets put in database and redirected to /login
+        $user->create($playername, $password);
+
+        redirect('/login');
+    }
+
+    /**
      * POST /logout
      *
      * Destroys the current session and redirects to /.
@@ -92,22 +108,6 @@ class AuthController
     {
         session_destroy();
         redirect('/');
-    }
-
-    /**
-     * GET /login renders the login form.
-     */
-    public function loginView()
-    {
-        require __DIR__ . '/../Views/login.php';
-    }
-
-    /**
-     * GET /register renders the registration form.
-     */
-    public function registerView()
-    {
-        require __DIR__ . '/../Views/register.php';
     }
 
     /**

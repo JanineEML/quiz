@@ -21,6 +21,29 @@ class AdminController
     }
 
     /**
+     * GET /admin/questions — renders the question management view.
+     */
+    public function questionsView(): void
+    {
+        $this->requireAdmin();
+
+        $q = new Question(Connection::connect());
+
+        $page = max(1, (int) ($_GET['page'] ?? 1));
+        $limit = 25;
+        $offset = ($page - 1) * $limit;
+        $categories = $q->fetchCategories();
+        $difficulties = $q->fetchDifficulties();
+
+        $selectedCategory = !empty($_GET['category_id']) ? (int) $_GET['category_id'] : null;
+        $questions = $q->fetchAll($limit, $offset, $selectedCategory);
+        $total = $q->countQuestions($selectedCategory);
+        $totalPages = (int) ceil($total / $limit);
+        
+        require __DIR__ . '/../Views/admin/questions.php';
+    }
+
+    /**
      * POST /admin/questions/add
      * From $_POST uses 'question_text', 'answers', 'correct', 'category', 'difficulty'.
      *
@@ -76,6 +99,24 @@ class AdminController
     }
 
     /**
+     * GET /admin/questions/edit — renders the edit form for a single question.
+     */
+    public function editQuestionView(): void
+    {
+        $this->requireAdmin();
+
+        $questionId = (int) $_GET['question_id'];
+        $q = (new Question(Connection::connect()));
+        $question = $q->fetchQuestion($questionId);
+        $answers = $q->fetchAnswers($questionId);
+
+        $categories = $q->fetchCategories();
+        $difficulties = $q->fetchDifficulties();
+
+        require __DIR__ . '/../Views/admin/questionsEdit.php';
+    }
+
+    /**
      * POST /admin/questions/edit
      * From $_POST uses 'question_id', 'question_text', 'category_id', 'difficulty_id', 'answers', 'answer_ids', 'correct'.
      *
@@ -101,6 +142,18 @@ class AdminController
         }
 
         redirect('/admin/questions');
+    }
+
+    /**
+     * GET /admin/categories - renders the category management view.
+     */
+    public function categoriesView(): void
+    {
+        $this->requireAdmin();
+
+        $categories = (new Question(Connection::connect()))->fetchCategories();
+
+        require __DIR__ . '/../Views/admin/categories.php';
     }
 
     /**
@@ -165,59 +218,6 @@ class AdminController
 
         (new Question(Connection::connect()))->editCategory($categoryId, $categoryLabel);
         redirect('/admin/categories');
-    }
-
-    /**
-     * GET /admin/questions — renders the question management view.
-     */
-    public function questionsView(): void
-    {
-        $this->requireAdmin();
-
-        $q = new Question(Connection::connect());
-
-        $page = max(1, (int) ($_GET['page'] ?? 1));
-        $limit = 25;
-        $offset = ($page - 1) * $limit;
-        $categories = $q->fetchCategories();
-        $difficulties = $q->fetchDifficulties();
-
-        $selectedCategory = !empty($_GET['category_id']) ? (int) $_GET['category_id'] : null;
-        $questions = $q->fetchAll($limit, $offset, $selectedCategory);
-        $total = $q->countQuestions($selectedCategory);
-        $totalPages = (int) ceil($total / $limit);
-        
-        require __DIR__ . '/../Views/admin/questions.php';
-    }
-
-    /**
-     * GET /admin/questions/edit — renders the edit form for a single question.
-     */
-    public function editQuestionView(): void
-    {
-        $this->requireAdmin();
-
-        $questionId = (int) $_GET['question_id'];
-        $q = (new Question(Connection::connect()));
-        $question = $q->fetchQuestion($questionId);
-        $answers = $q->fetchAnswers($questionId);
-
-        $categories = $q->fetchCategories();
-        $difficulties = $q->fetchDifficulties();
-
-        require __DIR__ . '/../Views/admin/questionsEdit.php';
-    }
-
-    /**
-     * GET /admin/categories - renders the category management view.
-     */
-    public function categoriesView(): void
-    {
-        $this->requireAdmin();
-
-        $categories = (new Question(Connection::connect()))->fetchCategories();
-
-        require __DIR__ . '/../Views/admin/categories.php';
     }
 
     /**
