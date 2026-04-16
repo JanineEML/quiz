@@ -78,11 +78,7 @@ class User
      */
     public function addXp(int $playerId, int $xp): void
     {
-        $stmt = $this->pdo->prepare("
-            UPDATE player
-            SET xp = xp + :xp
-            WHERE player_id = :pid
-        ");
+        $stmt = $this->pdo->prepare("UPDATE player SET xp = xp + :xp WHERE player_id = :pid");
         $stmt->execute([
             ':xp' => $xp,
             ':pid' => $playerId

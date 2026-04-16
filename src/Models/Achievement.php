@@ -41,10 +41,9 @@ class Achievement
      */
     public function fetchByPlayer(int $playerId): array
     {
-        $stmt = $this->pdo->prepare("
-            SELECT * FROM player_achievement
-            WHERE player_id = :pid
-        ");
+        $stmt = $this->pdo->prepare("SELECT *
+            FROM player_achievement
+            WHERE player_id = :pid");
         $stmt->execute([':pid' => $playerId]);
 
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -60,10 +59,9 @@ class Achievement
      */
     private function fetchUnlocked(int $playerId): array
     {
-        $stmt = $this->pdo->prepare("
-            SELECT achievement_id FROM player_achievement
-            WHERE player_id = ?
-        ");
+        $stmt = $this->pdo->prepare("SELECT achievement_id
+            FROM player_achievement
+            WHERE player_id = ?");
         $stmt->execute([$playerId]);
 
         return $stmt->fetchAll(PDO::FETCH_COLUMN);
@@ -79,11 +77,8 @@ class Achievement
      */
     private function unlock(int $playerId, int $achievementId): void
     {
-        $stmt = $this->pdo->prepare("
-            INSERT IGNORE INTO player_achievement
-            (player_id, achievement_id)
-            VALUES (:pid, :aid)
-        ");
+        $stmt = $this->pdo->prepare("INSERT IGNORE INTO player_achievement (player_id, achievement_id)
+            VALUES (:pid, :aid)");
         $stmt->execute([
             ':pid' => $playerId,
             ':aid' => $achievementId
@@ -146,10 +141,9 @@ class Achievement
      */
     private function checkCompletedQuizzes(int $playerId, int $required): bool
     {
-        $stmt = $this->pdo->prepare("
-            SELECT COUNT(*) FROM quiz_session
-            WHERE player_id = ? AND time_completed IS NOT NULL
-        ");
+        $stmt = $this->pdo->prepare("SELECT COUNT(*)
+            FROM quiz_session
+            WHERE player_id = ? AND time_completed IS NOT NULL");
         $stmt->execute([$playerId]);
         $result = $stmt->fetchColumn();
 
@@ -167,11 +161,10 @@ class Achievement
      */
     private function checkTotalAnswers(int $playerId, int $required): bool
     {
-        $stmt = $this->pdo->prepare("
-            SELECT COUNT(*) FROM quiz_session AS qs
+        $stmt = $this->pdo->prepare("SELECT COUNT(*)
+            FROM quiz_session AS qs
             INNER JOIN quiz_answer AS qa USING (qs_id)
-            WHERE qs.player_id = ?
-        ");
+            WHERE qs.player_id = ?");
         $stmt->execute([$playerId]);
         $result = $stmt->fetchColumn();
 
@@ -189,11 +182,10 @@ class Achievement
      */
     private function checkCorrectAnswers(int $playerId, int $required): bool
     {
-        $stmt = $this->pdo->prepare("
-            SELECT COUNT(*) FROM quiz_session AS qs
+        $stmt = $this->pdo->prepare("SELECT COUNT(*)
+            FROM quiz_session AS qs
             INNER JOIN quiz_answer AS qa USING (qs_id)
-            WHERE qs.player_id = ? AND is_correct = 1
-        ");
+            WHERE qs.player_id = ? AND is_correct = 1");
         $stmt->execute([$playerId]);
         $result = $stmt->fetchColumn();
 
@@ -211,11 +203,11 @@ class Achievement
      */
     private function checkPerfectQuiz(int $playerId, int $required): bool
     {
-        $stmt = $this->pdo->prepare("
-            SELECT COUNT(*) FROM quiz_session
-            WHERE player_id = ? AND score = total
-                  AND time_completed IS NOT NULL
-        ");
+        $stmt = $this->pdo->prepare("SELECT COUNT(*)
+            FROM quiz_session
+            WHERE player_id = ? 
+                AND score = total
+                AND time_completed IS NOT NULL");
         $stmt->execute([$playerId]);
         $result = $stmt->fetchColumn();
 
@@ -233,10 +225,9 @@ class Achievement
      */
     private function checkCategoriesPlayed(int $playerId, int $required): bool
     {
-        $stmt = $this->pdo->prepare("
-            SELECT COUNT(DISTINCT category_id) FROM quiz_session
-            WHERE player_id = ? AND time_completed IS NOT NULL
-        ");
+        $stmt = $this->pdo->prepare("SELECT COUNT(DISTINCT category_id)
+            FROM quiz_session
+            WHERE player_id = ? AND time_completed IS NOT NULL");
         $stmt->execute([$playerId]);
         $result = $stmt->fetchColumn();
 

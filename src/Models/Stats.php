@@ -27,23 +27,19 @@ class Stats
      */
     public function fetchByPlayer(int $playerId): array
     {
-        $stmt = $this->pdo->prepare("
-            SELECT  COUNT(*) AS total,
-                    SUM(is_correct) AS correct,
-                    ROUND(SUM(is_correct) / NULLIF(COUNT(*), 0) * 100, 1) AS accuracy
+        $stmt = $this->pdo->prepare("SELECT COUNT(*) AS total,
+                SUM(is_correct) AS correct,
+                ROUND(SUM(is_correct) / NULLIF(COUNT(*), 0) * 100, 1) AS accuracy
             FROM quiz_answer
             JOIN quiz_session USING (qs_id)
-                WHERE player_id = :pid
-        ");
+            WHERE player_id = :pid");
         $stmt->execute([':pid' => $playerId]);
 
         $result = $stmt->fetch(PDO::FETCH_ASSOC);
         
-        $stmt = $this->pdo->prepare("
-            SELECT COUNT(*)
+        $stmt = $this->pdo->prepare("SELECT COUNT(*)
             FROM quiz_session
-            WHERE player_id = :pid
-        ");
+            WHERE player_id = :pid");
         $stmt->execute([':pid' => $playerId]);
 
         $result['completed'] = $stmt->fetchColumn();   

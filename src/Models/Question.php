@@ -27,10 +27,9 @@ class Question
      */
     public function fetchQuestion(int $questionId): array
     {
-        $stmt = $this->pdo->prepare("
-            SELECT * FROM question
-            WHERE question_id = ?
-        ");
+        $stmt = $this->pdo->prepare("SELECT *
+            FROM question
+            WHERE question_id = ?");
         $stmt->execute([$questionId]);
 
         return $stmt->fetch(PDO::FETCH_ASSOC);
@@ -82,8 +81,7 @@ class Question
      */
     public function fetchAll(int $limit, int $offset, ?int $categoryId = null): array
     {
-        $sql = "
-            SELECT q.question_id, q.question_text, c.category_label, d.difficulty_label
+        $sql = "SELECT q.question_id, q.question_text, c.category_label, d.difficulty_label
             FROM question AS q
             JOIN category AS c USING (category_id)
             JOIN difficulty AS d USING (difficulty_id)
@@ -141,10 +139,9 @@ class Question
      */
     public function fetchAnswers(int $questionId): array
     {
-        $stmt = $this->pdo->prepare("
-            SELECT * FROM answer
-            WHERE question_id = ?
-        ");
+        $stmt = $this->pdo->prepare("SELECT *
+            FROM answer
+            WHERE question_id = ?");
         $stmt->execute([$questionId]);
 
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -160,10 +157,7 @@ class Question
      */
     public function fetchAnswer(int $answerId): array
     {
-        $stmt = $this->pdo->prepare("
-            SELECT * FROM answer
-            WHERE answer_id = ?
-        ");
+        $stmt = $this->pdo->prepare("SELECT * FROM answer WHERE answer_id = ?");
         $stmt->execute([$answerId]);
 
         return $stmt->fetch(PDO::FETCH_ASSOC);
@@ -179,10 +173,8 @@ class Question
      */
     public function fetchCorrectAnswer(int $questionId): string
     {
-        $stmt = $this->pdo->prepare("
-            SELECT answer_text FROM answer 
-            WHERE question_id = ? AND is_correct = true
-        ");
+        $stmt = $this->pdo->prepare("SELECT answer_text FROM answer 
+            WHERE question_id = ? AND is_correct = true");
         $stmt->execute([$questionId]);
 
         return $stmt->fetchColumn();
@@ -221,12 +213,10 @@ class Question
      */
     public function fetchRandomCategoryId(): int
     {
-        $stmt = $this->pdo->query("
-            SELECT category_id
+        $stmt = $this->pdo->query("SELECT category_id
             FROM category
             ORDER BY RAND()
-            LIMIT 1
-        ");
+            LIMIT 1");
 
         return (int) $stmt->fetchColumn();
     }
@@ -243,11 +233,8 @@ class Question
      */
     public function beginSession(int $playerId, ?int $categoryId, int $total): int
     {
-        $stmt = $this->pdo->prepare("
-            INSERT INTO quiz_session
-            (player_id, category_id, total)
-            VALUES (:pid, :cid, :total)
-        ");
+        $stmt = $this->pdo->prepare("INSERT INTO quiz_session (player_id, category_id, total)
+            VALUES (:pid, :cid, :total)");
 
         $stmt->execute([
             ':pid' => $playerId,
@@ -269,13 +256,11 @@ class Question
      */
     public function completeSession(int $qsId, int $score, int $xp): void
     {
-        $stmt = $this->pdo->prepare("
-            UPDATE quiz_session
+        $stmt = $this->pdo->prepare("UPDATE quiz_session
             SET score = :score,
                 xp_earned = :xp,
                 time_completed = CURRENT_TIMESTAMP
-            WHERE qs_id = :qsId
-        ");
+            WHERE qs_id = :qsId");
         $stmt->execute([
             ':score' => $score,
             ':xp' => $xp,
@@ -295,11 +280,8 @@ class Question
      */
     public function saveResult(int $isCorrect, int $questionId, int $answerId, int $sessionId): void
     {
-        $stmt = $this->pdo->prepare("
-            INSERT INTO quiz_answer 
-            (is_correct, question_id, answer_id, qs_id)
-            VALUES (:correct, :qid, :aid, :sid)
-        ");
+        $stmt = $this->pdo->prepare("INSERT INTO quiz_answer  (is_correct, question_id, answer_id, qs_id)
+            VALUES (:correct, :qid, :aid, :sid)");
         $stmt->execute([
             ':correct' => $isCorrect,
             ':qid' => $questionId,
@@ -313,11 +295,8 @@ class Question
      */
     public function addQuestion(string $questionText, int $categoryId, int $difficultyId, array $answers, int $correct): void
     {
-        $stmt = $this->pdo->prepare("
-            INSERT INTO question
-            (question_text, category_id, difficulty_id)
-            VALUES (:qtxt, :cid, :did)
-        ");
+        $stmt = $this->pdo->prepare("INSERT INTO question (question_text, category_id, difficulty_id)
+            VALUES (:qtxt, :cid, :did)");
         $stmt->execute([
             ':qtxt' => $questionText,
             ':cid' => $categoryId,
@@ -328,11 +307,8 @@ class Question
 
         foreach ($answers as $i => $a) {
             $isCorrect = $i === $correct ? 1 : 0;
-            $stmt = $this->pdo->prepare("
-                INSERT INTO answer
-                (answer_text, is_correct, question_id)
-                VALUES (:atxt, :correct, :qid)
-            ");
+            $stmt = $this->pdo->prepare("INSERT INTO answer (answer_text, is_correct, question_id)
+                VALUES (:atxt, :correct, :qid)");
             $stmt->execute([
                 ':atxt' => $a,
                 ':correct' => $isCorrect,
@@ -350,19 +326,13 @@ class Question
      */
     public function deleteQuestion(int $questionId): void
     {
-        $stmt = $this->pdo->prepare("
-            DELETE FROM quiz_answer WHERE question_id = ?
-        ");
+        $stmt = $this->pdo->prepare("DELETE FROM quiz_answer WHERE question_id = ?");
         $stmt->execute([$questionId]);
 
-        $stmt = $this->pdo->prepare("
-            DELETE FROM answer WHERE question_id = ?
-        ");
+        $stmt = $this->pdo->prepare("DELETE FROM answer WHERE question_id = ?");
         $stmt->execute([$questionId]);
 
-        $stmt = $this->pdo->prepare("
-            DELETE FROM question WHERE question_id = ?
-        ");
+        $stmt = $this->pdo->prepare("DELETE FROM question WHERE question_id = ?");
         $stmt->execute([$questionId]);
     }
 
@@ -378,11 +348,9 @@ class Question
      */
     public function updateQuestion(int $questionId, string $questionText, int $categoryId, int $difficultyId): void
     {
-        $stmt = $this->pdo->prepare("
-            UPDATE question
+        $stmt = $this->pdo->prepare("UPDATE question
             SET question_text = :qtxt, category_id = :cid, difficulty_id = :did
-            WHERE question_id = :qid
-        ");
+            WHERE question_id = :qid");
         $stmt->execute([
             ':qtxt' => $questionText,
             ':cid' => $categoryId,
@@ -402,11 +370,9 @@ class Question
      */
     public function updateAnswer(int $answerId, string $answerText, bool $isCorrect): void
     {
-        $stmt = $this->pdo->prepare("
-            UPDATE answer
+        $stmt = $this->pdo->prepare("UPDATE answer
             SET answer_text = :atxt, is_correct = :correct
-            WHERE answer_id = :aid
-        ");
+            WHERE answer_id = :aid");
         $stmt->execute([
             ':atxt' => $answerText,
             ':correct' => $isCorrect,
@@ -423,9 +389,7 @@ class Question
      */
     public function addCategory(string $label): void
     {
-        $stmt = $this->pdo->prepare("
-            INSERT INTO category (category_label) VALUES (?)
-        ");
+        $stmt = $this->pdo->prepare("INSERT INTO category (category_label) VALUES (?)");
         $stmt->execute([$label]);
     }
 
@@ -439,9 +403,7 @@ class Question
      */
     public function deleteCategory(int $categoryId): void
     {
-        $stmt = $this->pdo->prepare("
-            DELETE FROM category WHERE category_id = ?
-        ");
+        $stmt = $this->pdo->prepare("DELETE FROM category WHERE category_id = ?");
         $stmt->execute([$categoryId]);
     }
 
@@ -455,11 +417,9 @@ class Question
      */
     public function editCategory(int $categoryId, string $label): void
     {
-        $stmt = $this->pdo->prepare("
-            UPDATE category
+        $stmt = $this->pdo->prepare("UPDATE category
             SET category_label = :label
-            WHERE category_id = :cid
-        ");
+            WHERE category_id = :cid");
         $stmt->execute([
             ':label' => $label,
             ':cid' => $categoryId
