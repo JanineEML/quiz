@@ -1,37 +1,103 @@
-body {
-    max-width: 600px;
-    min-height: 100vh;
-
-    display: flex;
-    flex-direction: column;
-}
-
-.f-container {
+html, body {
+    width: 100vw;
     margin: 0 auto;
-}
 
-form {
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-}
-
-label {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-}
-
-.auth-labels {
-    min-width: 140px;
-}
-
-.answers {
     display: flex;
     flex-wrap: wrap;
-    gap: 1rem;
+    justify-content: center;
+
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
 }
 
-.answers form {flex: 1 1 45%;}
+h1 {
+    width: 100%;
+    text-align: center;
+}
+
+a {
+    text-decoration: none;
+}
+
+nav {
+    display: flex;
+    margin: 0 auto;
+    justify-content: left;
+    width: 100%;
+
+    padding: 10px;
+    column-gap: 10px;
+    font-size: 1.5rem;
+
+    background-color: lightgrey;
+    border-bottom: thin solid black;
+}
+
+.btn {
+    display: inline-flex;
+
+    border: thin solid black;
+    background-color: whitesmoke;
+    color: black;
+    font-size: large;
+    font-family: monospace;
+    font-weight: bolder;
+
+    padding: 7px;
+    margin: 0px;
+    box-sizing: border-box;
+}
+
+.btn:hover {
+    background-color: lightcoral;
+}
+
+table, td, th {
+    border: thin solid black;
+}
+
+table {
+    border-collapse: collapse;
+    text-align: center;
+    width: 100%;
+}
+
+th {
+    background-color: lightgrey;
+    font-weight: bold;
+    font-size: 1rem;
+    padding: 5px;
+}
+
+.fixed {
+    width: 33%;
+}
+
+caption {
+    font-size: 1.5rem;
+    padding: 10px;
+}
+
+td {
+    font-weight: lighter;
+}
 
 .error {color: red;}
+
+.self {
+    background-color: lightpink;
+    border-color: red;
+}
+
+.flex-c {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+
+    width: 70%;
+}
+
+.admin-nav {
+    background-color: white;
+    border-bottom: none;
+}

@@ -8,18 +8,18 @@
 <body>
     <nav>
         <?php if(isset($_SESSION['player'])): ?>
-            <a href="/">Home</a>
-            <a href="/quiz/start">Quiz starten</a>
-            <a href="/leaderboard">Leaderboard</a>
+            <a href="/" class="btn">Home</a>
+            <a href="/quiz/start" class="btn">Quiz starten</a>
+            <a href="/leaderboard" class="btn">Leaderboard</a>
             <?php if ($_SESSION['player']['is_admin']): ?>
-                <a href="/admin">Adminbereich</a>
+                <a href="/admin" class="btn">Adminbereich</a>
             <?php endif; ?>
             <form action="/logout" method="post">
-                <button type="submit">Logout</button>
+                <button type="submit" class="btn">Logout</button>
             </form>
         <?php else: ?>
-            <a href="/login">Login</a>
-            <a href="/register">Registrieren</a>
-            <a href="/leaderboard">Leaderboard</a>
+            <a href="/login" class="btn">Login</a>
+            <a href="/register" class="btn">Registrieren</a>
+            <a href="/leaderboard" class="btn">Leaderboard</a>
         <?php endif; ?>
     </nav>
