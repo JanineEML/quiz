@@ -5,25 +5,19 @@
         <h2>Vorhandene Fragen</h2>
 
         <form method="get">
-            <label>
-                Kategorie
-    
-                <select name="category_id">
-                    <option value="">Alle Kategorien</option>
-                    <?php foreach ($categories as $c): ?>
-                        <option value="<?= $c['category_id'] ?>"
-                            <?= $c['category_id'] === $selectedCategory ? 'selected' : '' ?>>
-                            <?= e($c['category_label']) ?>
-                        </option>
-                    <?php endforeach; ?>
-                </select>
-            </label>
-            <input type="submit" value="Kategorie auswählen">
+            <select name="category_id" onchange="this.form.submit()">
+                <option value="">Alle Kategorien</option>
+                <?php foreach ($categories as $c): ?>
+                    <option value="<?= $c['category_id'] ?>"
+                        <?= $c['category_id'] === $selectedCategory ? 'selected' : '' ?>>
+                        <?= e($c['category_label']) ?>
+                    </option>
+                <?php endforeach; ?>
+            </select>
         </form>
         
         <table>
             <caption>Alle Fragen</caption>
-    
             <thead>
                 <tr>
                     <th>ID</th>
@@ -34,12 +28,11 @@
                     <th></th>
                 </tr>
             </thead>
-    
             <tbody>
                 <?php foreach($questions as $q): ?>
                     <tr>
                         <td><?= $q['question_id'] ?></td>
-                        <td><?= e($q['question_text']) ?></td>
+                        <td class="question-text"><?= e($q['question_text']) ?></td>
                         <td><?= e($q['category_label']) ?></td>
                         <td><?= e($q['difficulty_label']) ?></td>
                         <td>
