@@ -9,6 +9,7 @@ use App\Controllers\HomeController;
 use App\Controllers\AuthController;
 use App\Controllers\QuizController;
 use App\Controllers\AdminController;
+use App\Controllers\LeaderboardController;
 
 /** Defines all routes. Uses the add() function of Router to load the routes. */ 
 return function (Router $router): void {
@@ -50,4 +51,7 @@ return function (Router $router): void {
     $router->add('POST', '/admin/categories/add',    AdminController::class, 'addCategory');
     $router->add('POST', '/admin/categories/edit',   AdminController::class, 'editCategory');
     $router->add('POST', '/admin/categories/delete', AdminController::class, 'deleteCategory');
+
+    // LEADERBOARDS
+    $router->add('GET',  '/leaderboard', LeaderboardController::class, 'leaderboardView');
 };
