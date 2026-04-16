@@ -1,4 +1,4 @@
-<?php require __DIR__ . '/shared/header.php' ?>
+<?php require __DIR__ . '/../shared/header.php' ?>
     <h1>Kategorien bearbeiten</h1>
     <?php showErrors() ?>
 
@@ -38,4 +38,4 @@
         <input type="text" name="category_label">
         <button type="submit">EINFÜGEN</button>
     </form>
-<?php require __DIR__ . '/shared/footer.php' ?>
+<?php require __DIR__ . '/../shared/footer.php' ?>

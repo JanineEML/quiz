@@ -1,4 +1,4 @@
-<?php require __DIR__ . '/shared/header.php' ?>
+<?php require __DIR__ . '/../shared/header.php' ?>
     <div class="f-container">
         <h1>Ergebnis</h1>
         <p><?= $score ?> von <?= $total ?>, <?= $xp ?> XP verdient.</p>
@@ -44,4 +44,4 @@
 
         <a href="/quiz/start">Nochmal?</a>
     </div>
-<?php require __DIR__ . '/shared/footer.php' ?>
+<?php require __DIR__ . '/../shared/footer.php' ?>

@@ -1,4 +1,4 @@
-<?php require __DIR__ . '/shared/header.php' ?>
+<?php require __DIR__ . '/../shared/header.php' ?>
     <div class="f-container">
         <h1>Frage <?= $i + 1 ?> von <?= $total ?></h1>
 
@@ -15,4 +15,4 @@
             <?php endforeach; ?>
         </div>
     </div>
-<?php require __DIR__ . '/shared/footer.php' ?>
+<?php require __DIR__ . '/../shared/footer.php' ?>

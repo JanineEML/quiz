@@ -1,4 +1,4 @@
-<?php require __DIR__ . '/shared/header.php' ?>
+<?php require __DIR__ . '/../shared/header.php' ?>
     <h1>Frage editieren</h1>
     <div class="edit-table">
         <form action="/admin/questions/edit" method="post">
@@ -31,4 +31,4 @@
             <button type="submit">Änderung speichern</button>
         </form>
     </div>
-<?php require __DIR__ . '/shared/footer.php' ?>
+<?php require __DIR__ . '/../shared/footer.php' ?>

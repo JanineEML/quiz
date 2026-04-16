@@ -1,4 +1,4 @@
-<?php require __DIR__ . '/shared/header.php' ?>
+<?php require __DIR__ . '/../shared/header.php' ?>
     <h1>Admin: Frageverwaltung</h1>
     
     <div class="admin-table">
@@ -30,7 +30,8 @@
                     <th>Frage</th>
                     <th>Kategorie</th>
                     <th>Schwierigkeit</th>
-                    <th>Aktion</th>
+                    <th></th>
+                    <th></th>
                 </tr>
             </thead>
     
@@ -42,13 +43,15 @@
                         <td><?= e($q['category_label']) ?></td>
                         <td><?= e($q['difficulty_label']) ?></td>
                         <td>
-                            <form action="/admin/questions/edit" method="get">
+                            <form action="/admin/questions/edit" method="get" class="">
                                 <input type="hidden" name="question_id" value="<?= $q['question_id'] ?>">
-                                <button type="submit">EDITIEREN</button>
+                                <button type="submit" class="btn">EDITIEREN</button>
                             </form>
-                            <form action="/admin/questions/delete" method="post" onsubmit="return confirm('Frage wirklich löschen?')">
+                        </td>
+                        <td>
+                            <form action="/admin/questions/delete" method="post" onsubmit="return confirm('Frage wirklich löschen?')" class="">
                                 <input type="hidden" name="question_id" value="<?= $q['question_id'] ?>">
-                                <button type="submit">LÖSCHEN</button>
+                                <button type="submit" class="btn">LÖSCHEN</button>
                             </form>
                         </td>
                     </tr>
@@ -145,4 +148,5 @@
             <button type="submit">Frage hinzufügen</button>
         </form>
     </div>
-<?php require __DIR__ . '/shared/footer.php' ?>
+<?php require __DIR__ . '/../shared/footer.php'
+ ?>
