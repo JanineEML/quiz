@@ -1,5 +1,5 @@
 <?php require __DIR__ . '/../shared/header.php' ?>
-    <div class="f-container">
+    <div class="flex-c">
         <h1>Ergebnis</h1>
         <p><?= $score ?> von <?= $total ?>, <?= $xp ?> XP verdient.</p>
 

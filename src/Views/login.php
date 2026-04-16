@@ -1,5 +1,5 @@
 <?php require __DIR__ . '/shared/header.php' ?>
-    <div class="f-container">
+    <div class="flex-c">
         <h1>Anmelden</h1>
     
         <?php showErrors() ?>
