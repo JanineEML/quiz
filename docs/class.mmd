@@ -4,28 +4,48 @@ classDiagram
     QuizController ..> Question : uses
     QuizController ..> Achievement : uses
     QuizController ..> User : uses
+    LeaderboardController ..> Leaderboard : uses
+    AdminController ..> Question : uses
 
     class HomeController {
         +home()
     }
 
     class AuthController {
-        +register()
-        +login()
-        +logout()
         +loginView()
         +registerView()
+        +login()
+        +register()
+        +logout()
         -validateRegistration()
     }
 
     class QuizController {
-        +start()
-        +play()
         +startView()
         +playView()
         +resultView()
+        +start()
+        +play()
         -calculateXp()
         -requireAuth()
+    }
+
+    class LeaderboardController {
+        +leaderboardView()
+    }
+
+    class AdminController {
+        +dashboard()
+        +questionsView()
+        +editQuestionView()
+        +addQuestion()
+        +editQuestion()
+        +deleteQuestion()
+        +categoriesView()
+        +addCategory()
+        +editCategory()
+        +deleteCategory()
+        -requireAdmin()
     }
 
     class User {
@@ -38,15 +58,25 @@ classDiagram
 
     class Question {
         -PDO pdo
+        +fetchQuestion()
         +fetchQuestions()
+        +fetchAll()
+        +countQuestions()
         +fetchAnswers()
         +fetchAnswer()
         +fetchCorrectAnswer()
         +fetchCategories()
+        +fetchDifficulties()
         +fetchRandomCategoryId()
         +beginSession()
         +completeSession()
         +saveResult()
+        +addQuestion()
+        +editQuestion()
+        +deleteQuestion()
+        +addCategory()
+        +editCategory()
+        +deleteCategory()
     }
 
     class Stats {
@@ -56,14 +86,22 @@ classDiagram
 
     class Achievement {
         -PDO pdo
+        +award()
         +fetchAll()
         +fetchByPlayer()
         -fetchUnlocked()
         -unlock()
-        +award()
         -checkCompletedQuizzes()
         -checkTotalAnswers()
         -checkCorrectAnswers()
         -checkPerfectQuiz()
         -checkCategoriesPlayed()
+    }
+
+    class Leaderboard {
+        -PDO pdo
+        +fetchByXp()
+        +fetchByCorrectAnswers()
+        +fetchByAchievements()
+        +fetchByCompletion()
     }
