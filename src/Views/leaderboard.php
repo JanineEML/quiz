@@ -14,9 +14,9 @@
         </thead>
         <tbody>
             <?php foreach($ranking as $i => $rank): ?>
-                <tr>
+                <tr class="<?= $player && $rank['player_id'] === $player ? 'self' : '' ?>">
                     <td><?= $i + 1 ?></td>
-                    <td class="<?= $player && $rank['player_id'] === $player ? 'self' : '' ?>"><?= e($rank['playername']) ?></td>
+                    <td><?= e($rank['playername']) ?></td>
                     <td><?= $rank[$tab] ?></td>
                 </tr>
             <?php endforeach; ?>
