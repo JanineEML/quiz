@@ -1,11 +1,12 @@
 <?php require __DIR__ . '/shared/header.php' ?>
-    <div class="flex-c" >
+<div class="wrapper" >
+    <div class="box">
         <h1>Leaderboard</h1>
         <a href="/leaderboard?tab=xp" class="<?= $tab === 'xp' ? 'active' : '' ?> btn">Spieler Erfahrung</a>
         <a href="/leaderboard?tab=completed" class="<?= $tab === 'completed' ? 'active' : '' ?> btn">Abgeschlossene Quiz</a>
         <a href="/leaderboard?tab=correct" class="<?= $tab === 'correct' ? 'active' : '' ?> btn">Richtige Antworten</a>
         <a href="/leaderboard?tab=achievements" class="<?= $tab === 'achievements' ? 'active' : '' ?> btn">Anzahl Achievements</a>
-
+    
         <table class="leaderboard-table">
             <caption>Ranking</caption>
             <thead>
@@ -26,4 +27,5 @@
             </tbody>
         </table>
     </div>
+</div>
 <?php require __DIR__ . '/shared/footer.php' ?>

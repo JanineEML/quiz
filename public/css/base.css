@@ -1,0 +1,18 @@
+html, body {
+    width: 100vw;
+    margin: 0;
+
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    background-color: #f0f0f0;
+}
+
+h1, h2 {
+    text-align: center;
+    width: 100%;
+}
+
+a {
+    text-decoration: none;
+}
+
+.error {color: red;}

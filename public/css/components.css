@@ -1,0 +1,72 @@
+/*
+ * BUTTON LAYOUT
+ */
+.btn {
+    display: inline-flex;
+
+    border: thin solid black;
+    background-color: whitesmoke;
+    color: black;
+    font-size: large;
+    font-family: monospace;
+    font-weight: bolder;
+
+    padding: 7px;
+    margin: 0px;
+    box-sizing: border-box;
+}
+
+.btn:hover {
+    background-color: #c5d5c5;
+}
+
+/*
+ * DROPDOWN BUTTONS
+ */
+.dropdown-content {
+    display: none;
+    position: absolute;
+    min-width: auto;
+}
+
+.dropdown:hover .dropdown-content {display: block;}
+
+/*
+ * TABLE LAYOUT
+ */
+table, td, th {
+    border: thin solid black;
+}
+
+table {
+    border-collapse: collapse;
+    text-align: center;
+    width: 100%;
+    max-width: 1200px;
+}
+
+th {
+    background-color: lightgrey;
+    font-weight: bold;
+    font-size: 1rem;
+    padding: 5px;
+}
+
+.fixed {
+    width: 33%;
+}
+
+caption {
+    font-size: 1.5rem;
+    padding: 10px;
+}
+
+td {
+    padding: 5px 10px;
+    font-weight: lighter;
+    overflow-wrap: break-word;
+}
+
+.self {
+    background-color: #c5d5c5;
+}

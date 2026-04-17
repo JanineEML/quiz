@@ -12,7 +12,13 @@
             <a href="/quiz/start" class="btn">Quiz starten</a>
             <a href="/leaderboard" class="btn">Leaderboard</a>
             <?php if ($_SESSION['player']['is_admin']): ?>
-                <a href="/admin" class="btn">Adminbereich</a>
+                <div class="dropdown">
+                    <button class="btn dropdown-btn">Adminbereich</button>
+                    <div class="dropdown-content">
+                        <a href="/admin/questions" class="btn">Fragen verwalten</a>
+                        <a href="/admin/categories" class="btn">Kategorien verwalten</a>
+                    </div>
+                </div>
             <?php endif; ?>
             <form action="/logout" method="post">
                 <button type="submit" class="btn">Logout</button>

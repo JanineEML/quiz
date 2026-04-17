@@ -1,7 +1,7 @@
 <?php require __DIR__ . '/../shared/header.php' ?>
-    <h1>Admin: Frageverwaltung</h1>
-    
-    <div class="admin-table">
+<div class="wrapper">
+    <div class="admin-table box">
+        <h1>Admin: Frageverwaltung</h1>
         <h2>Vorhandene Fragen</h2>
 
         <form method="get">
@@ -65,10 +65,9 @@
         </div>
     </div>
 
-    <h2>Frage hinzufügen</h2>
-    <?php showErrors() ?>
-
-    <div class="admin-add">
+    <div class="admin-add box">
+        <h2>Frage hinzufügen</h2>
+        <?php showErrors() ?>
         <form action="/admin/questions/add" method="post">
             <label>
                 Fragetext
@@ -141,5 +140,5 @@
             <button type="submit">Frage hinzufügen</button>
         </form>
     </div>
-<?php require __DIR__ . '/../shared/footer.php'
- ?>
+</div>
+<?php require __DIR__ . '/../shared/footer.php'?>

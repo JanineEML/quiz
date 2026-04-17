@@ -1,12 +1,13 @@
 <?php require __DIR__ . '/../shared/header.php' ?>
-    <div class="flex-c">
+<div class="wrapper">
+    <div class="box">
         <h1>Frage <?= $i + 1 ?> von <?= $total ?></h1>
-
+    
         <?php showErrors() ?>
-
+    
         <h2><?= e($question['question_text']) ?></h2>
-
-        <div class="answers">
+    
+        <div class="quiz-answers">
             <?php foreach ($answers as $a): ?>
                 <form action="/quiz/play" method="post">
                     <input type="hidden" name="answer_id" value="<?= $a['answer_id'] ?>">
@@ -15,4 +16,5 @@
             <?php endforeach; ?>
         </div>
     </div>
+</div>
 <?php require __DIR__ . '/../shared/footer.php' ?>

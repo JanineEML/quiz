@@ -1,0 +1,40 @@
+.wrapper {
+    min-height: 90vh;
+    max-width: 80%;
+    margin: 0 auto;
+    padding: 10px;
+    box-sizing: border-box;
+
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: center;
+    align-items: flex-start;
+
+    background-color: #e3e0cc;
+    border: thin solid #e4d1d1;
+    border-top: none;
+}
+
+.box {
+    min-height: initial;
+    padding: 10px;
+}
+
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+nav {
+    display: flex;
+    margin: 0 auto;
+    justify-content: left;
+
+    padding: 10px;
+    column-gap: 10px;
+    font-size: 1.5rem;
+
+    background-color: #b9b0b0;
+    border-bottom: thin solid #b9b0b0;
+}
