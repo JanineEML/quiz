@@ -33,8 +33,6 @@
                     <button class="btn btn-link nav-link">Logout</button>
                 </form>
             <?php else: ?>
-                <a href="/login" class="nav-link">Login</a>
-                <a href="/register" class="nav-link">Registrieren</a>
                 <a href="/leaderboard" class="nav-link">Leaderboard</a>
             <?php endif; ?>
         </div>
