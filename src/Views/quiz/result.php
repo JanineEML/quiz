@@ -16,7 +16,7 @@
                     <div class="alert alert-warning">Leider nicht alles richtig.</div>
         
                 <?php else: ?>
-                    <div class=alert alert-success>Nice! Nur wenige Fehler.</div>
+                    <div class="alert alert-success">Nice! Nur wenige Fehler.</div>
             
                 <?php endif; ?>
             </p>
@@ -28,7 +28,7 @@
                         <li class="list-group-item"><?= e($a['question']) ?><br>
                             Deine Antwort: <?= e($a['answer']) ?><br>
                             Richtige Antwort: <?= e($a['correct']) ?>
-                        </li class="list-group-item">
+                        </li>
                     <?php endforeach; ?>
                 </ul>
             <?php endif; ?>
