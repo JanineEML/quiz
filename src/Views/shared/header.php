@@ -17,17 +17,7 @@
                 <a href="/quiz/start" class="nav-link">Quiz starten</a>
                 <a href="/leaderboard" class="nav-link">Leaderboard</a>
                 <?php if ($_SESSION['player']['is_admin']): ?>
-                    <div class="nav-item dropdown">
-                        <button class="nav-link dropdown-toggle"
-                                role="button"
-                                data-bs-toggle="dropdown">
-                            Adminbereich
-                        </button>
-                        <div class="dropdown-menu">
-                            <a href="/admin/questions" class="dropdown-item">Fragen verwalten</a>
-                            <a href="/admin/categories" class="dropdown-item">Kategorien verwalten</a>
-                        </div>
-                    </div>
+                    <a href="/admin" class="nav-link">Adminpanel</a>
                 <?php endif; ?>
                 <form action="/logout" method="post">
                     <button class="btn btn-link nav-link">Logout</button>
