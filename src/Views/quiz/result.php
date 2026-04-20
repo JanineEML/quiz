@@ -7,44 +7,44 @@
         
             <p>
                 <?php if ($score === $total): ?>
-                    Perfekt!
+                    <div class="alert alert-success">Perfekt!</div>
         
                 <?php elseif ($score < ($total * 0.3)): ?>
-                    lmao, das war ja mal nix.
+                    <div class="alert alert-danger">lmao, das war ja mal nix.</div>
         
                 <?php elseif ($score < ($total * 0.6)): ?>
-                    Leider nicht alles richtig.
+                    <div class="alert alert-warning">Leider nicht alles richtig.</div>
         
                 <?php else: ?>
-                    Nice! Nur wenige Fehler.
+                    <div class=alert alert-success>Nice! Nur wenige Fehler.</div>
             
                 <?php endif; ?>
             </p>
         
             <?php if (!empty($wrongAnswers)): ?>
                 <h2>Falsche Antworten:</h2>
-                <ul>
+                <ul class="list-group">
                     <?php foreach ($wrongAnswers as $a): ?>
-                        <li><?= e($a['question']) ?><br>
+                        <li class="list-group-item"><?= e($a['question']) ?><br>
                             Deine Antwort: <?= e($a['answer']) ?><br>
                             Richtige Antwort: <?= e($a['correct']) ?>
-                        </li>
+                        </li class="list-group-item">
                     <?php endforeach; ?>
                 </ul>
             <?php endif; ?>
         
             <?php if (!empty($unlockedAchievements)): ?>
                 <h2>Freigeschaltete Achievements:</h2>
-                <ul>
+                <ul class="list-group">
                     <?php foreach ($unlockedAchievements as $achievement): ?>
-                        <li><?= e($achievement['achievement_name']) ?><br>
+                        <li class="list-group-item"><?= e($achievement['achievement_name']) ?><br>
                                 <?= e($achievement['achievement_desc']) ?>
                         </li>
                     <?php endforeach; ?>
                 </ul>
             <?php endif; ?>
         
-            <a href="/quiz/start">Nochmal?</a>
+            <a href="/quiz/start" class="btn btn-primary">Nochmal?</a>
         </div>
         <div class="col-3">
             <?php require __DIR__ . '/../shared/sidebar.php' ?>
