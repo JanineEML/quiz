@@ -1,6 +1,6 @@
 <?php require __DIR__ . '/../shared/header.php' ?>
-<div class="wrapper">
-    <div class="admin-table box">
+<div class="container-lg">
+    <div class="row">
         <h1>Admin: Frageverwaltung</h1>
         <h2>Vorhandene Fragen</h2>
 
@@ -65,7 +65,7 @@
         </div>
     </div>
 
-    <div class="admin-add box">
+    <div class="row">
         <h2>Frage hinzufügen</h2>
         <?php showErrors() ?>
         <form action="/admin/questions/add" method="post">

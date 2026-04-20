@@ -1,6 +1,6 @@
 <?php require __DIR__ . '/../shared/header.php' ?>
-<div class="wrapper">
-    <div class="box">
+<div class="container-lg">
+    <div class="row">
         <h1>Kategorien bearbeiten</h1>
         <?php showErrors() ?>
         

@@ -1,7 +1,7 @@
 <?php require __DIR__ . '/../shared/header.php' ?>
-<div class="wrapper">
-    <h1>Frage editieren</h1>
-    <div class="edit-table">
+<div class="container-lg">
+    <div class="row">
+        <h1>Frage editieren</h1>
         <form action="/admin/questions/edit" method="post">
             <input type="hidden" name="question_id" value="<?= $question['question_id'] ?>">
             <textarea name="question_text"><?= e($question['question_text']) ?></textarea>
