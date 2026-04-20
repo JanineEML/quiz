@@ -1,17 +1,12 @@
 <?php require __DIR__ . '/shared/header.php' ?>
-<div class="wrapper">
-    <div class="box">
-        <h1>Willkommen, <?= e($playername) ?>!</h1>
-        <h2>Statistik:</h2>
-        <ul>
-            <li>Gesammelte XP: <?= $xp ?></li>
-    
-            <?php if ($stats['accuracy'] !== null): ?>
-                <li>Genauigkeit: <?= $stats['accuracy'] ?>% - <?= $stats['correct'] ?> / <?= $stats['total'] ?></li>
-            <?php else: ?>
-                <li>Genauigkeit: N/A - 0 / 0</li>
-            <?php endif; ?>
-        </ul>
+<div class="container-lg">
+    <div class="row">
+        <div class="col">
+            <h1>Willkommen, <?= e($_SESSION['player']['playername']) ?>!</h1>
+        </div>
+        <div class="col-3">
+            <?php require __DIR__ . '/shared/sidebar.php' ?>
+        </div>
     </div>
 </div>
 <?php require __DIR__ . '/shared/footer.php' ?>
