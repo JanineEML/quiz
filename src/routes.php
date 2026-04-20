@@ -39,7 +39,7 @@ return function (Router $router): void {
     $router->add('GET',  '/quiz/result', QuizController::class, 'resultView');
 
     // ADMIN CONTROLLER
-    $router->add('GET',  '/admin/', AdminController::class, 'dashboardView');
+    $router->add('GET',  '/admin', AdminController::class, 'dashboardView');
 
     // ADMIN CONTROLLER - QUESTIONS
     $router->add('GET',  '/admin/questions',        AdminController::class, 'questionsView');
