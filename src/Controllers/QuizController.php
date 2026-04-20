@@ -8,6 +8,7 @@ use App\Connection;
 use App\Models\Achievement;
 use App\Models\User;
 use App\Models\Question;
+use App\Models\Stats;
 
 class QuizController
 {
@@ -196,6 +197,7 @@ class QuizController
             $xp
         );
 
+        $_SESSION['player']['stats'] = (new Stats(Connection::connect()))->fetchByPlayer($playerId);
         $unlockedAchievements = (new Achievement(Connection::connect()))->award($playerId);
 
         require __DIR__ . '/../Views/quiz/result.php';

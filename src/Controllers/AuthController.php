@@ -6,6 +6,7 @@ namespace App\Controllers;
 
 use App\Connection;
 use App\Models\User;
+use App\Models\Stats;
 
 class AuthController
 {
@@ -22,7 +23,7 @@ class AuthController
      * From $_POST uses 'playername', 'password'.
      *
      * Stores errors in $_SESSION['errors'] and redirects to /login on failure.
-     * Stores player in $_SESSION['player'] and redirects to / on success.
+     * Stores player and stats in $_SESSION['player'] and redirects to / on success.
      */
     public function login()
     {
@@ -51,6 +52,7 @@ class AuthController
 
         // User found! Store to Session, redirect to home!
         $_SESSION['player'] = $player;
+        $_SESSION['player']['stats'] = (new Stats(Connection::connect()))->fetchByPlayer($player['player_id']);
         redirect('/');
     }
 
