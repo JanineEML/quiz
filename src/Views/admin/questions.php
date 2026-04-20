@@ -1,67 +1,72 @@
 <?php require __DIR__ . '/../shared/header.php' ?>
 <div class="container-lg">
     <div class="row">
-        <h1>Admin: Frageverwaltung</h1>
-        <h2>Vorhandene Fragen</h2>
-
-        <form method="get">
-            <select name="category_id" onchange="this.form.submit()">
-                <option value="">Alle Kategorien</option>
-                <?php foreach ($categories as $c): ?>
-                    <option value="<?= $c['category_id'] ?>"
-                        <?= $c['category_id'] === $selectedCategory ? 'selected' : '' ?>>
-                        <?= e($c['category_label']) ?>
-                    </option>
-                <?php endforeach; ?>
-            </select>
-        </form>
-        
-        <table>
-            <caption>Alle Fragen</caption>
-            <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>Frage</th>
-                    <th>Kategorie</th>
-                    <th>Schwierigkeit</th>
-                    <th></th>
-                    <th></th>
-                </tr>
-            </thead>
-            <tbody>
-                <?php foreach($questions as $q): ?>
+        <div class="col">
+            <h1>Admin: Frageverwaltung</h1>
+            <h2>Vorhandene Fragen</h2>
+    
+            <form method="get">
+                <select name="category_id" onchange="this.form.submit()">
+                    <option value="">Alle Kategorien</option>
+                    <?php foreach ($categories as $c): ?>
+                        <option value="<?= $c['category_id'] ?>"
+                            <?= $c['category_id'] === $selectedCategory ? 'selected' : '' ?>>
+                            <?= e($c['category_label']) ?>
+                        </option>
+                    <?php endforeach; ?>
+                </select>
+            </form>
+            
+            <table>
+                <caption>Alle Fragen</caption>
+                <thead>
                     <tr>
-                        <td><?= $q['question_id'] ?></td>
-                        <td class="question-text"><?= e($q['question_text']) ?></td>
-                        <td><?= e($q['category_label']) ?></td>
-                        <td><?= e($q['difficulty_label']) ?></td>
-                        <td>
-                            <form action="/admin/questions/edit" method="get" class="">
-                                <input type="hidden" name="question_id" value="<?= $q['question_id'] ?>">
-                                <button type="submit" class="btn">EDITIEREN</button>
-                            </form>
-                        </td>
-                        <td>
-                            <form action="/admin/questions/delete" method="post" onsubmit="return confirm('Frage wirklich löschen?')" class="">
-                                <input type="hidden" name="question_id" value="<?= $q['question_id'] ?>">
-                                <button type="submit" class="btn">LÖSCHEN</button>
-                            </form>
-                        </td>
+                        <th>ID</th>
+                        <th>Frage</th>
+                        <th>Kategorie</th>
+                        <th>Schwierigkeit</th>
+                        <th></th>
+                        <th></th>
                     </tr>
-                <?php endforeach; ?>
-            </tbody>
-        </table>
-    
-        <div class="pagination">
-            <?php if ($page > 1): ?>
-                <a href="?page=<?= $page - 1 ?>&category_id=<?= $selectedCategory ?>">« Zurück</a>
-            <?php endif; ?>
-    
-            <span>Seite <?= $page ?> von <?= $totalPages ?></span>
-    
-            <?php if ($page < $totalPages): ?>
-                <a href="?page=<?= $page + 1 ?>&category_id=<?= $selectedCategory ?>">Weiter »</a>
-            <?php endif; ?>
+                </thead>
+                <tbody>
+                    <?php foreach($questions as $q): ?>
+                        <tr>
+                            <td><?= $q['question_id'] ?></td>
+                            <td class="question-text"><?= e($q['question_text']) ?></td>
+                            <td><?= e($q['category_label']) ?></td>
+                            <td><?= e($q['difficulty_label']) ?></td>
+                            <td>
+                                <form action="/admin/questions/edit" method="get" class="">
+                                    <input type="hidden" name="question_id" value="<?= $q['question_id'] ?>">
+                                    <button type="submit" class="btn">EDITIEREN</button>
+                                </form>
+                            </td>
+                            <td>
+                                <form action="/admin/questions/delete" method="post" onsubmit="return confirm('Frage wirklich löschen?')" class="">
+                                    <input type="hidden" name="question_id" value="<?= $q['question_id'] ?>">
+                                    <button type="submit" class="btn">LÖSCHEN</button>
+                                </form>
+                            </td>
+                        </tr>
+                    <?php endforeach; ?>
+                </tbody>
+            </table>
+        
+            <div class="pagination">
+                <?php if ($page > 1): ?>
+                    <a href="?page=<?= $page - 1 ?>&category_id=<?= $selectedCategory ?>">« Zurück</a>
+                <?php endif; ?>
+        
+                <span>Seite <?= $page ?> von <?= $totalPages ?></span>
+        
+                <?php if ($page < $totalPages): ?>
+                    <a href="?page=<?= $page + 1 ?>&category_id=<?= $selectedCategory ?>">Weiter »</a>
+                <?php endif; ?>
+            </div>
+        </div>
+        <div class="col-3">
+            <?php require __DIR__ . '/../shared/sidebar.php' ?>
         </div>
     </div>
 

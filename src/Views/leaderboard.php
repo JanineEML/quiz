@@ -3,18 +3,18 @@
     <div class="row">
         <div class="col">
             <h1>Leaderboard</h1>
-            <a href="/leaderboard?tab=xp" class="<?= $tab === 'xp' ? 'active' : '' ?> btn">Spieler Erfahrung</a>
-            <a href="/leaderboard?tab=completed" class="<?= $tab === 'completed' ? 'active' : '' ?> btn">Abgeschlossene Quiz</a>
-            <a href="/leaderboard?tab=correct" class="<?= $tab === 'correct' ? 'active' : '' ?> btn">Richtige Antworten</a>
-            <a href="/leaderboard?tab=achievements" class="<?= $tab === 'achievements' ? 'active' : '' ?> btn">Anzahl Achievements</a>
+            <a href="/leaderboard?tab=xp" class="btn btn-<?= $tab !== 'xp' ? 'outline-' : '' ?>secondary">Spieler Erfahrung</a>
+            <a href="/leaderboard?tab=completed" class="btn btn-<?= $tab !== 'completed' ? 'outline-' : '' ?>secondary">Abgeschlossene Quiz</a>
+            <a href="/leaderboard?tab=correct" class="btn btn-<?= $tab !== 'correct' ? 'outline-' : '' ?>secondary">Richtige Antworten</a>
+            <a href="/leaderboard?tab=achievements" class="btn btn-<?= $tab !== 'achievements' ? 'outline-' : '' ?>secondary">Anzahl Achievements</a>
         
-            <table class="leaderboard-table">
+            <table class="table table-striped">
                 <caption>Ranking</caption>
                 <thead>
                     <tr>
                         <th>Rang</th>
                         <th>Spieler</th>
-                        <th class="fixed"> <?= $tab ?></th>
+                        <th> <?= $tab ?></th>
                     </tr>
                 </thead>
                 <tbody>
