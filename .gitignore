@@ -1,5 +1,3 @@
 .vscode/
-docs/*.md
-docs/vorgaben
-docs/other
+docs/
 db/questions_*
