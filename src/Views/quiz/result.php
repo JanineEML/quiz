@@ -21,7 +21,7 @@
         
             <?php if (!empty($wrongAnswers)): ?>
                 <h2>Falsche Antworten:</h2>
-                <ul class="list-group">
+                <ul class="list-group mb-3">
                     <?php foreach ($wrongAnswers as $a): ?>
                         <li class="list-group-item"><?= e($a['question']) ?><br>
                             Deine Antwort: <?= e($a['answer']) ?><br>
@@ -31,7 +31,7 @@
                 </ul>
             <?php endif; ?>
 
-            <div class="progress">
+            <div class="progress mb-3">
                 <div class="progress-bar"
                      role="progressbar"
                      style="width: 100%"
