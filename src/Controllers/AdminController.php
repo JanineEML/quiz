@@ -13,7 +13,7 @@ class AdminController
     /**
      * GET /admin — renders the admin dashboard.
      */
-    public function dashboard(): void
+    public function dashboardView(): void
     {
         $this->requireAdmin();
 

@@ -8,24 +8,24 @@
         
             <form action="/register" method="post">
                 <label>
-                    <span class="auth-labels">Spielername</span>
+                    <span class="form-label">Spielername</span>
         
-                    <input type="text" id="playername" name="playername" required>
+                    <input type="text" class="form-control" name="playername" required>
                 </label>
         
                 <label>
-                    <span class="auth-labels">Passwort</span>
+                    <span class="form-label">Passwort</span>
         
-                    <input type="password" id="password" name="password" required>
+                    <input type="password" class="form-control" name="password" required>
                 </label>
                 
                 <label>
-                    <span class="auth-labels">Passwort wiederholen</span>
+                    <span class="form-label">Passwort wiederholen</span>
         
-                    <input type="password" id="password_confirm" name="password_confirm" required>
+                    <input type="password" class="form-control" name="password_confirm" required>
                 </label>
         
-                <button type="submit">Registrieren</button>
+                <button type="submit" class="btn btn-primary">Registrieren</button>
             </form>
         </div>
         <div class="col-3">

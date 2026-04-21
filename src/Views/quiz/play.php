@@ -12,7 +12,7 @@
                 <?php foreach ($answers as $a): ?>
                     <form action="/quiz/play" method="post">
                         <input type="hidden" name="answer_id" value="<?= $a['answer_id'] ?>">
-                        <button type="submit"><?= e($a['answer_text']) ?></button>
+                        <button type="submit" class="btn btn-primary"><?= e($a['answer_text']) ?></button>
                     </form>
                 <?php endforeach; ?>
             </div>

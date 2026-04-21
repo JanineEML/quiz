@@ -38,6 +38,9 @@ return function (Router $router): void {
     $router->add('POST', '/quiz/play',   QuizController::class, 'play');
     $router->add('GET',  '/quiz/result', QuizController::class, 'resultView');
 
+    // ADMIN CONTROLLER
+    $router->add('GET',  '/admin', AdminController::class, 'dashboardView');
+
     // ADMIN CONTROLLER - QUESTIONS
     $router->add('GET',  '/admin/questions',        AdminController::class, 'questionsView');
     $router->add('POST', '/admin/questions/add',    AdminController::class, 'addQuestion');

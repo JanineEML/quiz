@@ -8,22 +8,22 @@
         
             <form action="/login" method="post">
                 <label>
-                    <span class="auth-labels">Spielername</span>
+                    <span class="form-label">Spielername</span>
                     
-                    <input type="text" id="playername" name="playername" required>
+                    <input type="text" class="form-control" name="playername" required>
                 </label>
         
                 <label>
-                    <span class="auth-labels">Passwort</span>
+                    <span class="form-label">Passwort</span>
         
-                    <input type="password" id="password" name="password" required>
+                    <input type="password" class="form-control" name="password" required>
                 </label>
         
-                <button type="submit">Anmelden</button>
+                <button type="submit" class="btn btn-primary">Anmelden</button>
             </form>
         
             <form action="/register" method="get">
-                <button type="submit">Registrieren</button>
+                <button type="submit" class="btn btn-primary">Registrieren</button>
             </form>
         </div>
         <div class="col-3">

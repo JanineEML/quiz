@@ -25,7 +25,8 @@ class LeaderboardController
             default => false
         };
 
-        if (!$ranking) {
+        // !$ranking would cause problems with no stats
+        if ($ranking === false) {
             redirect('/leaderboard');
         }
 
