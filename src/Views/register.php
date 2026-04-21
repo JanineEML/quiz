@@ -16,13 +16,14 @@
                 <label>
                     <span class="form-label">Passwort</span>
         
-                    <input type="password" class="form-control" name="password" required>
+                    <input type="password" class="form-control" name="password" id="password" required>
                 </label>
                 
                 <label>
                     <span class="form-label">Passwort wiederholen</span>
         
-                    <input type="password" class="form-control" name="password_confirm" required>
+                    <input type="password" class="form-control" name="password_confirm" id="password_confirm" required>
+                    <div class="invalid-feedback">Passwörter stimmen nicht überein.</div>
                 </label>
         
                 <button type="submit" class="btn btn-primary">Registrieren</button>
@@ -33,4 +34,19 @@
         </div>
     </div>
 </div>
+<script>
+    const pw_confirm = document.querySelector("#password_confirm");
+    pw_confirm.addEventListener("input", (event) => {
+        const pw = document.querySelector("#password");
+
+        if (pw.value === pw_confirm.value) {
+            event.currentTarget.classList.add("is-valid");
+            event.currentTarget.classList.remove("is-invalid");
+        }
+        else {
+            event.currentTarget.classList.add("is-invalid");
+            event.currentTarget.classList.remove("is-valid");
+        }
+    });
+</script>
 <?php require __DIR__ . '/shared/footer.php' ?>
