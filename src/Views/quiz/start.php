@@ -19,7 +19,13 @@
 
                 <label>
                     Anzahl:
-                    <input type="number" class="form-control" name="question_count" min="<?= $min_count ?>" max="<?= $max_count ?>">
+                    
+                    <input type="number"
+                           class="form-control"
+                           name="question_count"
+                           value="<?= $min_count ?>"
+                           min="<?= $min_count ?>"
+                           max="<?= $max_count ?>">
                 </label>
 
                 <button class="btn btn-primary">Quiz starten</button>
