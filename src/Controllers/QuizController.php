@@ -12,8 +12,8 @@ use App\Models\Stats;
 
 class QuizController
 {
-    private const MIN_COUNT = 1;
-    private const MAX_COUNT = 15;
+    private const MIN_COUNT = 10;
+    private const MAX_COUNT = 20;
 
     /**
      * GET /quiz/start — renders the quiz start form.
