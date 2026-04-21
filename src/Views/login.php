@@ -21,10 +21,6 @@
         
                 <button type="submit" class="btn btn-primary">Anmelden</button>
             </form>
-        
-            <form action="/register" method="get">
-                <button type="submit" class="btn btn-primary">Registrieren</button>
-            </form>
         </div>
         <div class="col-3">
             <?php require __DIR__ . '/shared/sidebar.php' ?>
