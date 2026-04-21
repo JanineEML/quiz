@@ -3,7 +3,32 @@
 }
 
 .quiz-answers {
-    display: grid;
-    grid-template-columns: max-content;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
     justify-content: center;
+}
+
+.quiz-answers form {
+    flex: 1 1 350px;
+    max-width: 100%;
+    display: flex;
+}
+
+.quiz-answers button {
+    width: 100%;
+    flex: 1;
+}
+
+#timer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background-color: #dc3545;
+    color: white;
+    font-weight: bold;
 }
