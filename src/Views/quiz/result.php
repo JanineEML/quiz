@@ -5,21 +5,19 @@
             <h1>Ergebnis</h1>
             <p><?= $score ?> von <?= $total ?>, <?= $xp ?> XP verdient.</p>
         
-            <p>
-                <?php if ($score === $total): ?>
-                    <div class="alert alert-success">Perfekt!</div>
+            <?php if ($score === $total): ?>
+                <div class="alert alert-success">Perfekt!</div>
+    
+            <?php elseif ($score < ($total * 0.3)): ?>
+                <div class="alert alert-danger">lmao, das war ja mal nix.</div>
+    
+            <?php elseif ($score < ($total * 0.6)): ?>
+                <div class="alert alert-warning">Leider nicht alles richtig.</div>
+    
+            <?php else: ?>
+                <div class="alert alert-success">Nice! Nur wenige Fehler.</div>
         
-                <?php elseif ($score < ($total * 0.3)): ?>
-                    <div class="alert alert-danger">lmao, das war ja mal nix.</div>
-        
-                <?php elseif ($score < ($total * 0.6)): ?>
-                    <div class="alert alert-warning">Leider nicht alles richtig.</div>
-        
-                <?php else: ?>
-                    <div class="alert alert-success">Nice! Nur wenige Fehler.</div>
-            
-                <?php endif; ?>
-            </p>
+            <?php endif; ?>
         
             <?php if (!empty($wrongAnswers)): ?>
                 <h2>Falsche Antworten:</h2>
