@@ -124,7 +124,7 @@ class AuthController
     {
         $errors = [];
 
-        if (strlen($name) < 4) {
+        if (strlen($name) < 3) {
             $errors[] = 'Name zu kurz. Bitte mindestens 4 Zeichen.';
         }
 
