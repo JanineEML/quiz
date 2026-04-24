@@ -3,7 +3,7 @@
 -- -----------------------------------------------------------------
 USE quiz;
 SET NAMES utf8mb4;
-SET @c = 9; -- see insert.sql for id of webentwicklung
+SET @c = 7; -- see insert.sql for id of webentwicklung
 
 -- LEICHT
 

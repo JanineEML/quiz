@@ -3,7 +3,7 @@
 -- -----------------------------------------------------------------
 USE quiz;
 SET NAMES utf8mb4;
-SET @c = 3; -- see insert.sql for id of fussball
+SET @c = 2; -- see insert.sql for id of fussball
 
 -- LEICHT
 

@@ -3,7 +3,7 @@
 -- -----------------------------------------------------------------
 USE quiz;
 SET NAMES utf8mb4;
-SET @c = 4; -- see insert.sql for id of geographie
+SET @c = 3; -- see insert.sql for id of geographie
 
 -- LEICHT
 

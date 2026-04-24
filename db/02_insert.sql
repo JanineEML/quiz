@@ -10,13 +10,11 @@ VALUES
 INSERT INTO category (category_label)
 VALUES
     ('Videospiel'),
-    ('Soulsborne'),
     ('Fußball'),
     ('Geographie'),
     ('Unterhaltung'),
     ('Allgemeinwissen'),
     ('Formel 1'),
-    ('Infinity Nikki'),
     ('Webentwicklung'),
     ('Nintendo'),
     ('Java'),

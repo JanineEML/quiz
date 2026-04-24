@@ -3,7 +3,7 @@
 -- -----------------------------------------------------------------
 USE quiz;
 SET NAMES utf8mb4;
-SET @c = 7; -- see insert.sql for id of formel1
+SET @c = 6; -- see insert.sql for id of formel1
 
 -- LEICHT
 

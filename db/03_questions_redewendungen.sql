@@ -3,7 +3,7 @@
 -- -----------------------------------------------------------------
 USE quiz;
 SET NAMES utf8mb4;
-SET @c = 13; -- see insert.sql for id of redewendungen
+SET @c = 11; -- see insert.sql for id of redewendungen
 
 -- LEICHT
 

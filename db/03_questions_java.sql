@@ -3,7 +3,7 @@
 -- -----------------------------------------------------------------
 USE quiz;
 SET NAMES utf8mb4;
-SET @c = 11; -- see insert.sql for id of java
+SET @c = 9; -- see insert.sql for id of java
 
 -- LEICHT
 

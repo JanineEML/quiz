@@ -3,7 +3,7 @@
 -- -----------------------------------------------------------------
 USE quiz;
 SET NAMES utf8mb4;
-SET @c = 10; -- see insert.sql for id of nintendo
+SET @c = 8; -- see insert.sql for id of nintendo
 
 -- LEICHT
 

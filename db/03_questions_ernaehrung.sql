@@ -3,7 +3,7 @@
 -- -----------------------------------------------------------------
 USE quiz;
 SET NAMES utf8mb4;
-SET @c = 14; -- see insert.sql for id of ernährung
+SET @c = 12; -- see insert.sql for id of ernährung
 
 -- LEICHT
 

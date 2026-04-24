@@ -3,7 +3,7 @@
 -- -----------------------------------------------------------------
 USE quiz;
 SET NAMES utf8mb4;
-SET @c = 6; -- see insert.sql for id of allgemeinwissen
+SET @c = 5; -- see insert.sql for id of allgemeinwissen
 
 -- LEICHT
 

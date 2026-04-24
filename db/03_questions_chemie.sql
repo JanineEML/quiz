@@ -3,7 +3,7 @@
 -- -----------------------------------------------------------------
 USE quiz;
 SET NAMES utf8mb4;
-SET @c = 18; -- see insert.sql for id of chemie
+SET @c = 16; -- see insert.sql for id of chemie
 
 -- LEICHT
 
