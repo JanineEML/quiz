@@ -30,7 +30,7 @@ class AdminController
         $q = new Question(Connection::connect());
 
         $page = max(1, (int) ($_GET['page'] ?? 1));
-        $limit = 25;
+        $limit = 10;
         $offset = ($page - 1) * $limit;
         $categories = $q->fetchCategories();
         $difficulties = $q->fetchDifficulties();
