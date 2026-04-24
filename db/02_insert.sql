@@ -17,4 +17,13 @@ VALUES
     ('Allgemeinwissen'),
     ('Formel 1'),
     ('Infinity Nikki'),
-    ('Webentwicklung');
+    ('Webentwicklung'),
+    ('Nintendo'),
+    ('Java'),
+    ('Python'),
+    ('Redewendungen'),
+    ('Ernährung'),
+    ('Technik'),
+    ('Mathematik'),
+    ('Physik'),
+    ('Chemie');
