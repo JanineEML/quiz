@@ -21,7 +21,7 @@
         
             <?php if (!empty($wrongAnswers)): ?>
                 <h2>Falsche Antworten:</h2>
-                <ul class="list-group mb-3">
+                <ul class="list-group wrong-answers mb-3">
                     <?php foreach ($wrongAnswers as $a): ?>
                         <li class="list-group-item"><?= e($a['question']) ?><br>
                             Deine Antwort: <?= e($a['answer']) ?><br>
@@ -52,7 +52,7 @@
                 </ul>
             <?php endif; ?>
         
-            <a href="/quiz/start" class="btn btn-primary">Nochmal?</a>
+            <a href="/quiz/start" class="btn btn-primary mt-3">Nochmal?</a>
         </div>
         <div class="col-3">
             <?php require __DIR__ . '/../shared/sidebar.php' ?>

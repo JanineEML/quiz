@@ -71,7 +71,7 @@
     </div>
 
     <div class="row">
-        <div class="col">
+        <div class="col-8">
             <h2>Frage hinzufügen</h2>
             <?php showErrors() ?>
             <form action="/admin/questions/add" method="post" class="d-flex flex-column gap-3">

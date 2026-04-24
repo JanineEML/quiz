@@ -9,8 +9,8 @@
             <table class="table table-striped">
                 <thead>
                     <tr>
-                        <th>Label</th>
-                        <th>Editieren</th>
+                        <th>Alter Name</th>
+                        <th>Neuer Name</th>
                         <th>Löschen</th>
                     </tr>
                 </thead>
@@ -22,7 +22,7 @@
                                 <form action="/admin/categories/edit" method="post">
                                     <input type="hidden" name="category_id" value="<?= $c['category_id'] ?>">
                                     <input type="text" class="form-control" name="category_label" value="<?= e($c['category_label']) ?>">
-                                    <button type="submit" class="btn btn-sm btn-outline-secondary">Editieren</button>
+                                    <button type="submit" class="btn btn-sm btn-outline-secondary">Ändern</button>
                                 </form>
                             </td>
                             <td>
