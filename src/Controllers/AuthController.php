@@ -125,7 +125,7 @@ class AuthController
         $errors = [];
 
         if (strlen($name) < 3) {
-            $errors[] = 'Name zu kurz. Bitte mindestens 4 Zeichen.';
+            $errors[] = 'Name zu kurz. Bitte mindestens 3 Zeichen.';
         }
 
         // double-check if password was confirmed
