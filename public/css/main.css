@@ -45,7 +45,6 @@ body {
     cursor: pointer;
     font-family: inherit;
     font-size: inherit;
-    line-height: 1.5;
 }
 
 /* ============================================================
@@ -216,6 +215,18 @@ h2 {
 .table {
     margin-top: 1rem;
 }
+
+.table-fixed {
+    table-layout: fixed;
+    width: 100%;
+}
+
+.table-fixed th:nth-child(1) { width: 60px; }
+.table-fixed th:nth-child(2) { width: auto; }
+.table-fixed th:nth-child(3) { width: 140px; }
+.table-fixed th:nth-child(4) { width: 120px; }
+.table-fixed th:nth-child(5) { width: 100px; }
+.table-fixed th:nth-child(6) { width: 90px; }
 
 .table td {
     vertical-align: middle;

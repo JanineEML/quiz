@@ -373,11 +373,27 @@ class Question
         $stmt = $this->pdo->prepare("UPDATE answer
             SET answer_text = :atxt, is_correct = :correct
             WHERE answer_id = :aid");
-        $stmt->execute([
-            ':atxt' => $answerText,
-            ':correct' => $isCorrect,
-            ':aid' => $answerId
-        ]);
+        $stmt->bindValue(':atxt', $answerText);
+        $stmt->bindValue(':correct', $isCorrect, PDO::PARAM_BOOL);
+        $stmt->bindValue(':aid', $answerId, PDO::PARAM_INT);
+        $stmt->execute();
+    }
+
+    /**
+     * Calculates XP earned for a single correct answer based on difficulty.
+     *
+     * @param int $difficulty  The difficulty_id of the question (1 = easy, 2 = medium, 3 = hard).
+     * @return int             XP to award.
+     */
+    public function calculateXp(int $difficulty): int
+    {
+        $multiplier = [
+            1 => 1.0,
+            2 => 1.2,
+            3 => 1.4,
+        ];
+
+        return (int) round(15 * ($multiplier[$difficulty] ?? 1.0));
     }
 
     /**

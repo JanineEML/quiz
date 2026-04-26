@@ -11,7 +11,7 @@ use PDOException;
 class AdminController
 {
     /**
-     * GET /admin — renders the admin dashboard.
+     * GET /admin â€” renders the admin dashboard.
      */
     public function dashboardView(): void
     {
@@ -21,7 +21,7 @@ class AdminController
     }
 
     /**
-     * GET /admin/questions — renders the question management view.
+     * GET /admin/questions â€” renders the question management view.
      */
     public function questionsView(): void
     {
@@ -67,7 +67,7 @@ class AdminController
 
         foreach ($answers as $a) {
             if (empty($a)) {
-                $errors['empty_answer'] = "Bitte alle Antwortfelder ausfüllen.";
+                $errors['empty_answer'] = "Bitte alle Antwortfelder ausfÃ¼llen.";
                 break;
             }
         }
@@ -99,7 +99,7 @@ class AdminController
     }
 
     /**
-     * GET /admin/questions/edit — renders the edit form for a single question.
+     * GET /admin/questions/edit â€” renders the edit form for a single question.
      */
     public function editQuestionView(): void
     {
@@ -138,7 +138,7 @@ class AdminController
         $q->updateQuestion($questionId, $questionText, $categoryId, $difficultyId);
 
         for ($i = 0; $i < count($answers); $i++) {
-            $q->updateAnswer($answerIds[$i], $answers[$i], $correct === $i);
+            $q->updateAnswer((int)$answerIds[$i], $answers[$i], $correct === $i);
         }
 
         redirect('/admin/questions');
@@ -171,7 +171,7 @@ class AdminController
         $categoryLabel = trim($_POST['category_label']);
 
         if (empty($categoryLabel)) {
-            $errors['missing_label'] = 'Bitte Label für die Kategorie angeben.';
+            $errors['missing_label'] = 'Bitte Label fÃ¼r die Kategorie angeben.';
 
             $_SESSION['errors'] = $errors;
             redirect('/admin/categories');
@@ -197,7 +197,7 @@ class AdminController
         try {
             (new Question(Connection::connect()))->deleteCategory($categoryId);
         } catch (PDOException $e) {
-            $_SESSION['errors'] = ['category_not_empty' => "Kategorie ist nicht leer, kann nicht gelöscht werden."];
+            $_SESSION['errors'] = ['category_not_empty' => "Kategorie ist nicht leer, kann nicht gelÃ¶scht werden."];
             }
             
         redirect('/admin/categories');

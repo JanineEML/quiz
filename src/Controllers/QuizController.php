@@ -140,7 +140,7 @@ class QuizController
 
         if ($isCorrect) {
             $_SESSION['quiz']['score'] += 1;
-            $_SESSION['quiz']['xp'] += $this->calculateXp($currentQuestion['difficulty_id']);
+            $_SESSION['quiz']['xp'] += $q->calculateXp($currentQuestion['difficulty_id']);
         }
         else {
             $_SESSION['quiz']['wrong_answers'][] = [
@@ -203,23 +203,6 @@ class QuizController
         require __DIR__ . '/../Views/quiz/result.php';
 
         unset($_SESSION['quiz']);
-    }
-
-    /**
-     * Calculates XP earned for a single correct answer based on difficulty.
-     *
-     * @param int $difficulty  The difficulty_id of the question (1 = easy, 2 = medium, 3 = hard).
-     * @return int             XP to award, rounded to the nearest integer.
-     */
-    private function calculateXp(int $difficulty): int
-    {
-        $multiplier = [
-            1 => 1.0,
-            2 => 1.2,
-            3 => 1.4,
-        ];
-
-        return (int) round(15 * ($multiplier[$difficulty] ?? 1.0));
     }
 
     /**

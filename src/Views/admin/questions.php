@@ -17,7 +17,7 @@
                 </select>
             </form>
 
-            <table class="table table-striped">
+            <table class="table table-striped table-fixed">
                 <caption>Alle Fragen</caption>
                 <thead>
                     <tr>
