@@ -11,7 +11,7 @@ use PDOException;
 class AdminController
 {
     /**
-     * GET /admin â€” renders the admin dashboard.
+     * GET /admin - renders the admin dashboard.
      */
     public function dashboardView(): void
     {
@@ -21,7 +21,7 @@ class AdminController
     }
 
     /**
-     * GET /admin/questions â€” renders the question management view.
+     * GET /admin/questions - renders the question management view.
      */
     public function questionsView(): void
     {
@@ -99,7 +99,7 @@ class AdminController
     }
 
     /**
-     * GET /admin/questions/edit â€” renders the edit form for a single question.
+     * GET /admin/questions/edit - renders the edit form for a single question.
      */
     public function editQuestionView(): void
     {
