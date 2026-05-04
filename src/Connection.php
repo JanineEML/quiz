@@ -25,7 +25,7 @@ class Connection
 
         try {
             if (is_null(self::$pdo)) {
-                self::$pdo = new PDO($dsn, 'jeml', 'pass');
+                self::$pdo = new PDO($dsn, getenv('DB_USER'), getenv('DB_PASS'));
                 self::$pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
                 }
 
