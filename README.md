@@ -67,7 +67,7 @@ docker compose down -v
 ## Database
 
 The schema is initialised automatically on first start from the SQL scripts in `db/`.
-Nine tables across three groups: user management, question management, and quiz sessions.
+Nine tables across three groups: user data, questions, and quiz sessions.
 
 ## Security
 
